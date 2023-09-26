@@ -1676,6 +1676,6 @@ app.get("*", function (req, res) {
   res.sendFile(path.resolve(__dirname, "../FE_with_react/build/index.html"));
 });
 
-app.listen(5000, () => {
-  console.log("서버실행중임");
+app.listen(app.get("port"), () => {
+  console.log(app.get("port"), "번 포트에서 대기중..");
 });
