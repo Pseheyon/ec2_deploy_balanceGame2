@@ -66,9 +66,10 @@ const CardList = () => {
   );
 };
 export default CardList;
-
+const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 const StBackGroundImg = styled.div`
-  background-image: url("./background/cardlist.png");
+  background-image: url(${BACKEND_SERVER}/react/background/cardlist.png);
+  /* background-image: url("./background/cardlist.png"); */
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;

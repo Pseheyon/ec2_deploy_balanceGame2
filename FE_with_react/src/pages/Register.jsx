@@ -101,9 +101,11 @@ function Signup() {
   );
 }
 export default Signup;
+const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
+
 const StBackGroundImg = styled.div`
   font-family: "Montserrat" !important;
-  background-image: url("background/signup.png");
+  background-image: url(${BACKEND_SERVER}/react/background/signup.png);
   background-size: cover;
   background-position: center;
   width: 100vw;

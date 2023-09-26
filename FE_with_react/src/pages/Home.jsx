@@ -59,7 +59,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ButtonRe } from "../components/Button";
-
+const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 function Home() {
   const navigate = useNavigate();
   return (
@@ -67,7 +67,7 @@ function Home() {
       <StBackGroundImg>
         <StHomeContainer>
           <div>
-            <StTitle src={"images/Logo.png"} />
+            <StTitle src={`${BACKEND_SERVER}/images/Logo.png`} />
           </div>
           <StHomeCardWrapper>
             <StPosition>
@@ -81,7 +81,7 @@ function Home() {
                   GAME START
                 </ButtonRe>
               </StButtonWrapper>
-              <StExplanation src="images/homeInfo.png" />
+              <StExplanation src={`${BACKEND_SERVER}/images/homeInfo.png`} />
             </StPosition>
           </StHomeCardWrapper>
         </StHomeContainer>
@@ -91,6 +91,7 @@ function Home() {
 }
 
 export default Home;
+
 const StWarpper = styled.div`
   width: 100vw;
   height: 100vh;
@@ -100,7 +101,7 @@ const StWarpper = styled.div`
   box-sizing: border-box;
 `;
 const StBackGroundImg = styled.div`
-  background-image: url("background/logout.png");
+  background-image: url(${BACKEND_SERVER}/react/background/logout.png);
   background-size: cover;
   background-position: center;
 

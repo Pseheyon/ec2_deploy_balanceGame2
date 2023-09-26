@@ -101,6 +101,7 @@ function Edit() {
 }
 
 export default Edit;
+const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 const StCardContainer = styled.div`
   border: 2px hidden lightgray;
   border-radius: 30px;
@@ -132,7 +133,7 @@ const StTitleWrapper = styled.h1`
   justify-content: center;
 `;
 const StBackGroundImg = styled.div`
-  background-image: url("http://localhost:3000/react/background/submit.png");
+  background-image: url(${BACKEND_SERVER}/react/background/submit.png);
   /* background-size: cover; */
   background-position-y: 0;
   background-repeat: no-repeat;

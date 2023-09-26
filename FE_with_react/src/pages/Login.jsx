@@ -112,10 +112,11 @@ function Login() {
   );
 }
 export default Login;
+const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 
 const StBackGroundImg = styled.div`
   font-family: "Montserrat";
-  background-image: url("background/Login.png");
+  background-image: url(${BACKEND_SERVER}/react/background/Login.png);
   background-size: cover;
   background-position: center;
   width: 100vw;

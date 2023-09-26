@@ -47,12 +47,14 @@ function Header() {
   };
   const token = localStorage.getItem("token");
   const isLoggedIn = token ? true : false;
+  const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
+
   return (
     <StcenterWrapper>
       <StWidthWraprer>
         <FlexRow>
           <StLogoMin
-            src={"http://localhost:3000/react/images/Logo.png"}
+            src={`${BACKEND_SERVER}/images/Logo.png`}
             onClick={() => {
               navigate("/");
             }}

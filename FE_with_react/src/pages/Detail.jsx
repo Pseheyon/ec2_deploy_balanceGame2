@@ -224,8 +224,9 @@ const Detail = () => {
 };
 
 export default Detail;
+const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 const StBackGroundImg = styled.div`
-  background-image: url("http://localhost:3000/react/background/cardlist.png");
+  background-image: url(${BACKEND_SERVER}/react/background/cardlist.png);
   /* background-size: cover; */
   background-position-y: 0;
   background-repeat: no-repeat;

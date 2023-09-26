@@ -13,10 +13,11 @@ const Error = () => {
 };
 
 export default Error;
+const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 const ani = keyframes`from {background-position: -100vw center } to{background-position: 100vw center}`;
 const StBackGroundImg = styled.div`
   font-family: "Montserrat";
-  background-image: url("background/error.png");
+  background-image: url(${BACKEND_SERVER}/react/background/error.png);
   background-size: cover;
   background-position: center;
   width: 100vw;
