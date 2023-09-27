@@ -54,7 +54,7 @@ function Header() {
       <StWidthWraprer>
         <FlexRow>
           <StLogoMin
-            src={`${BACKEND_SERVER}/images/Logo.png`}
+            src={`${BACKEND_SERVER}/react/images/Logo.png`}
             onClick={() => {
               navigate("/");
             }}
@@ -67,7 +67,7 @@ function Header() {
             <>
               <ButtonStyleJoin
                 onClick={() => {
-                  navigate("//");
+                  navigate("/signup");
                 }}
               >
                 Join

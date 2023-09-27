@@ -132,7 +132,7 @@ const SignupBox = styled.form`
   /* background-color: #ffafd6; */
   padding: 64px 64px 46px 64px;
 
-  background: rgba(255, 72, 179, 0.35);
+  background: rgba(255, 72, 179, 0.3);
   backdrop-filter: blur(25px);
   border-radius: 53px;
 `;

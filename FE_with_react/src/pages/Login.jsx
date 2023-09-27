@@ -140,9 +140,9 @@ const SignupBox = styled.div`
   align-items: center;
   gap: 16px;
   border-radius: 80px;
-  padding: 64px 64px 120px 64px;
+  padding: 64px 64px 46px 64px;
   box-sizing: border-box;
-  background: rgba(255, 72, 179, 0.35);
+  background: rgba(255, 72, 179, 0.3);
   backdrop-filter: blur(25px);
   border-radius: 53px;
 `;
