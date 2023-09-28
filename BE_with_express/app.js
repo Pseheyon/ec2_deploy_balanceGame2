@@ -1664,7 +1664,7 @@ app.use(
   "/react",
   express.static(path.join(__dirname, "../FE_with_react/build"))
 );
-app.set("port", process.env.PORT || 80);
+app.set("port", process.env.PORT || 5000);
 app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "../FE_with_react/build/index.html"));
 });
