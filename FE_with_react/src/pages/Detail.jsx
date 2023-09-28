@@ -132,7 +132,7 @@ const Detail = () => {
 
             {isEditMode ? (
               <>
-                <StTextarea
+                {/* <StTextarea
                   name="body"
                   rows="10"
                   maxLength={200}
@@ -149,7 +149,74 @@ const Detail = () => {
                   onChange={(event) => {
                     setUpdatedOptionB(event.target.value);
                   }}
-                />
+                /> */}
+                <StOptionWarpper>
+                  <StVs>VS</StVs>
+                  <StContentBox>
+                    <FlexRowSpaceBet>
+                      <StOtion className="StOtionTxtA">option A</StOtion>
+                      <StOptionLikes>
+                        <FlexRow>
+                          <StLikeCounter>{card?.likesA}</StLikeCounter>
+                          <img
+                            style={{
+                              height: "27px",
+                              cursor: "pointer",
+                            }}
+                            src={heartIcon}
+                            onClick={onIncreaseLikesAHandler}
+                            alt=""
+                          />
+                        </FlexRow>
+                      </StOptionLikes>
+                    </FlexRowSpaceBet>
+
+                    <StOtionTxt className="StOtionTxtA">
+                      <StTextarea
+                        className="StOtionTxtA"
+                        name="body"
+                        rows="10"
+                        maxLength={200}
+                        value={updatedOptionA}
+                        onChange={(event) => {
+                          setUpdatedOptionA(event.target.value);
+                        }}
+                      />
+                    </StOtionTxt>
+                  </StContentBox>
+                  <StContentBox>
+                    <FlexRowSpaceBet>
+                      <StOtion className="StOtionTxtB">option B</StOtion>
+                      <StOptionLikes>
+                        <FlexRow>
+                          <StLikeCounter>{card?.likesB}</StLikeCounter>
+                          <img
+                            style={{
+                              height: "27px",
+                              cursor: "pointer",
+                            }}
+                            src={heartIcon}
+                            onClick={onIncreaseLikesBHandler}
+                            alt=""
+                          />
+                        </FlexRow>
+                      </StOptionLikes>
+                    </FlexRowSpaceBet>
+
+                    <StOtionTxt className="StOtionTxtB">
+                      <StTextarea
+                        className="StOtionTxtB"
+                        name="body"
+                        rows="10"
+                        maxLength={200}
+                        value={updatedOptionB}
+                        onChange={(event) => {
+                          setUpdatedOptionB(event.target.value);
+                        }}
+                      />
+                    </StOtionTxt>
+                  </StContentBox>
+                </StOptionWarpper>
               </>
             ) : (
               <StOptionWarpper>
@@ -163,6 +230,7 @@ const Detail = () => {
                         <img
                           style={{
                             height: "27px",
+                            cursor: "pointer",
                           }}
                           src={heartIcon}
                           onClick={onIncreaseLikesAHandler}
@@ -185,6 +253,7 @@ const Detail = () => {
                         <img
                           style={{
                             height: "27px",
+                            cursor: "pointer",
                           }}
                           src={heartIcon}
                           onClick={onIncreaseLikesBHandler}
@@ -368,6 +437,7 @@ const StOtionTxt = styled.div`
   font-size: 24px;
   line-height: 40px;
   text-align: center;
+  overflow-wrap: break-word;
 `;
 const StLikeCounter = styled.div`
   /* 51 */
@@ -421,12 +491,33 @@ const StVs = styled.div`
 `;
 
 const StTextarea = styled.textarea`
-  width: 50%;
-  border: 1px solid #eee;
-  padding: 12px;
-  font-size: 14px;
-  color: #ff449e;
-  background-color: #ffe3f1;
+  width: 100%;
+  font-family: "Spoqa Han Sans Neo";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 40px;
+  text-align: center;
+  background-color: #ffbae2;
+  border: none;
+  padding: 0;
+  max-height: 130px;
+  height: min-content;
+  background-attachment: local;
+  background-image: linear-gradient(to right, #ffbae2 10px, transparent 10px),
+    linear-gradient(to left, #ffbae2 10px, transparent 10px),
+    repeating-linear-gradient(
+      #ffbae2,
+      #ffbae2 43px,
+      white 43px,
+      white 44px,
+      #ffbae2 44px
+    );
+  line-height: 43px;
+  padding: 8px 10px;
+  :focus {
+    outline: none;
+  }
 `;
 const StButton = styled.button`
   border-radius: 40px;

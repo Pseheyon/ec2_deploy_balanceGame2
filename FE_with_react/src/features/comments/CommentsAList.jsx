@@ -68,17 +68,6 @@ const CommentsAList = () => {
 
 export default CommentsAList;
 
-const BoxWidht = styled.div`
-  overflow: hidden;
-  box-sizing: border-box;
-`;
-const Textarea = styled.textarea`
-  width: 50%;
-  border: 1px solid #eee;
-  padding: 12px;
-  font-size: 14px;
-`;
-
 const BoxDiv = styled.div`
   display: flex;
   align-items: center;

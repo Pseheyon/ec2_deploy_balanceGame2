@@ -15,10 +15,11 @@ body {
   height: 100vh;
 }
 .StOtionTxtA {
+  font-weight: 600;
   color: #5753fd;
 }
 .StOtionTxtB {
-  /* color: #2da4a8; */
+  font-weight: 600;
   color: #00adb2;
 }
 .ABoxDiv {
@@ -31,7 +32,7 @@ body {
 }
 .ATitle {
   color: #5753fd;
-  text-shadow: 0px 2px 0px #5eedf2; /* Rectangle 43 */
+  text-shadow: 0px 2px 0px #5eedf2;
   font-weight: 800;
 }
 .BTitle {

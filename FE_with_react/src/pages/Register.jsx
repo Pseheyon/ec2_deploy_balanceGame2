@@ -33,14 +33,6 @@ function Signup() {
     dispatch(__signup(user));
   };
 
-  // const isLoggedIn = token ? true : false;
-  // //가드;
-  // useEffect(() => {
-  //   if (token) {
-  //     navigate("/");
-  //   }
-  // }, []);
-
   return (
     <StBackGroundImg>
       <SignupBox>

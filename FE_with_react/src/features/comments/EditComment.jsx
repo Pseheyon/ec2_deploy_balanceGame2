@@ -59,19 +59,13 @@ const EditComment = ({ comment }) => {
           key={comment.commentId}
           className={`${comment.option}BoxDiv`}
         >
-          <span>{comment.userId}</span>
-          <input
+          <div
             style={{
-              border: "0px",
-              // backgroundColor: "#FFF2F8",
-              borderRadius: "10px",
+              display: "flex",
+              justifyContent: "space-between",
             }}
-            className="box_content"
-            type="text"
-            value={editContent}
-            onChange={(event) => setEditContent(event.target.value)}
-          />
-          <span>
+          >
+            <EditButton>{comment.userId}</EditButton>
             <EditButton
               onClick={() => {
                 dispatch(
@@ -86,7 +80,18 @@ const EditComment = ({ comment }) => {
             >
               완료
             </EditButton>
-          </span>
+          </div>
+          <InputContentColor
+            style={{
+              border: "0px",
+              // backgroundColor: "#FFF2F8",
+              borderRadius: "10px",
+            }}
+            className="box_content"
+            type="text"
+            value={editContent}
+            onChange={(event) => setEditContent(event.target.value)}
+          />
         </CommentBox>
       ) : (
         <CommentBox
@@ -150,8 +155,24 @@ const CommentBox = styled.div`
   color: #ffffff;
 `;
 const ContentColor = styled.div`
-  font-size: ${(props) => props.fontsize};
-  color: ${(props) => props.color};
+  font-family: "Spoqa Han Sans Neo";
+  font-style: normal;
+  font-weight: 400;
+  color: #ffffff;
+  font-size: 16px;
+`;
+const InputContentColor = styled.input`
+  width: 100%;
+  font-family: "Spoqa Han Sans Neo";
+  font-style: normal;
+  font-weight: 400;
+  color: #ffe3f1;
+  background-color: rgba(0, 0, 0, 0);
+  font-size: 16px;
+  text-decoration: underline;
+  :focus {
+    outline: none;
+  }
 `;
 const StSpanFont = styled.span`
   font-family: "Spoqa Han Sans Neo";

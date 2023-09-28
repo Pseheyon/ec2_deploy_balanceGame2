@@ -114,23 +114,15 @@ const StCard = styled.li`
   background-color: #5753fd;
   box-shadow: 0px 5px 0px rgba(109, 255, 246, 0.5);
   transition: all 0.3s;
-
+  overflow-wrap: break-word;
   cursor: pointer;
   &:hover {
     box-shadow: 0px 5px 0px rgba(118, 156, 255);
-
     font-weight: 900;
     -webkit-text-stroke: 1 black;
     text-shadow: 1px 1px black; /* Rectangle 32 */
-
     background-color: #ff8bcf;
     border-radius: 24px;
-
-    /* mix-blend-mode: darken; */
-    /* background-image: url("./images/gameImg-1.png");
-    background-repeat: no-repeat;
-    background-size: 100% auto;
-    background-position: center; */
   }
 `;
 
