@@ -52,7 +52,7 @@ const EditComment = ({ comment }) => {
 
   const onUpdateButtonHandler = async () => {
     if (editContent.trim() === "") {
-      alert("항목을 입력해주세요.");
+      alert("수정될 내용을 입력해주세요.");
     } else {
       const result = window.confirm("수정하시겠습니까?");
       if (result) {

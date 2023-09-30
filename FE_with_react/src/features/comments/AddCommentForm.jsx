@@ -17,7 +17,9 @@ const AddCommentForm = () => {
     event.preventDefault();
 
     if (comments.content.trim() === "") {
-      alert("항목을 입력해주세요.");
+      alert("내용을 입력해주세요.");
+    } else if (comments.option.trim() === "") {
+      alert("옵션을 입력해주세요.");
     } else {
       await dispatch(
         __addComments({
