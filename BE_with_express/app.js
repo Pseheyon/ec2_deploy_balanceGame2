@@ -25,72 +25,72 @@ const postList = [
           {
             commentId: 1,
             //GameId: "${gameId}-{commentId}",
-            content: "첫번째 게임 Comment for Option A",
+            content: "빨리먹기위한 계획을 몰라보다니",
             option: "A",
             userId: "user1A",
           },
           {
             commentId: 2,
-            content: "첫번째 게임 Comment for Option B",
+            content: "빨리먹다가 빨리헤어지는 수가 있다!",
             option: "B",
             userId: "user2B",
           },
           {
             commentId: 3,
             //GameId: "${gameId}-{commentId}",
-            content: "첫번째 게임 Comment for Option A",
+            content: "깻잎 떼주는게 뭔 대수라고!",
             option: "A",
             userId: "user3A",
           },
           {
             commentId: 4,
-            content: "첫번째 게임 Comment for Option B",
+            content: "뇌과학자님이 안된다고 함",
             option: "B",
             userId: "user4B",
           },
           {
             commentId: 5,
             //GameId: "${gameId}-{commentId}",
-            content: "첫번째 게임 Comment for Option A",
+            content: "친구 챙겨주는게 더 애인 기 살려주는거 아냐?",
             option: "A",
             userId: "userA5",
           },
           {
             commentId: 6,
-            content: "첫번째 게임 Comment for Option B",
+            content: "맞는말 처 맞는말@@@!!!",
             option: "B",
             userId: "user1",
           },
           {
             commentId: 7,
             //GameId: "${gameId}-{commentId}",
-            content: "첫번째 게임 Comment for Option A",
+            content: "상관ㄴ",
             option: "A",
             userId: "user1",
           },
           {
             commentId: 8,
-            content: "첫번째 게임 Comment for Option B",
+            content: "어의 없네!! 떼주지마 말라고!!차라리 나도 떼주지마!",
             option: "B",
             userId: "user1",
           },
           {
             commentId: 9,
             //GameId: "${gameId}-{commentId}",
-            content: "첫번째 게임 Comment for Option A",
+            content: "떼도 돼!! 어차피 난 없으니깐!! 있을 수가 없거든,,",
             option: "A",
             userId: "user1",
           },
           {
             commentId: 10,
-            content: "첫번째 게임 Comment for Option B",
+            content: "이럴꺼면 헤어져!",
             option: "B",
             userId: "user1",
           },
           {
             commentId: 11,
             //GameId: "${gameId}-{commentId}",
-            content: "첫번째 게임 Comment for Option A",
+            content: "그 정도도 못 믿으면서 어떻게 연애를 합니까....",
             option: "A",
             userId: "user1",
           },
@@ -1434,7 +1434,6 @@ const postList = [
             option: "B",
             userId: "user1",
           },
-          // 다른 댓글들
         ],
       },
     ],
@@ -1454,21 +1453,7 @@ const postList = [
     ],
   },
 ];
-///////////////////댓글
-// 댓글 가져오기 (옵션 A 또는 B에 대한 댓글을 가져올 수 있도록 선택적으로 필터링)
-// app.get("/api/gamepost/:gameId", (req, res) => {
-//   const { gameId } = req.params;
 
-//   // gameId를 기반으로 해당 게임의 댓글을 가져옵니다.
-
-//   const game = postList[0].cards.find((c) => c.gameId === parseInt(gameId));
-//   if (!game) {
-//     return res.status(404).json({ error: "Game not found" });
-//   }
-
-//   const comments = game.comments; // 게임의 댓글 배열
-//   res.json(comments);
-// });
 app.get("/api/gamepost/comments/:gameId", (req, res) => {
   const { gameId } = req.params;
 
@@ -1482,20 +1467,19 @@ app.get("/api/gamepost/comments/:gameId", (req, res) => {
   const comments = game.comments; // 게임의 댓글 배열
   res.json(comments);
 });
-// // ___________게시글의 댓글 찾기___________
-app.post("/api/gamepost/comments/:cardId/:option", (req, res) => {
-  const { cardId, option } = req.params;
-  const { userId, content } = req.body;
+// // ___________게시글의 댓글 추가___________
+app.post("/api/gamepost/comments/:gameId", (req, res) => {
+  const { gameId } = req.params;
+  const { content, option, userId } = req.body;
 
-  // cardId와 option을 기반으로 해당 카드와 옵션에 대한 댓글을 추가합니다.
-  const card = postList[0].card.find((c) => c.id === parseInt(cardId));
-  if (!card) {
-    return res.status(404).json({ error: "Card not found" });
+  const game = postList[0].card.find((c) => c.id === parseInt(gameId));
+  if (!game) {
+    return res.status(404).json({ error: "Game not found" });
   }
 
-  let comments = card.comments; // 댓글 배열을 수정
+  const comments = game.comments;
   const newComment = {
-    commentId: comments.length + 1, // 새 댓글 ID 생성 방식은 여러분이 정할 수 있습니다.
+    commentId: comments.length + 1,
     userId,
     content,
     option,
@@ -1510,17 +1494,14 @@ app.post("/api/gamepost/comments/:cardId/:option", (req, res) => {
 app.delete("/api/gamepost/comments/:gameId/:option/:commentId", (req, res) => {
   const { gameId, option, commentId } = req.params;
 
-  // 게임 ID를 기반으로 해당 게임을 찾습니다.
   const game = postList[0].card.find((c) => c.gameId === parseInt(gameId));
 
   if (!game) {
     return res.status(404).json({ error: "Game not found" });
   }
 
-  // 해당 게임의 댓글 배열을 가져옵니다.
   const comments = game.comments;
 
-  // 댓글 ID를 기반으로 삭제할 댓글을 찾습니다.
   const commentIndex = comments.findIndex(
     (c) => c.commentId === parseInt(commentId)
   );
@@ -1529,41 +1510,33 @@ app.delete("/api/gamepost/comments/:gameId/:option/:commentId", (req, res) => {
     return res.status(404).json({ error: "Comment not found" });
   }
 
-  // 댓글을 삭제합니다.
   comments.splice(commentIndex, 1);
 
-  // 삭제된 댓글을 응답합니다.
   res.json({ success: true, message: "Comment deleted successfully" });
 });
+
 // ___________게시글의 댓글 수정___________
 app.patch("/api/gamepost/comments/:gameId/:commentId", (req, res) => {
   const { gameId, option, commentId } = req.params;
   const { content } = req.body;
 
-  // 게임 ID를 기반으로 해당 게임을 찾습니다.
   const game = postList[0].card.find((c) => c.gameId === parseInt(gameId));
 
   if (!game) {
     return res.status(404).json({ error: "Game not found" });
   }
 
-  // 해당 게임의 댓글 배열을 가져옵니다.
   const comments = game.comments;
-
-  // 댓글 ID를 기반으로 수정할 댓글을 찾습니다.
   const comment = comments.find((c) => c.commentId === parseInt(commentId));
 
   if (!comment) {
     return res.status(404).json({ error: "Comment not found" });
   }
 
-  // 댓글의 내용을 업데이트합니다.
   comment.content = content;
 
-  // 수정된 댓글을 응답합니다.
   res.json({ success: true, message: "Comment updated successfully" });
 });
-//////////////////////////////
 
 app.get("/", function (req, res) {
   res.send("helo world");
@@ -1574,14 +1547,12 @@ app.get("/api/gamepost", (req, res) => {
 });
 // ___________게시글의 데이터를 전송___________
 app.get("/api/gamepost/posts", (req, res) => {
-  // 클라이언트에 데이터를 전송
   res.json({ games: postList[0].card });
 });
 
 app.get("/api/gamepost/posts/:gameId", (req, res) => {
   const { gameId } = req.params;
 
-  // gameId를 기반으로 해당 게임의 데이터를 가져옵니다.
   const game = postList[0].card.find((c) => c.gameId === parseInt(gameId));
 
   if (!game) {
@@ -1592,17 +1563,16 @@ app.get("/api/gamepost/posts/:gameId", (req, res) => {
 });
 
 let id = 2;
+//-----------------게시글 추가
 app.post("/api/gamepost/posts", (req, res) => {
   const { userId, title, optionA, optionB, likesA, likesB, comments } =
     req.body;
 
-  // 현재 게시물 리스트의 길이를 가져와서 새로운 gameId를 만듭니다.
   const gameId = postList[0].card.length + 1;
 
-  // 게시물 생성 로직
   const newPost = {
-    id: id++, // 어떻게 id가 설정되는지 확인하세요.
-    gameId: gameId, // 새로운 gameId를 설정합니다.
+    id: id++,
+    gameId: gameId,
     userId,
     title,
     optionA,
@@ -1613,41 +1583,35 @@ app.post("/api/gamepost/posts", (req, res) => {
   };
 
   postList[0].card.push(newPost);
-
-  // 성공 메시지를 포함한 JSON 응답
   res.json({ success: true, card: newPost });
 });
 // PATCH 요청을 처리하는 라우트 추가
 app.patch("/api/gamepost/posts/:gameId", (req, res) => {
   const { gameId } = req.params;
-  const updatedGameData = req.body; // 업데이트할 게임 데이터
+  const updatedGameData = req.body;
 
-  // 게임 ID를 기반으로 해당 게임을 찾습니다.
   const game = postList[0].card.find((c) => c.gameId === parseInt(gameId));
 
   if (!game) {
     return res.status(404).json({ error: "Game not found" });
   }
 
-  // 게임 데이터를 업데이트합니다.
   Object.assign(game, updatedGameData);
 
-  // 업데이트된 게임 데이터를 응답합니다.
   res.json(game);
 });
+
 // 좋아요 엔드포인트
 app.post("/api/like/:gameId", (req, res) => {
   const { gameId } = req.params;
   const { option } = req.body;
 
-  // gameId와 option을 기반으로 해당 게임을 찾습니다.
   const game = gameList.find((g) => g.gameId == gameId);
 
   if (!game) {
     return res.status(404).json({ error: "Game not found" });
   }
 
-  // option에 따라 좋아요 수를 증가시킵니다.
   if (option === "A") {
     game.likesA += 1;
   } else if (option === "B") {
@@ -1658,7 +1622,7 @@ app.post("/api/like/:gameId", (req, res) => {
 
   res.json({ success: true, likesA: game.likesA, likesB: game.likesB });
 });
-// app.use(express.static(__dirname, +"build"));
+
 app.use("/", express.static(path.join(__dirname, "public")));
 app.use(
   "/react",

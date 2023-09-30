@@ -39,10 +39,9 @@ export const __addComments = createAsyncThunk(
   "ADD_COMMENTS",
   async (payload, thunkAPI) => {
     try {
-      const { gameId, userId, content, commentId } = payload;
       console.log("코멘트 추가--->", payload);
       const response = await axios.post(
-        `${BACKEND_SERVER}/api/gamepost/comments/${gameId}/${payload.commentId}`,
+        `${BACKEND_SERVER}/api/gamepost/comments/${payload.gameId}`,
         {
           commentId: payload.commentId,
           option: payload.option,
@@ -143,6 +142,7 @@ export const commentASlice = createSlice({
       state.error = action.payload;
     },
     [__updatedComment.fulfilled]: (state, action) => {
+      state.isLoading = false;
       console.log("card.action.payload-->", action.payload);
       const target = state.data.findIndex(
         (comment) => comment.commentId === action.payload.commentId

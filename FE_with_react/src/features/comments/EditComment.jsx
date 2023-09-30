@@ -41,17 +41,32 @@ const EditComment = ({ comment }) => {
           gameId,
         })
       );
-
-      // 삭제 후에 새로운 데이터를 가져옴
-      await dispatch(__getComments(gameId)); // gameId에 맞는 댓글들을 가져오는 액션
-
-      // 댓글 삭제 후 UI 업데이트를 위해 setEdit를 false로 설정
+      await dispatch(__getComments(gameId));
       setEdit(false);
     } else {
       return;
     }
   };
 
+  const onUpdateButtonHandler = async () => {
+    if (editContent.trim() === "") {
+      alert("항목을 입력해주세요.");
+    } else {
+      const result = window.confirm("수정하시겠습니까?");
+      if (result) {
+        await dispatch(
+          __updatedComment({
+            commentId: comment.commentId,
+            gameId: gameId,
+            content: editContent,
+          })
+        );
+        // 삭제 후에 새로운 데이터를 가져옴
+        await dispatch(__getComments(gameId)); // gameId에 맞는
+        setEdit((pre) => !pre);
+      }
+    }
+  };
   return (
     <>
       {edit ? (
@@ -66,20 +81,7 @@ const EditComment = ({ comment }) => {
             }}
           >
             <EditButton>{comment.userId}</EditButton>
-            <EditButton
-              onClick={() => {
-                dispatch(
-                  __updatedComment({
-                    commentId: comment.commentId,
-                    gameId: gameId,
-                    content: editContent,
-                  })
-                );
-                setEdit((pre) => !pre);
-              }}
-            >
-              완료
-            </EditButton>
+            <EditButton onClick={onUpdateButtonHandler}>완료</EditButton>
           </div>
           <InputContentColor
             style={{

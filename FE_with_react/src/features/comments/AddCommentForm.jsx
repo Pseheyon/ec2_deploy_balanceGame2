@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { __addComments } from "../../redux/modules/commentASlice";
-
+import { __getComments } from "../../redux/modules/commentASlice";
 const AddCommentForm = () => {
   const dispatch = useDispatch();
   const { gameId } = useParams();
@@ -15,15 +15,21 @@ const AddCommentForm = () => {
 
   const onAddCommentButtonHandler = (event) => {
     event.preventDefault();
+
     if (comments.content.trim() === "") {
-      return alert("항목을 입력해주세요.");
+      alert("항목을 입력해주세요.");
+    } else {
+      dispatch(__addComments({ gameId: gameId, ...comments }));
+
+      dispatch(__getComments(gameId));
+
+      setComments({
+        option: "",
+        content: "",
+      });
     }
-    dispatch(__addComments({ GameId: gameId, ...comments }));
-    setComments({
-      option: "",
-      content: "",
-    });
   };
+
   const handleSelectChange = (event) => {
     setComments({ ...comments, option: event.target.value });
   };
