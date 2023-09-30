@@ -13,15 +13,15 @@ const AddCommentForm = () => {
     content: "",
   });
 
-  const onAddCommentButtonHandler = (event) => {
+  const onAddCommentButtonHandler = async (event) => {
     event.preventDefault();
 
     if (comments.content.trim() === "") {
       alert("항목을 입력해주세요.");
     } else {
-      dispatch(__addComments({ gameId: gameId, ...comments }));
+      await dispatch(__addComments({ gameId: gameId, ...comments }));
 
-      dispatch(__getComments(gameId));
+      await dispatch(__getComments(gameId));
 
       setComments({
         option: "",
