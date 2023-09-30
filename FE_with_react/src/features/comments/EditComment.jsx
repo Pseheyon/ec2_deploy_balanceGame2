@@ -41,7 +41,9 @@ const EditComment = ({ comment }) => {
           gameId,
         })
       );
-      await dispatch(__getComments(gameId));
+
+      // 삭제 후에 새로운 데이터를 가져옴
+      await dispatch(__getComments(gameId)); // gameId에 맞는 댓글들을
       setEdit(false);
     } else {
       return;

@@ -19,7 +19,13 @@ const AddCommentForm = () => {
     if (comments.content.trim() === "") {
       alert("항목을 입력해주세요.");
     } else {
-      await dispatch(__addComments({ gameId: gameId, ...comments }));
+      await dispatch(
+        __addComments({
+          gameId: gameId,
+          option: comments.option,
+          content: comments.content,
+        })
+      );
 
       await dispatch(__getComments(gameId));
 
