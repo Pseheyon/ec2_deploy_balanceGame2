@@ -6,7 +6,7 @@ export const __getCardsThunk = createAsyncThunk(
   "GET_CARDS",
   async (_, thunkAPI) => {
     try {
-      const { data } = await axios.get(`${BACKEND_SERVER}/api/gamepost/posts`);
+      const { data } = await axios.get(`${BACKEND_SERVER}/api/games`);
       console.log("data카드 이름 안뜸--->", { data });
       console.log("datagames_cardsSlice--->", data.games);
       return thunkAPI.fulfillWithValue({ data: data.games });
