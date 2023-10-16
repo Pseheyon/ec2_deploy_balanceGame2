@@ -1628,6 +1628,7 @@
 //   "/react",
 //   express.static(path.join(__dirname, "../FE_with_react/build"))
 // );
+
 // app.set("port", process.env.PORT || 5001);
 // app.get("/", function (req, res) {
 //   res.sendFile(path.join(__dirname, "../FE_with_react/build/index.html"));
@@ -1644,54 +1645,59 @@
 //   console.log(app.get("port"), "번 포트에서 대기중..");
 // });
 
-require("dotenv").config(); // .env 파일에서 환경변수 불러오기
-const { PORT, MONGO_URI } = process.env;
+// require("dotenv").config(); // .env 파일에서 환경변수 불러오기
+// const { PORT, MONGO_URI } = process.env;
+// const express = require("express");
+// const cors = require("cors");
+// const app = express();
+// const path = require("path");
+// const bodyParser = require("body-parser");
+// const { configDotenv } = require("dotenv");
+
+// const gamesRouter = express.Router();
+// const db = require("./models/index.js");
+// app.use(bodyParser.json());
+// app.use(express.urlencoded({ extended: false }));
+// // app.use(cors({ origin: "http://localhost:3000" }));
+// app.use(cors());
+// gamesRouter.get("/", (req, res) => {
+//   res.send("hi! 라우터로 됨");
+// });
+// __dirname = path.resolve();
+
+// 정적 파일 서빙 설정
+// app.use(express.static(path.join(__dirname, "public")));
+// app.use(express.static(path.join(__dirname, "../FE_with_react/build")));
+
+// const indexRouter = require("./routes/index.router.js");
+// app.use("/api", express.json(), indexRouter);
+
+// app.listen(8080, () => {
+//   console.log("서버가 켜졌어요!");
+// });
+
 const express = require("express");
-const users = require("./models/users");
+const cors = require("cors");
 const app = express();
-const gamesRouter = express.Router();
-
-app.use("/api", express.json(), gamesRouter);
+const port = 8080; // 포트 번호
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 
-gamesRouter.get("/", (req, res) => {
-  res.send("hi! 라우터로 됨");
+const router = express.Router();
+const indexRouter = require("./routes/index.js");
+
+const db = require("./models/index.js");
+
+app.use(express.urlencoded({ extended: false }));
+app.use(cors());
+app.use(router);
+
+router.get("/", (req, res) => {
+  res.send("Hi!");
 });
 
-const user = require("./models/users");
+app.use("/api", express.json(), indexRouter);
 
-//creater useres
-app.post("/users", (req, res) => {
-  const { userId, nikname, password, cofirmpassword } = req.body;
-  user.push;
-  return res.send(users);
-});
-//read users
-app.get("/users/:userId?", (req, res) => {
-  const { userId } = req.params;
-
-  if (userId) {
-    for (let i = 0; i < user.length; i++) {
-      if (user[i].userId == userId) {
-        return res.send(user[i]);
-      }
-    }
-    return res.status(404).send("사용자정보를 찾을 수 없습니다.");
-  }
-  return res.sendStatus(user);
-});
-//delete users
-app.delete("/users/:userId", (req, res) => {
-  for (let i = 0; i < user.length; i++) {
-    if (user[i].userId == req.params.userId) {
-      user.splice(i, 1);
-      return res.send(user);
-    }
-  }
-  return res.status(404).send("사용자정보를 찾을 수 없습니다.");
-});
-
-app.set("port", process.env.MONGO_URI || 8080);
-app.listen(app.get("port"), () => {
-  console.log(app.get("port"), "번 서버켜짐");
+app.listen(port, () => {
+  console.log(`서버가 ${port} 포트에서 켜졌어요!`);
 });
