@@ -1,0 +1,89 @@
+const Game = require("../models/games"); // Game 스키마 모델을 가져옵니다.
+const Comment = require("../models/comments"); // Comment 스키마 모델을 가져옵니다.
+
+// 모든 게임을 가져오는 컨트롤러
+exports.getAllGames = async (req, res) => {
+  try {
+    const games = await Game.find().populate("comments");
+    res.json(games);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// 특정 게임을 가져오는 컨트롤러
+exports.getGameById = async (req, res) => {
+  const { gameId } = req.params;
+
+  try {
+    const game = await Game.findOne({ gameId }); // gameId로 게임을 조회
+    if (!game) {
+      return res.status(404).json({ error: "Game not found" });
+    }
+    res.json(game);
+  } catch (error) {
+    console.error("Error in getGameById:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// 게임을 생성하는 컨트롤러
+
+exports.createGame = async (req, res) => {
+  const { title, optionA, optionB } = req.body;
+
+  try {
+    // 게임 갯수 조회
+    const gameCount = await Game.countDocuments();
+
+    // 게임 아이디 생성
+    const gameId = `${gameCount + 1}`;
+
+    const game = new Game({ gameId, title, optionA, optionB });
+    await game.save();
+    res.status(201).json(game);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// 게임을 업데이트하는 컨트롤러
+exports.updateGame = async (req, res) => {
+  const { title, optionA, optionB } = req.body;
+
+  try {
+    const game = await Game.findByIdAndUpdate(
+      gameId,
+      { title, optionA, optionB },
+      { new: true }
+    );
+
+    if (!game) {
+      return res.status(404).json({ error: "Game not found" });
+    }
+
+    res.json(game);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// 게임을 삭제하는 컨트롤러
+exports.deleteGame = async (req, res) => {
+  const { gameId } = req.params;
+
+  try {
+    const game = await Game.findByIdAndRemove(gameId);
+
+    if (!game) {
+      return res.status(404).json({ error: "Game not found" });
+    }
+
+    // 해당 게임과 연결된 댓글도 모두 삭제
+    await Comment.deleteMany({ gameId: game._id });
+
+    res.json({ success: true, message: "Game deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
