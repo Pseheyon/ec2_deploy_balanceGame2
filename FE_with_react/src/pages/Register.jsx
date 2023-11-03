@@ -19,6 +19,7 @@ function Signup() {
     nickname: "",
     password: "",
     confirmPassword: "",
+    email: "",
   });
 
   const changeInputHandler = (event) => {
@@ -31,6 +32,7 @@ function Signup() {
   const submitButtonHandler = async (event) => {
     event.preventDefault();
     dispatch(__signup(user));
+    navigate("/games");
   };
 
   return (
@@ -49,6 +51,15 @@ function Signup() {
               required
             />
             <Input
+              text="Email"
+              type="text"
+              value={user.email}
+              name="email"
+              onChange={changeInputHandler}
+              placeholder="이메일을 입력해주세요"
+              required
+            />
+            <Input
               text="PW"
               type="password"
               value={user.password}
@@ -59,40 +70,36 @@ function Signup() {
             />
             <Input
               text="PW"
-              type="password"
               value={user.confirmPassword}
               name="confirmPassword"
               onChange={changeInputHandler}
               placeholder="비밀번호를 다시 입력해주세요"
               required
             />
+            <FlexRowCenter>
+              <>
+                <ButtonStyleJoin buttonStyle={buttonStyle}>
+                  Join
+                </ButtonStyleJoin>
+                <ButtonStyleLogin
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                  buttonStyle={buttonStyle}
+                >
+                  Login
+                </ButtonStyleLogin>
+              </>
+            </FlexRowCenter>
           </StInputWrap>
-          <FlexRowCenter>
-            <>
-              <ButtonStyleJoin
-                onClick={() => {
-                  navigate("/");
-                }}
-                buttonStyle={buttonStyle}
-              >
-                Join
-              </ButtonStyleJoin>
-              <ButtonStyleLogin
-                onClick={() => {
-                  navigate("/login");
-                }}
-                buttonStyle={buttonStyle}
-              >
-                Login
-              </ButtonStyleLogin>
-            </>
-          </FlexRowCenter>
         </form>
       </SignupBox>
     </StBackGroundImg>
   );
 }
+
 export default Signup;
+
 const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 
 const StBackGroundImg = styled.div`
@@ -112,7 +119,7 @@ const StBackGroundImg = styled.div`
   font-weight: 900;
 `;
 
-const SignupBox = styled.form`
+const SignupBox = styled.div`
   width: 544px;
   height: auto;
   display: flex;

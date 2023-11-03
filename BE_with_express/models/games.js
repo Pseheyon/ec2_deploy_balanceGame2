@@ -25,9 +25,9 @@ const gameSchema = new mongoose.Schema({
     type: ObjectId,
     ref: "User",
   },
-  likeCount: {
-    type: Number,
-    default: 0,
+  like: {
+    type: ObjectId,
+    ref: "User",
   },
 });
 

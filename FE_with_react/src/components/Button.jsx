@@ -151,7 +151,12 @@ export const ButtonRe = ({ onClick, children, buttonStyle }) => {
     </StbuttonRe>
   );
 };
-export const ButtonStyleJoin = ({ onClick, children, buttonStyle }) => {
+export const ButtonStyleJoin = ({
+  onClick,
+  children,
+  buttonStyle,
+  onSubmit,
+}) => {
   return (
     <StButtoJoin style={buttonStyle} onClick={onClick}>
       {children}

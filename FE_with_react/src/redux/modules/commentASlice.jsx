@@ -7,8 +7,8 @@ export const __getComments = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       // cardId와 option을 가져와서 경로를 생성
-
-      const endpoint = `/api/gamepost/comments/${payload}`;
+      const { gameId, option, commentId } = payload;
+      const endpoint = `/api/comments/${gameId}`;
       //console.log("_A_Endpoint:", endpoint);
       const response = await axios.get(`${BACKEND_SERVER}${endpoint}`);
       //console.log("data_A_댓글임", response.data);
@@ -26,10 +26,11 @@ export const __getCommentByCommendId = createAsyncThunk(
     try {
       const { gameId, option, commentId } = payload;
       const response = await axios.get(
-        `${BACKEND_SERVER}/api/gamepost/comments/${gameId}/${option}`
+        `${BACKEND_SERVER}/api/comments/${gameId}/${option}`
       );
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
+      alert(error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -41,7 +42,7 @@ export const __addComments = createAsyncThunk(
     try {
       console.log("코멘트 추가--->", payload);
       const response = await axios.post(
-        `${BACKEND_SERVER}/api/gamepost/comments/${payload.gameId}`,
+        `${BACKEND_SERVER}/api/comments/${payload.gameId}`,
         {
           commentId: payload.commentId,
           option: payload.option,
@@ -60,7 +61,7 @@ export const __updatedComment = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await axios.patch(
-        `${BACKEND_SERVER}/api/gamepost/comments/${payload.gameId}/${payload.commentId}`,
+        `${BACKEND_SERVER}/api/comments${payload.gameId}/${payload.commentId}`,
         {
           commentId: payload.commentId,
           option: payload.option,
@@ -80,7 +81,7 @@ export const __deleteComment = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       await axios.delete(
-        `${BACKEND_SERVER}/api/gamepost/comments/${payload.gameId}/${payload.option}/${payload.commentId}`
+        `${BACKEND_SERVER}/api/comments/${payload.gameId}/${payload.option}/${payload.commentId}`
       );
       return thunkAPI.fulfillWithValue(payload); // 삭제한 commentId 반환합니다.
     } catch (error) {

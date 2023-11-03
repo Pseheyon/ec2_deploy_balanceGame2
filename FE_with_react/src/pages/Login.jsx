@@ -33,7 +33,7 @@ function Login() {
   const submitButtonHandler = async (event) => {
     event.preventDefault();
     dispatch(__login(user));
-    navigate("/games");
+    navigate("/");
   };
   // function handleLogout() {
   //   dispatch(__logout(user));
@@ -82,28 +82,28 @@ function Login() {
               />
             </StInputWrap>
             <FlexRowCenter>
-              {isLoggedIn ? (
+              {/* {isLoggedIn ? (
                 <ButtonRe onClick={handleLogoutBtn}>LOGOUT</ButtonRe>
-              ) : (
-                <>
-                  <ButtonStyleJoin
-                    onClick={() => {
-                      navigate("/");
-                    }}
-                    buttonStyle={buttonStyle}
-                  >
-                    Join
-                  </ButtonStyleJoin>
-                  <ButtonStyleLogin
-                    onClick={() => {
-                      navigate("/login");
-                    }}
-                    buttonStyle={buttonStyle}
-                  >
-                    Login
-                  </ButtonStyleLogin>
-                </>
-              )}
+              ) : ( */}
+              <>
+                <ButtonStyleJoin
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                  buttonStyle={buttonStyle}
+                >
+                  Join
+                </ButtonStyleJoin>
+                <ButtonStyleLogin
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                  buttonStyle={buttonStyle}
+                >
+                  Login
+                </ButtonStyleLogin>
+              </>
+              {/* )} */}
             </FlexRowCenter>
           </form>
         </SignupBox>

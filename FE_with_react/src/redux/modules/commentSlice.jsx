@@ -8,7 +8,7 @@ export const __getComment = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const { data } = await axios.get(
-        `${BACKEND_SERVER}/api/gamepost/comments/${payload}`
+        `${BACKEND_SERVER}/api/comments/${payload}`
       );
       console.log("coment.data**", data);
       return thunkAPI.fulfillWithValue(data.game[0]);

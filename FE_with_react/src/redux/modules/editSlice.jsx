@@ -8,7 +8,7 @@ export const __getCardThunk = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await axios.get(
-        `${BACKEND_SERVER}/api/gamepost/posts/${payload.gameId}`
+        `${BACKEND_SERVER}/api/games/${payload.gameId}`
       );
       console.log("조회시데이터--->", response.data);
       return thunkAPI.fulfillWithValue(response.data); // 데이터 전체를 반환
@@ -28,7 +28,7 @@ export const __updatedCardThunk = createAsyncThunk(
 
     try {
       await axios.patch(
-        `${BACKEND_SERVER}/api/gamepost/posts/${payload.gameId}`, // gameId를 URL에 추가
+        `${BACKEND_SERVER}/api/games/${payload.gameId}`, // gameId를 URL에 추가
         {
           gameId,
           optionA,
@@ -52,7 +52,7 @@ export const __addCardThunk = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await axios.post(
-        `${BACKEND_SERVER}/api/gamepost/posts`,
+        `${BACKEND_SERVER}/api/games`,
         {
           title: payload.title,
           optionA: payload.optionA,

@@ -39,14 +39,24 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { ButtonRe, ButtonStyleJoin, ButtonStyleLogin } from "./Button";
 import { FlexCenter, FlexRow } from "./Flex";
+import { useEffect } from "react";
+import { removeCookie, getCookie, setCookie } from "../cookie/cookie";
 function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const cookierefreshToken = getCookie("refreshToken");
+  const isLoggedIn = cookierefreshToken ? true : false;
+  //console.log(cookierefreshToken, "cookierefreshToken");
   const handleLogoutBtn = () => {
-    localStorage.removeItem("token");
+    removeCookie("refreshToken");
   };
-  const token = localStorage.getItem("token");
-  const isLoggedIn = token ? true : false;
+  //가드;
+  useEffect(() => {
+    if (cookierefreshToken) {
+      navigate("/");
+    }
+  }, []);
+
   const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 
   return (

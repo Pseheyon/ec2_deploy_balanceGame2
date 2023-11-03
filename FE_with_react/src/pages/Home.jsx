@@ -59,9 +59,25 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ButtonRe } from "../components/Button";
+import { useEffect } from "react";
+import { removeCookie, getCookie, setCookie } from "../cookie/cookie";
+
 const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 function Home() {
   const navigate = useNavigate();
+  const cookierefreshToken = getCookie("refreshToken");
+  const isLoggedIn = cookierefreshToken ? true : false;
+  console.log(cookierefreshToken);
+  const handleLogoutBtn = () => {
+    localStorage.removeItem("token");
+  };
+  //가드;
+  useEffect(() => {
+    if (cookierefreshToken) {
+      navigate("/");
+    }
+  }, []);
+
   return (
     <StWarpper>
       <StBackGroundImg>

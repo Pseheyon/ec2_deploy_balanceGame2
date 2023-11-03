@@ -7,7 +7,7 @@ exports.getAllGames = async (req, res) => {
     const games = await Game.find().populate("comments");
     res.json(games);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "서버 오류" });
   }
 };
 
@@ -18,12 +18,12 @@ exports.getGameById = async (req, res) => {
   try {
     const game = await Game.findOne({ gameId }); // gameId로 게임을 조회
     if (!game) {
-      return res.status(404).json({ error: "Game not found" });
+      return res.status(404).json({ error: "게임을 찾을 수 없습니다." });
     }
     res.json(game);
   } catch (error) {
     console.error("Error in getGameById:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "서버 오류" });
   }
 };
 
@@ -43,7 +43,7 @@ exports.createGame = async (req, res) => {
     await game.save();
     res.status(201).json(game);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "서버 오류" });
   }
 };
 
@@ -59,12 +59,12 @@ exports.updateGame = async (req, res) => {
     );
 
     if (!game) {
-      return res.status(404).json({ error: "Game not found" });
+      return res.status(404).json({ error: "게임을 찾을 수 없습니다." });
     }
 
     res.json(game);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "서버 오류" });
   }
 };
 

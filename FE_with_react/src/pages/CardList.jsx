@@ -26,7 +26,9 @@ const CardList = () => {
   // if (error) {
   //   return <div>{error.message}</div>;
   // }
-
+  const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
+  const requestURL = `${BACKEND_SERVER}/api/someEndpoint`;
+  console.log("백앤드주소 불러와지는지 테스트", requestURL);
   return (
     <StBackGroundImg>
       {/* 게임 등록하기 버튼 */}
@@ -46,10 +48,9 @@ const CardList = () => {
       </FloatingButton>
       <StBardList>
         {cards.map((card) => (
-          <Link to={`/games/${card.gameId}`}>
+          <Link to={`/games/${card.gameId}`} key={card.gameId}>
             <StCard
-              key={card.gameId}
-              // style={{ backgroundImage: `url(${card.img})` }}
+            // style={{ backgroundImage: `url(${card.img})` }}
             >
               <StCardTitle>{card.title} </StCardTitle>
               <StFlexRowCenter>
