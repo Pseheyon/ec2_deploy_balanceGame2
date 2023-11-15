@@ -46,6 +46,7 @@ export const cardsSlice = createSlice({
     },
     [__getCardsThunk.rejected]: (state, action) => {
       state.isLoading = false;
+
       state.isError = true;
       state.error = action.payload;
     },

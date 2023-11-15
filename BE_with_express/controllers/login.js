@@ -5,45 +5,31 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../models/users");
 const Token = require("../models/token");
-//const TokenController = require("../models/token");
+const { makeAccessToken, makeRefreshToken } = require("../utils/token");
 const TokenController = require("../controllers/token");
 
 exports.postLogin = async (req, res, next) => {
   try {
-    const { nickname, password } = req.body;
-    const discoverUser = await User.findOne({ nickname });
+    const { userId, password } = req.body;
+    const discoverUser = await User.findOne({ userId });
     if (!discoverUser || password !== discoverUser.password) {
       return res.status(400).json({
-        errorMessage: "닉네임 또는 패스워드가 틀렸습니다.",
+        message: "닉네임 또는 패스워드가 틀렸습니다.",
       });
     } else {
-      const accessToken = jwt.sign(
-        {
-          userId: discoverUser.userId,
-          nickname: discoverUser.nickname,
-          password: discoverUser.password,
-        },
-        process.env.ACCESS_SECRET,
-        {
-          expiresIn: "1m",
-          issuer: "About Tech",
-        }
-      );
-      const refreshToken = jwt.sign(
-        {
-          userId: discoverUser.userId,
-          nickname: nickname,
-          password: password,
-        },
-        process.env.REFRESH_SECRET,
-        {
-          expiresIn: "24h",
-          issuer: "About Tech",
-        }
-      );
+      const accessToken = makeAccessToken({
+        userId: discoverUser.userId,
+        nickname: discoverUser.nickname,
+      });
+
+      const refreshToken = makeRefreshToken({
+        userId: discoverUser.userId,
+        nickname: discoverUser.nickname,
+      });
 
       const setRefreshToken = await TokenController.updateRefresh({
-        _id: discoverUser.userId,
+        // _id: discoverUser.userId,
+        userId: discoverUser.userId,
         refreshToken,
       });
 
@@ -51,12 +37,11 @@ exports.postLogin = async (req, res, next) => {
         secure: false,
         httpOnly: true,
       });
-      // res.cookie("accessToken", accessToken, {
-      //   secure: false,
-      //   httpOnly: true,
-      // });
-      //res.setHeader("Authorization", `Bearer ${accessToken}`);
-      res.status(200).json({ message: "로그인 성공", accessToken });
+      res.status(200).json({
+        nickname: discoverUser.nickname,
+        message: `로그인 성공zz${JSON.stringify(discoverUser.nickname)}`,
+        accessToken,
+      });
       return { discoverUser, accessToken, refreshToken };
     }
   } catch (error) {
@@ -93,7 +78,6 @@ const refreshToken = (req, res) => {
       {
         userId: userData.userId,
         username: userData.username,
-        email: userData.email,
       },
       process.env.ACCESS_SECRET,
       {

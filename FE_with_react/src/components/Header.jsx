@@ -39,17 +39,25 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { ButtonRe, ButtonStyleJoin, ButtonStyleLogin } from "./Button";
 import { FlexCenter, FlexRow } from "./Flex";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { removeCookie, getCookie, setCookie } from "../cookie/cookie";
 function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cookierefreshToken = getCookie("refreshToken");
-  const isLoggedIn = cookierefreshToken ? true : false;
-  //console.log(cookierefreshToken, "cookierefreshToken");
+  const token = localStorage.getItem("localAccessToken");
+  //const isLoggedIn = token ? true : false;
+
+  const [isLoggedIn, setIsLoggedIn] = useState(token ? true : false);
+
   const handleLogoutBtn = () => {
     removeCookie("refreshToken");
+    localStorage.removeItem("localNickName");
+    localStorage.removeItem("localAccessToken");
+    setIsLoggedIn(false);
   };
+
+  const userNickName = localStorage.getItem("localNickName");
   //가드;
   useEffect(() => {
     if (cookierefreshToken) {
@@ -72,12 +80,18 @@ function Header() {
         </FlexRow>
         <StButtonWrap>
           {isLoggedIn ? (
-            <ButtonRe onClick={handleLogoutBtn}>LOGOUT</ButtonRe>
+            <>
+              <ButtonStyleJoin onClick={handleLogoutBtn}>
+                LOGOUT
+              </ButtonStyleJoin>
+              <>{userNickName}</>
+            </>
           ) : (
             <>
               <ButtonStyleJoin
                 onClick={() => {
                   navigate("/signup");
+                  setIsLoggedIn(true);
                 }}
               >
                 Join

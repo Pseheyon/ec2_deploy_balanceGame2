@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCookie, setCookie } from "../cookie/cookie";
+import { getCookie, removeCookie, setCookie } from "../cookie/cookie";
 
 const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 export const apis_token = axios.create({
@@ -11,8 +11,6 @@ export const apis_token = axios.create({
   },
   withCredentials: true,
 });
-//req 쿠키는 알아서 감,  헤더에 set-cookie 알아서 생김 백인드?
-//요청헤더에 쿠키 생기게 하기
 
 export const cookie_instance = axios.create({
   baseURL: `${BACKEND_SERVER}`,
@@ -24,44 +22,66 @@ export const cookie_instance = axios.create({
   withCredentials: true, // 요청과 응답에 쿠키를 사용하기 위해 withCredentials 설정
 });
 
-cookie_instance.interceptors.request.use((config) => {
-  if (!config.headers) return config;
-  const refreshToken = setCookie("refreshToken"); // refreshToken을 쿠키에서 가져오기
-  const accessToken = localStorage.getItem("localAccessToken");
-  //인터셉터로 하면 null값이 가니깐 if하고 해야함
-  // if (accessToken) {
-  //   config.headers.authorization = `Bearer ${accessToken}`; // 요청 헤더에 refreshToken을 추가
-  // }
-  if (accessToken) {
-    config.headers["Authorization"] = `Bearer ${accessToken}`;
-  } else {
-  }
-  if (refreshToken) {
-    config.headers.cookie = `${refreshToken}`; // 요청 헤더에 refreshToken을 추가
-  }
-  return config;
-});
-
-cookie_instance.interceptors.response.use(
-  (response) => {
-    const refreshToken = getCookie("refreshToken");
-    const accessToken = response.accessToken;
-    const accessToken2 = response.headers.authorization;
-    console.log(accessToken, "accessToken 응답");
-    console.log(accessToken2, "accessToken2 응답");
+// 요청 인터셉터
+cookie_instance.interceptors.request.use(async (config) => {
+  try {
+    const refreshToken = await getCookie("refreshToken"); // 비동기로 쿠키 가져오기
+    const accessToken = await localStorage.getItem("localAccessToken");
 
     if (accessToken) {
-      response.headers.authorization = `Bearer ${accessToken}`; // 요청 헤더에 refreshToken을 추가
+      config.headers["authorization"] = `Bearer ${accessToken}`;
     }
-    if (refreshToken) {
-      const refreshToken = setCookie("refreshToken");
-      response.headers.cookie = `${refreshToken}`; // 요청 헤더에 refreshToken을 추가
-      response.headers.authorization = `Bearer ${accessToken}`; //
+
+    if (refreshToken && refreshToken !== "undefined") {
+      config.headers.cookie = `refreshToken=${refreshToken}`;
     }
-    return response;
+    alert(`성공: ${config}`);
+    return config;
+  } catch (error) {
+    console.error("요청 오류:", error);
+    return Promise.reject(error);
+  }
+});
+
+// 응답 인터셉터
+cookie_instance.interceptors.response.use(
+  async (response) => {
+    try {
+      console.log(response.data);
+
+      const refreshToken = await getCookie("refreshToken"); // 비동기로 쿠키 가져오기
+      const accessToken = await response.data.accessToken;
+      const nickname = await response.data.nickname;
+      console.log(accessToken, "accessToken 응답");
+
+      if (accessToken) {
+        localStorage.setItem("localAccessToken", accessToken);
+      }
+
+      if (refreshToken && refreshToken !== "undefined") {
+        response.headers.cookie = `refreshToken=${refreshToken}`;
+      } else if (refreshToken === "undefined") {
+        alert("리프레쉬 쿠키 삭제");
+        removeCookie("refreshToken");
+      }
+
+      if (nickname && nickname !== "undefined") {
+        localStorage.setItem("localNickName", nickname);
+      } else if (localStorage.getItem("localNickName") === "undefined") {
+        localStorage.removeItem("localNickName");
+      } else {
+      }
+
+      alert(`성공: ${response.data.message},데이타${response.data}`);
+      return response;
+    } catch (error) {
+      console.error("응답 오류:", error);
+      return Promise.reject(error);
+    }
   },
   (error) => {
-    alert(error.message);
+    console.error(error);
+    alert(error.response.data.message);
     return Promise.reject(error);
   }
 );

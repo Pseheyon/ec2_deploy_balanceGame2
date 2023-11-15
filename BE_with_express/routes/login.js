@@ -5,5 +5,9 @@ const User = require("../models/users");
 const { checkTokens } = require("../middlewares/auth");
 
 //로그인
-router.post("/", loginController.postLogin);
+router.post(
+  "/",
+  //  checkTokens,
+  loginController.postLogin
+);
 module.exports = router;

@@ -2,27 +2,21 @@ const dontenv = require("dotenv");
 const express = require("express");
 dontenv.config();
 const jwt = require("jsonwebtoken");
+const { ACCESS_SECRET, REFRESH_SECRET } = process.env;
 
-const JWT_KEYA = process.env.ACCESS_SECRET;
-const JWT_KEYR = process.env.REFRESH_SECRET;
-
-const makeAccessToken = (Object) => {
-  const token = jwt.sign(Object, JWT_KEYA, {
+exports.makeAccessToken = (data) => {
+  return jwt.sign(data, ACCESS_SECRET, {
     expiresIn: "1m",
     issuer: "About Tech",
   });
-  return token;
 };
 
-const makeRefreshToken = () => {
-  // refresh token 발급
-  const refreshToken = jwt.sign({}, JWT_KEYR, {
-    // refresh token은 payload 없이 발급
-    algorithm: "HS256",
+exports.makeRefreshToken = (data) => {
+  return jwt.sign(data, REFRESH_SECRET, {
     expiresIn: "24h",
     issuer: "About Tech",
   });
-  return refreshToken;
 };
-
-export { makeAccessToken, makeRefreshToken };
+//makeAccessToken
+// 1. 로그인로직
+// 2. auth 미들웨어에 새로운 new accesstoken 발급할때

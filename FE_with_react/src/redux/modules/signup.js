@@ -23,6 +23,7 @@ export const __signup = createAsyncThunk(
       const response = await apis_token.post(
         "api/user/signup",
         {
+          userId: payload.userId,
           nickname: payload.nickname,
           password: payload.password,
           confirmPassword: payload.confirmPassword,
@@ -36,7 +37,7 @@ export const __signup = createAsyncThunk(
       );
       return thunkAPI.fulfillWithValue(response);
     } catch (error) {
-      alert(error.response.data.errorMessage);
+      alert(error.response.data.message);
       return thunkAPI.rejectWithValue(error);
     }
   }

@@ -16,6 +16,7 @@ function Signup() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [user, setUser] = useState({
+    userId: "",
     nickname: "",
     password: "",
     confirmPassword: "",
@@ -32,7 +33,7 @@ function Signup() {
   const submitButtonHandler = async (event) => {
     event.preventDefault();
     dispatch(__signup(user));
-    navigate("/games");
+    navigate("/login");
   };
 
   return (
@@ -44,10 +45,19 @@ function Signup() {
             <Input
               text="ID"
               type="text"
+              value={user.userId}
+              name="userId"
+              onChange={changeInputHandler}
+              placeholder="아이디를 입력해주세요"
+              required
+            />
+            <Input
+              text="Nickname"
+              type="text"
               value={user.nickname}
               name="nickname"
               onChange={changeInputHandler}
-              placeholder="아이디를 입력해주세요 🙏"
+              placeholder="닉네임을 입력해주세요"
               required
             />
             <Input
@@ -69,7 +79,8 @@ function Signup() {
               required
             />
             <Input
-              text="PW"
+              text="PWConfirm"
+              type="password"
               value={user.confirmPassword}
               name="confirmPassword"
               onChange={changeInputHandler}

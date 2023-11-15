@@ -4,18 +4,15 @@ import { __login } from "../redux/modules/login";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Input } from "../components/Input";
-import {
-  ButtonRe,
-  ButtonStyleJoin,
-  ButtonStyleLogin,
-} from "../components/Button";
+import { ButtonStyleJoin, ButtonStyleLogin } from "../components/Button";
 import { FlexRowCenter } from "../components/Flex";
+import { removeCookie, getCookie, setCookie } from "../cookie/cookie";
 
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [user, setUser] = useState({
-    nickname: "",
+    userId: "",
     password: "",
   });
 
@@ -27,29 +24,29 @@ function Login() {
       return { ...old, [name]: value };
     });
   };
-  const token = localStorage.getItem("token");
-  const isLoggedIn = token ? true : false;
-
   const submitButtonHandler = async (event) => {
     event.preventDefault();
     dispatch(__login(user));
     navigate("/");
   };
-  // function handleLogout() {
-  //   dispatch(__logout(user));
-  // }
+  const cookierefreshToken = getCookie("refreshToken");
+  const token = localStorage.getItem("localAccessToken");
+  const userNickName = localStorage.getItem("localNickName");
+  const [isLoggedIn, setIsLoggedIn] = useState(token ? true : false);
+
   const handleLogoutBtn = () => {
-    // 로컬 스토리지에서 "토큰"이라는 이름의 값을 삭제
-    localStorage.removeItem("token");
-    // 로그아웃 로직 추가
-    // ...
+    removeCookie("refreshToken");
+    localStorage.removeItem("localNickName");
+    localStorage.removeItem("localAccessToken");
+    setIsLoggedIn(false);
   };
+
   //가드;
-  // useEffect(() => {
-  //   if (token) {
-  //     navi("/");
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (cookierefreshToken) {
+      navigate("/");
+    }
+  }, []);
 
   //useEffect는 마운트될때 한번만 실행되고 그 후에 실행되지 않음
   //새로고침하면 실행됨
@@ -65,8 +62,8 @@ function Login() {
               <Input
                 text="ID"
                 type="text"
-                value={user.nickname}
-                name="nickname"
+                value={user.userId}
+                name="userId"
                 onChange={changeInputHandler}
                 placeholder="아이디를 입력해주세요"
                 required

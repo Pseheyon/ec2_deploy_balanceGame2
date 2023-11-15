@@ -7,10 +7,10 @@ const { checkTokens } = require("../middlewares/auth");
 router.get("/", checkTokens, gameController.getAllGames);
 
 // 특정 게임을 가져오는 라우트
-router.get("/:gameId", checkTokens, gameController.getGameById);
+router.get("/:gameId", gameController.getGameById);
 
 // 게임을 생성하는 라우트
-router.post("/:gameId", checkTokens, gameController.createGame);
+router.post("/:gameId", gameController.createGame);
 
 // 게임을 업데이트하는 라우트
 router.put("/", gameController.updateGame);

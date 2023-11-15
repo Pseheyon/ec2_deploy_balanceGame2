@@ -20,15 +20,14 @@ const CardList = () => {
     dispatch(__getCardsThunk());
   }, []);
 
-  // if (isLoading) {
-  //   return <div>로딩중.....ㅎㅎ</div>;
-  // }
-  // if (error) {
-  //   return <div>{error.message}</div>;
-  // }
+  if (isLoading) {
+    return <div>로딩중.....ㅎㅎ</div>;
+  }
+  if (error) {
+    return <div>{error.message}</div>;
+  }
   const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
-  const requestURL = `${BACKEND_SERVER}/api/someEndpoint`;
-  console.log("백앤드주소 불러와지는지 테스트", requestURL);
+
   return (
     <StBackGroundImg>
       {/* 게임 등록하기 버튼 */}

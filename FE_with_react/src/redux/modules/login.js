@@ -26,15 +26,9 @@ export const __login = createAsyncThunk(
       const response = await cookie_instance.post(
         `${BACKEND_SERVER}/api/user/login`,
         {
-          nickname: payload.nickname,
+          userId: payload.userId,
           password: payload.password,
         }
-        // {
-        //   headers: {
-        //     Authorization: `Bearer ${payload.accessToken}`,
-        //     // Cookie: `${refreshToken}`, // accessToken을 Authorization 헤더에 추가
-        //   },
-        // }
       );
       console.log("로그인 페이로드", payload);
       return thunkAPI.fulfillWithValue(response);
@@ -58,7 +52,8 @@ export const loginSlice = createSlice({
       state.isLoading = false;
       state.isError = false;
       console.log("로그인풀필드", action.payload);
-      const { accessToken } = action.payload.data;
+      const { accessToken, nickname } = action.payload.data;
+      localStorage.setItem("localNickName", nickname);
       localStorage.setItem("localAccessToken", accessToken);
     },
     [__login.rejected]: (state, action) => {
