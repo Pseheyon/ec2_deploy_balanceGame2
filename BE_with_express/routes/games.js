@@ -10,10 +10,10 @@ router.get("/", checkTokens, gameController.getAllGames);
 router.get("/:gameId", gameController.getGameById);
 
 // 게임을 생성하는 라우트
-router.post("/:gameId", gameController.createGame);
+router.post("/", checkTokens, gameController.createGame);
 
 // 게임을 업데이트하는 라우트
-router.put("/", gameController.updateGame);
+router.put("/:gameId", gameController.updateGame);
 
 // 게임을 삭제하는 라우트
 router.delete("/:gameId", gameController.deleteGame);

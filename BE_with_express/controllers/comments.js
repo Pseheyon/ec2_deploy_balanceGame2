@@ -8,7 +8,7 @@ exports.getCommentsByGameId = async (req, res) => {
     const comments = await Game.find({ gameId });
     res.json(comments);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: `서버에러${error}` });
   }
 };
 
@@ -23,21 +23,34 @@ exports.getCommentByCommentId = async (req, res) => {
     }
     res.json(comment);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: `서버에러${error}` });
   }
 };
 
 exports.addComment = async (req, res) => {
   try {
-    const gameId = req.params.gameId;
+    const gameIdNum = req.params.gameId;
+    const gameId = `${gameIdNum}`;
     const { commentId, option, content } = req.body;
     const comment = new Comment({ gameId, commentId, option, content });
     await comment.save();
     res.status(201).json(comment);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: `서버에러${error}` });
   }
 };
+
+// exports.addComment = async (req, res) => {
+//   try {
+//     const gameId = mongoose.Types.ObjectId(req.params.gameId);
+//     const { commentId, option, content } = req.body;
+//     const comment = new Comment({ gameId, commentId, option, content });
+//     await comment.save();
+//     res.status(201).json(comment);
+//   } catch (error) {
+//     res.status(500).json({ error: `서버에러${error}` });
+//   }
+// };
 
 exports.updateComment = async (req, res) => {
   try {
@@ -54,7 +67,7 @@ exports.updateComment = async (req, res) => {
     }
     res.json(comment);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: `서버에러${error}` });
   }
 };
 
@@ -73,6 +86,6 @@ exports.deleteComment = async (req, res) => {
     }
     res.json({ success: true, message: "Comment deleted successfully" });
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: `서버에러${error}` });
   }
 };

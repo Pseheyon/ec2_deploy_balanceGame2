@@ -11,26 +11,6 @@ import Home from "../pages/Home";
 import { removeCookie, getCookie, setCookie } from "../cookie/cookie";
 
 const Router = () => {
-  const navigate = useNavigate();
-  const cookierefreshToken = getCookie("refreshToken");
-  const token = localStorage.getItem("localAccessToken");
-  const userNickName = localStorage.getItem("localNickName");
-  const [isLoggedIn, setIsLoggedIn] = useState(token ? true : false);
-
-  const handleLogoutBtn = () => {
-    removeCookie("refreshToken");
-    localStorage.removeItem("localNickName");
-    localStorage.removeItem("localAccessToken");
-    setIsLoggedIn(false);
-  };
-
-  //가드;
-  useEffect(() => {
-    if (cookierefreshToken) {
-      navigate("/");
-    }
-  }, []);
-
   return (
     <>
       <BrowserRouter basename={process.env.PUBLIC_URL}>

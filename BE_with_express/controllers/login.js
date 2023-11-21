@@ -28,8 +28,7 @@ exports.postLogin = async (req, res, next) => {
       });
 
       const setRefreshToken = await TokenController.updateRefresh({
-        // _id: discoverUser.userId,
-        userId: discoverUser.userId,
+        _id: discoverUser._id,
         refreshToken,
       });
 
@@ -45,7 +44,7 @@ exports.postLogin = async (req, res, next) => {
       return { discoverUser, accessToken, refreshToken };
     }
   } catch (error) {
-    res.status(500).json({ errorMessage: "서버 에러" });
+    res.status(500).json({ error: `서버에러${error}` });
   }
 };
 

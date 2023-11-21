@@ -64,6 +64,8 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+module.exports = mongoose.model("User", userSchema);
+
 // // 가상의 userId 값을 할당
 // userSchema.virtual("userId").get(function () {
 //   return this._id.toHexString();
@@ -73,5 +75,3 @@ const userSchema = new mongoose.Schema({
 // userSchema.set("toJSON", {
 //   virtuals: true,
 // });
-
-module.exports = mongoose.model("User", userSchema);

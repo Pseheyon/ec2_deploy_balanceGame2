@@ -22,14 +22,15 @@ app.use(
     credentials: true, //쿠키로 진행할거라서? 뭔지 모르겠음
   })
 );
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "*"); // 모든 출처에 대한 액세스 허용
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   next();
-// });
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  // 모든 출처에 대한 액세스 허용
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 
 app.use("/", express.static(path.join(__dirname, "public")));
 app.use(
