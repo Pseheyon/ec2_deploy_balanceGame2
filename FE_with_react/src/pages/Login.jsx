@@ -7,8 +7,9 @@ import { Input } from "../components/Input";
 import { ButtonStyleJoin, ButtonStyleLogin } from "../components/Button";
 import { FlexRowCenter } from "../components/Flex";
 import { removeCookie, getCookie, setCookie } from "../cookie/cookie";
+import { logoutSuccess, loginSuccess } from "../redux/modules/login";
 
-function Login() {
+function Login({ setIsLoggedIn }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [user, setUser] = useState({
@@ -24,35 +25,49 @@ function Login() {
       return { ...old, [name]: value };
     });
   };
+
+  // const cookierefreshToken = getCookie("refreshToken");
+  // const userNickName = localStorage.getItem("localNickName");
+
+  // //가드;
+  // useEffect(() => {
+  //   if (cookierefreshToken && userNickName) {
+  //     navigate("/");
+  //   }
+  // }, [cookierefreshToken, userNickName]);
+
+  // const submitButtonHandler = async (event) => {
+  //   event.preventDefault();
+
+  //   try {
+  //     // 로그인 요청을 서버로 보냄
+  //     const response = await dispatch(__login(user));
+
+  //     // 응답에서 데이터를 가져와서 loginSuccess 액션을 디스패치
+  //     const { accessToken, nickname } = response.payload;
+  //     dispatch(loginSuccess({ accessToken, nickname }));
+
+  //     // 페이지 이동
+  //     navigate("/");
+  //   } catch (error) {
+  //     // 로그인 요청이 실패하면 에러 처리
+  //     console.error("로그인 에러:", error);
+  //   }
+  // };
   const submitButtonHandler = async (event) => {
     event.preventDefault();
-    dispatch(__login(user));
-    navigate("/");
-  };
-  const cookierefreshToken = getCookie("refreshToken");
-  const token = localStorage.getItem("localAccessToken");
-  const userNickName = localStorage.getItem("localNickName");
-  const [isLoggedIn, setIsLoggedIn] = useState(token ? true : false);
 
-  const handleLogoutBtn = () => {
-    removeCookie("refreshToken");
-    localStorage.removeItem("localNickName");
-    localStorage.removeItem("localAccessToken");
-    setIsLoggedIn(false);
-  };
-
-  //가드;
-  useEffect(() => {
-    if (cookierefreshToken) {
+    try {
+      // 로그인 요청을 서버로 보냄
+      const response = await dispatch(__login(user));
       navigate("/");
+    } catch (error) {
+      // 로그인 요청이 실패하면 에러 처리
+      console.error("로그인 에러:", error);
     }
-  }, []);
-
-  //useEffect는 마운트될때 한번만 실행되고 그 후에 실행되지 않음
-  //새로고침하면 실행됨
+  };
 
   return (
-    // <div className='Homebackground'style={{ backgroundImage: `url(${"process.env.PUBLIC_URL/public/Login.png"})`}}>
     <>
       <StBackGroundImg>
         <SignupBox>
@@ -79,9 +94,6 @@ function Login() {
               />
             </StInputWrap>
             <FlexRowCenter>
-              {/* {isLoggedIn ? (
-                <ButtonRe onClick={handleLogoutBtn}>LOGOUT</ButtonRe>
-              ) : ( */}
               <>
                 <ButtonStyleJoin
                   onClick={() => {
@@ -100,7 +112,6 @@ function Login() {
                   Login
                 </ButtonStyleLogin>
               </>
-              {/* )} */}
             </FlexRowCenter>
           </form>
         </SignupBox>

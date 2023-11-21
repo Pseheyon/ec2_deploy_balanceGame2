@@ -36,36 +36,38 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ButtonRe, ButtonStyleJoin, ButtonStyleLogin } from "./Button";
 import { FlexCenter, FlexRow } from "./Flex";
 import { useEffect, useState } from "react";
 import { removeCookie, getCookie, setCookie } from "../cookie/cookie";
+import { logoutSuccess, loginSuccess } from "../redux/modules/login";
+
 function Header() {
+  const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cookierefreshToken = getCookie("refreshToken");
-  const token = localStorage.getItem("localAccessToken");
-  //const isLoggedIn = token ? true : false;
+  const resposeNickname = useSelector((state) => state.login.users[0].nickname);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(token ? true : false);
+  const isLoggedIn = useSelector((state) => !!state.login.users[0].nickname);
 
+  console.log("Current Login State:", resposeNickname);
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 로컬 스토리지에서 닉네임을 가져와 Redux 상태에 저장
+    const userNickName = localStorage.getItem("localNickName");
+    if (userNickName) {
+      dispatch(loginSuccess({ nickname: userNickName }));
+    }
+  }, [dispatch]);
   const handleLogoutBtn = () => {
-    removeCookie("refreshToken");
+    // 로컬 스토리지 클리어
     localStorage.removeItem("localNickName");
     localStorage.removeItem("localAccessToken");
-    setIsLoggedIn(false);
+
+    // 로그아웃 액션 dispatch
+    dispatch(logoutSuccess());
   };
-
-  const userNickName = localStorage.getItem("localNickName");
-  //가드;
-  useEffect(() => {
-    if (cookierefreshToken) {
-      navigate("/");
-    }
-  }, []);
-
-  const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 
   return (
     <StcenterWrapper>
@@ -81,17 +83,18 @@ function Header() {
         <StButtonWrap>
           {isLoggedIn ? (
             <>
+              {/* <>{userNickName}</> */}
+              <>{resposeNickname}</>
+              {console.log("resposeNickname", resposeNickname)}
               <ButtonStyleJoin onClick={handleLogoutBtn}>
                 LOGOUT
               </ButtonStyleJoin>
-              <>{userNickName}</>
             </>
           ) : (
             <>
               <ButtonStyleJoin
                 onClick={() => {
                   navigate("/signup");
-                  setIsLoggedIn(true);
                 }}
               >
                 Join

@@ -37,6 +37,7 @@ exports.postLogin = async (req, res, next) => {
         secure: false,
         httpOnly: true,
       });
+
       res.status(200).json({
         nickname: discoverUser.nickname,
         message: `로그인 성공zz${JSON.stringify(discoverUser.nickname)}`,

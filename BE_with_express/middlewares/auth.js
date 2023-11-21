@@ -91,13 +91,12 @@ const TokenDb = require("../models/token");
 module.exports = {
   async checkTokens(req, res, next) {
     try {
-      const token = req.headers["authorization"].split(" ")[1];
       if (req.headers["authorization"] && req.cookies.refreshToken) {
         const token = req.headers["authorization"].split(" ")[1];
         const refreshToken = req.cookies.refreshToken;
         const authResult = verify(token);
         const decoded = jwt.decode(token);
-
+        console.log("token", token);
         if (!decoded) {
           return res.status(401).json({
             ok: false,
@@ -135,7 +134,8 @@ module.exports = {
         // 이제 `next()` 함수를 호출하여 다음 기능을 계속합니다.
         next();
       } else {
-        const token = req.headers["authorization"].split(" ")[1];
+        //console.log("token", token);
+        //const token = req.headers["authorization"].split(" ")[1];
         const refreshToken = req.cookies.refreshToken;
         const authResult = verify(token);
         const decoded = jwt.decode(token);
@@ -143,7 +143,7 @@ module.exports = {
         // 헤더에 토큰이나 리프레시 토큰이 없는 경우 처리
         return res.status(401).json({
           ok: false,
-          message: `토큰이나 리프레시 토큰이 필요합니다.token-->${token}refreshToken-->${refreshToken}authResult-->${JSON.stringify(
+          message: `토큰이나 리프레시 토큰이 필요합니다.>refreshToken-->${refreshToken}authResult-->${JSON.stringify(
             authResult
           )}decoded-->${JSON.stringify(
             decoded
@@ -153,15 +153,9 @@ module.exports = {
         });
       }
     } catch (error) {
-      const token = req.headers["authorization"].split(" ")[1];
-      // const refreshToken = req.cookies.refreshToken;
-      const authResult = verify(token);
-      // const decoded = jwt.decode(token);
       console.error(error);
       return res.status(401).json({
-        message: `인증 오류.token-->${token}authResult-->${JSON.stringify(
-          authResult
-        )}`,
+        message: `인증 오류.authResult-->${JSON.stringify(authResult)}`,
       });
     }
     // 이 부분은 여전히 필요하지 않으므로 주석 처리합니다.
