@@ -35,7 +35,7 @@ cookie_instance.interceptors.request.use(async (config) => {
     if (refreshToken && refreshToken !== "undefined") {
       config.headers.cookie = `refreshToken=${refreshToken}`;
     }
-    alert(`성공: ${config}`);
+    alert(`요청 성공: ${config}`);
     return config;
   } catch (error) {
     console.error("요청 오류:", error);
@@ -45,18 +45,18 @@ cookie_instance.interceptors.request.use(async (config) => {
 
 // 응답 인터셉터
 cookie_instance.interceptors.response.use(
-  async (response) => {
+  (response) => {
     try {
-      console.log(response.data);
+      console.log("응답인터셉터", response.data);
 
-      const refreshToken = await getCookie("refreshToken"); // 비동기로 쿠키 가져오기
-      const accessToken = await response.data.accessToken;
-      const nickname = await response.data.nickname;
-      console.log(accessToken, "accessToken 응답");
+      const refreshToken = getCookie("refreshToken"); // 비동기로 쿠키 가져오기
+      // const accessToken = response.data.accessToken;
+      // const nickname = response.data.nickname;
+      // console.log(accessToken, "accessToken 응답");
 
-      if (accessToken) {
-        localStorage.setItem("localAccessToken", accessToken);
-      }
+      // if (accessToken) {
+      //   localStorage.setItem("localAccessToken", accessToken);
+      // }
 
       if (refreshToken && refreshToken !== "undefined") {
         response.headers.cookie = `refreshToken=${refreshToken}`;
@@ -65,14 +65,14 @@ cookie_instance.interceptors.response.use(
         removeCookie("refreshToken");
       }
 
-      if (nickname && nickname !== "undefined") {
-        localStorage.setItem("localNickName", nickname);
-      } else if (localStorage.getItem("localNickName") === "undefined") {
-        localStorage.removeItem("localNickName");
-      } else {
-      }
+      // if (nickname && nickname !== "undefined") {
+      //   localStorage.setItem("localNickName", nickname);
+      // } else if (localStorage.getItem("localNickName") === "undefined") {
+      //   localStorage.removeItem("localNickName");
+      // } else {
+      // }
 
-      alert(`성공: ${response.data.message},데이타${response.data}`);
+      alert(`응답 성공: ${response.data.message},`);
       return response;
     } catch (error) {
       console.error("응답 오류:", error);

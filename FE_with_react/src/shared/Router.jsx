@@ -11,13 +11,24 @@ import Home from "../pages/Home";
 import { removeCookie, getCookie, setCookie } from "../cookie/cookie";
 
 const Router = () => {
+  // const navigate = useNavigate();
+  const cookierefreshToken = getCookie("refreshToken");
+  const token = localStorage.getItem("localAccessToken");
+  const userNickName = localStorage.getItem("localNickName");
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("localNickName")
+  );
+
   return (
     <>
       <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <Header />
+        <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
         <Routes>
           <Route path="" element={<Home />} />
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={<Login setIsLoggedIn={setIsLoggedIn} />}
+          />
           <Route path="/signup" element={<Register />} />
           <Route path="/games" element={<CardList />} />
           <Route path="/game/submit" element={<Edit />} />
