@@ -10,9 +10,9 @@ export const __getCardsThunk = createAsyncThunk(
       const { data } = await cookie_instance.get(
         `${BACKEND_SERVER}/api/games`,
         {
-          // headers: {
-          //   Authorization: `Bearer ${data.accessToken}`, // accessToken을 Authorization 헤더에 추가
-          // },
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
         }
       );
       console.log("data카드 이름 안뜸--->", { data });

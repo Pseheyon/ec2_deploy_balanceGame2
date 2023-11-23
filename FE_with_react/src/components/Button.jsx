@@ -151,12 +151,7 @@ export const ButtonRe = ({ onClick, children, buttonStyle }) => {
     </StbuttonRe>
   );
 };
-export const ButtonStyleJoin = ({
-  onClick,
-  children,
-  buttonStyle,
-  onSubmit,
-}) => {
+export const ButtonStyleJoin = ({ onClick, children, buttonStyle }) => {
   return (
     <StButtoJoin style={buttonStyle} onClick={onClick}>
       {children}
@@ -174,14 +169,16 @@ export const ButtonStyleLogin = ({ onClick, children, buttonStyle }) => {
 export const StbuttonRe = styled.button`
   font-family: "Montserrat";
   border-radius: 50px;
+  background-color: #ff83bf;
   cursor: pointer;
   font-weight: 600;
   display: flex;
+  padding: 10px 15px;
   text-align: center;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  border: 1px solid black;
+  border: none;
 `;
 
 export const StButtoJoin = styled.button`

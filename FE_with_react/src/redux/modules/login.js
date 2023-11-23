@@ -22,7 +22,6 @@ export const __login = createAsyncThunk(
   "login/login",
   async (payload, thunkAPI) => {
     try {
-      const refreshToken = getCookie("refreshToken");
       const response = await cookie_instance.post(
         `${BACKEND_SERVER}/api/user/login`,
         {
@@ -55,6 +54,7 @@ export const loginSlice = createSlice({
           confirmPassword: null,
         },
       ];
+      localStorage.removeItem("accessToken");
     },
   },
   extraReducers: {
@@ -70,6 +70,7 @@ export const loginSlice = createSlice({
       console.log("nickname", nickname);
       state.users[0].nickname = nickname;
       state.users[0].accessToken = accessToken;
+      localStorage.setItem("accessToken", accessToken);
     },
     [__login.rejected]: (state, action) => {
       state.isLoading = false;

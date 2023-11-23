@@ -7,7 +7,6 @@ export const apis_token = axios.create({
   headers: {
     "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json",
-    authorization: `Bearer ${localStorage.getItem("token")}`,
   },
   withCredentials: true,
 });
@@ -17,25 +16,21 @@ export const cookie_instance = axios.create({
   headers: {
     "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json",
-    //authorization: `Bearer ${localStorage.getItem("localAccessToken")}`,
+    authorization: `Bearer ${localStorage.getItem("accessToken")}`,
   },
-  withCredentials: true, // 요청과 응답에 쿠키를 사용하기 위해 withCredentials 설정
+  withCredentials: true,
 });
 
 // 요청 인터셉터
 cookie_instance.interceptors.request.use(async (config) => {
   try {
     const refreshToken = await getCookie("refreshToken"); // 비동기로 쿠키 가져오기
-    const accessToken = await localStorage.getItem("localAccessToken");
-
-    if (accessToken) {
-      config.headers["authorization"] = `Bearer ${accessToken}`;
-    }
-
-    if (refreshToken && refreshToken !== "undefined") {
+    const accessToken = localStorage.getItem("accessToken");
+    if (refreshToken && refreshToken !== "undefined" && refreshToken !== null) {
       config.headers.cookie = `refreshToken=${refreshToken}`;
     }
-    alert(`요청 성공: ${config}`);
+
+    alert(`요청 성공: ${config}  accessToken--->${accessToken}`);
     return config;
   } catch (error) {
     console.error("요청 오류:", error);
@@ -47,32 +42,20 @@ cookie_instance.interceptors.request.use(async (config) => {
 cookie_instance.interceptors.response.use(
   (response) => {
     try {
-      console.log("응답인터셉터", response.data);
-
-      const refreshToken = getCookie("refreshToken"); // 비동기로 쿠키 가져오기
-      // const accessToken = response.data.accessToken;
-      // const nickname = response.data.nickname;
-      // console.log(accessToken, "accessToken 응답");
-
-      // if (accessToken) {
-      //   localStorage.setItem("localAccessToken", accessToken);
-      // }
-
+      const refreshToken = getCookie("refreshToken"); // 비동기로
+      const accessToken = response.data.accessToken;
       if (refreshToken && refreshToken !== "undefined") {
         response.headers.cookie = `refreshToken=${refreshToken}`;
       } else if (refreshToken === "undefined") {
         alert("리프레쉬 쿠키 삭제");
         removeCookie("refreshToken");
       }
-
-      // if (nickname && nickname !== "undefined") {
-      //   localStorage.setItem("localNickName", nickname);
-      // } else if (localStorage.getItem("localNickName") === "undefined") {
-      //   localStorage.removeItem("localNickName");
-      // } else {
-      // }
-
-      alert(`응답 성공: ${response.data.message},`);
+      if (accessToken && accessToken !== "undefined" && accessToken !== null) {
+        localStorage.setItem("accessToken", accessToken);
+      }
+      alert(
+        `응답 성공: ${response.data.message},refreshTokenTest2 ${response.data.accessToken}`
+      );
       return response;
     } catch (error) {
       console.error("응답 오류:", error);

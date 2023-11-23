@@ -26,34 +26,6 @@ function Login({ setIsLoggedIn }) {
     });
   };
 
-  // const cookierefreshToken = getCookie("refreshToken");
-  // const userNickName = localStorage.getItem("localNickName");
-
-  // //가드;
-  // useEffect(() => {
-  //   if (cookierefreshToken && userNickName) {
-  //     navigate("/");
-  //   }
-  // }, [cookierefreshToken, userNickName]);
-
-  // const submitButtonHandler = async (event) => {
-  //   event.preventDefault();
-
-  //   try {
-  //     // 로그인 요청을 서버로 보냄
-  //     const response = await dispatch(__login(user));
-
-  //     // 응답에서 데이터를 가져와서 loginSuccess 액션을 디스패치
-  //     const { accessToken, nickname } = response.payload;
-  //     dispatch(loginSuccess({ accessToken, nickname }));
-
-  //     // 페이지 이동
-  //     navigate("/");
-  //   } catch (error) {
-  //     // 로그인 요청이 실패하면 에러 처리
-  //     console.error("로그인 에러:", error);
-  //   }
-  // };
   const submitButtonHandler = async (event) => {
     event.preventDefault();
 

@@ -132,24 +132,6 @@ const Detail = () => {
 
             {isEditMode ? (
               <>
-                {/* <StTextarea
-                  name="body"
-                  rows="10"
-                  maxLength={200}
-                  value={updatedOptionA}
-                  onChange={(event) => {
-                    setUpdatedOptionA(event.target.value);
-                  }}
-                />
-                <StTextarea
-                  name="body"
-                  rows="10"
-                  maxLength={200}
-                  value={updatedOptionB}
-                  onChange={(event) => {
-                    setUpdatedOptionB(event.target.value);
-                  }}
-                /> */}
                 <StOptionWarpper>
                   <StVs>VS</StVs>
                   <StContentBox>

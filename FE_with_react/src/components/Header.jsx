@@ -1,38 +1,3 @@
-// import React from "react";
-// import styled from "styled-components";
-// function Header() {
-//   const handleLogoutBtn = () => {
-//     // 로컬 스토리지에서 "토큰"이라는 이름의 값을 삭제
-//     localStorage.removeItem("token");
-//     // 로그아웃 로직 추가
-//     // ...
-//   };
-//   return (
-//     <StWidthWraprer className="headerWidth">
-//       <img className="logoG" src={"Balance Game.png"} alt="logo"/>
-//       <StLoginBtn className="btnLogin" onClick={handleLogoutBtn}>로그아웃</StLoginBtn>
-//     </StWidthWraprer>
-//   );
-// }
-
-// export default Header;
-// const StWidthWraprer = styled.div`
-//   width: 100%;
-//   padding: 3%;
-//   margin: 0 auto;
-//   box-sizing: border-box;
-//   overflow: hidden;
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   position :fixed;
-//   border :1px solid blak;
-
-// `
-// const StLoginBtn = styled.button`
-
-// `
-
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -48,24 +13,21 @@ function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cookierefreshToken = getCookie("refreshToken");
+  const localAccessToken = localStorage.getItem("accessToken");
+  const localNickName = localStorage.getItem("localNickName");
   const resposeNickname = useSelector((state) => state.login.users[0].nickname);
 
-  const isLoggedIn = useSelector((state) => !!state.login.users[0].nickname);
-
-  console.log("Current Login State:", resposeNickname);
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 로컬 스토리지에서 닉네임을 가져와 Redux 상태에 저장
-    const userNickName = localStorage.getItem("localNickName");
-    if (userNickName) {
-      dispatch(loginSuccess({ nickname: userNickName }));
+    if (resposeNickname) {
+      localStorage.setItem("localNickName", resposeNickname);
+      dispatch(loginSuccess({ nickname: resposeNickname }));
     }
-  }, [dispatch]);
+  }, [dispatch, resposeNickname]);
+
   const handleLogoutBtn = () => {
-    // 로컬 스토리지 클리어
     localStorage.removeItem("localNickName");
     localStorage.removeItem("localAccessToken");
-
-    // 로그아웃 액션 dispatch
+    removeCookie("refreshToken");
     dispatch(logoutSuccess());
   };
 
@@ -79,16 +41,13 @@ function Header() {
               navigate("/");
             }}
           ></StLogoMin>
+          <StTapMenue></StTapMenue>
         </FlexRow>
         <StButtonWrap>
-          {isLoggedIn ? (
+          {localAccessToken ? (
             <>
-              {/* <>{userNickName}</> */}
-              <>{resposeNickname}</>
-              {console.log("resposeNickname", resposeNickname)}
-              <ButtonStyleJoin onClick={handleLogoutBtn}>
-                LOGOUT
-              </ButtonStyleJoin>
+              <StNic>{localNickName}</StNic>
+              <ButtonRe onClick={handleLogoutBtn}>LOGOUT</ButtonRe>
             </>
           ) : (
             <>
@@ -141,4 +100,11 @@ const StcenterWrapper = styled.div`
 `;
 const StButtonWrap = styled.div`
   display: flex;
+`;
+const StTapMenue = styled.div`
+  display: flex;
+`;
+const StNic = styled.div`
+  font-weight: 800;
+  padding: 10px 15px;
 `;
