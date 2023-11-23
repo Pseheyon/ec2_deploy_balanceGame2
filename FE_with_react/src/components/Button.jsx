@@ -193,6 +193,7 @@ export const StButtoJoin = styled.button`
   cursor: pointer;
   justify-content: center;
 `;
+
 export const StButtonLogin = styled.button`
   font-family: "Montserrat";
   width: 50%;

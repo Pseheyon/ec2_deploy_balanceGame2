@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ButtonRe, ButtonStyleJoin, ButtonStyleLogin } from "./Button";
-import { FlexCenter, FlexRow } from "./Flex";
+import { FlexCenter, FlexRow, FlexRowSpaceBet } from "./Flex";
 import { useEffect, useState } from "react";
 import { removeCookie, getCookie, setCookie } from "../cookie/cookie";
 import { logoutSuccess, loginSuccess } from "../redux/modules/login";
@@ -30,27 +30,76 @@ function Header() {
     removeCookie("refreshToken");
     dispatch(logoutSuccess());
   };
-
-  return (
+  const activeStyle = {
+    textShadow: "-1px 0px white, 0px 1px white, 1px 0px white, 0px -1px white",
+    color: "#ff4ab3",
+    fontWeight: "900",
+    fontSize: "24px",
+  };
+  //s-young01.tistory.com/39 [s._.young01:티스토리]
+  출처: https: return (
     <StcenterWrapper>
       <StWidthWraprer>
-        <FlexRow>
-          <StLogoMin
-            src={`${BACKEND_SERVER}/react/images/Logo.png`}
-            onClick={() => {
-              navigate("/");
-            }}
-          ></StLogoMin>
-          <StTapMenue></StTapMenue>
-        </FlexRow>
+        <FlexRowSpaceBet>
+          <NavLink
+            to="/"
+            style={({ isActive }) => (isActive ? activeStyle : undefined)}
+          >
+            <StLogoMin
+              src={`${BACKEND_SERVER}/react/images/Logo.png`}
+            ></StLogoMin>
+          </NavLink>
+        </FlexRowSpaceBet>
         <StButtonWrap>
           {localAccessToken ? (
             <>
+              <NavLink
+                to="/"
+                className="NavLink"
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              >
+                Home
+              </NavLink>
+              <NavLink
+                to="/games"
+                className="NavLink"
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              >
+                Games
+              </NavLink>
+              <NavLink
+                to="/game/submit"
+                className="NavLink"
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              >
+                Create
+              </NavLink>
               <StNic>{localNickName}</StNic>
               <ButtonRe onClick={handleLogoutBtn}>LOGOUT</ButtonRe>
             </>
           ) : (
             <>
+              <NavLink
+                to="/"
+                className="NavLink"
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              >
+                Home
+              </NavLink>
+              <NavLink
+                to="/games"
+                className="NavLink"
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              >
+                Games
+              </NavLink>
+              <NavLink
+                to="/game/submit"
+                className="NavLink"
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              >
+                Create
+              </NavLink>
               <ButtonStyleJoin
                 onClick={() => {
                   navigate("/signup");
@@ -100,11 +149,23 @@ const StcenterWrapper = styled.div`
 `;
 const StButtonWrap = styled.div`
   display: flex;
+  align-items: center;
 `;
-const StTapMenue = styled.div`
-  display: flex;
+const StTapMenue = styled.button`
+  font-family: "Montserrat";
+  /* text-shadow: -1px 0px white, 0px 1px white, 1px 0px white, 0px -1px white; */
+  -webkit-text-stroke-color: white;
+  font-weight: 700;
+  font-size: 22px;
+  padding: 10px 15px;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
 `;
 const StNic = styled.div`
-  font-weight: 800;
+  color: gray;
+  text-decoration: underline;
+  font-weight: 700;
+  font-size: 22px;
+  /* margin-left: 8px; */
   padding: 10px 15px;
 `;

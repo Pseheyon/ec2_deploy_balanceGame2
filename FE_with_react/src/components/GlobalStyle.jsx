@@ -43,6 +43,23 @@ html {
   justify-content: center;
   align-items: center;
  } 
+ 
+ .NavLink {
+  font-family: "Montserrat";
+  color: black;  
+  font-weight: 700;
+  font-size: 22px;
+  padding: 10px 15px;
+ } 
+ 
+ .activeNav {
+  font-family: "Montserrat";
+  color: blue;  
+  font-weight: 700;
+  font-size: 22px;
+  padding: 10px 15px;
+ } 
+
  button {
   transition: all 0.3s;
   font-weight: 4000;
