@@ -50,15 +50,13 @@ exports.getGameById = async (req, res) => {
 //   }
 // };
 exports.createGame = async (req, res) => {
-  const { title, optionA, optionB } = req.body;
-  const reqAccess = req.headers["authorization"].split(" ")[1];
-  const decodedAccess = jwt.decode(reqAccess);
-  const userId = decodedAccess.userId;
+  const { title, optionA, optionB, userNic } = req.body;
 
   try {
     // 게임 작성자의 ObjectId 가져오기
-    const user = await User.findOne({ userId: userId });
-    const nickname = user.nickname;
+    const user = await User.findOne({ nickname: userNic });
+    console.log(userNic);
+    console.log(user);
     if (!user) {
       return res.status(404).json({ error: "로그인 후 이용이 가능합니다." });
     }
@@ -74,11 +72,12 @@ exports.createGame = async (req, res) => {
       title,
       optionA,
       optionB,
+      userNic,
       postedBy: user._id,
     });
 
     await game.save();
-    res.status(201).json({ game, nickname });
+    res.status(201).json({ game });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: `서버에러${error}` });
@@ -88,9 +87,16 @@ exports.createGame = async (req, res) => {
 // 게임을 업데이트하는 컨트롤러
 exports.updateGame = async (req, res) => {
   const { gameId } = req.params;
-  const { title, optionA, optionB } = req.body;
+  const { title, optionA, optionB, userNic } = req.body;
 
   try {
+    const user = await Game.findOne({ nickname: userNic });
+    const gameNicfind = await Game.findOne({ userNic: userNic });
+
+    if (!(user.nickname === gameNicfind.userNic)) {
+      return res.status(404).json({ error: "글쓴이와 일치하지 않습니다." });
+    }
+
     const game = await Game.findByIdAndUpdate(
       { title, optionA, optionB },
       { new: true }

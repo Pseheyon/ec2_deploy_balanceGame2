@@ -18,7 +18,7 @@ import { FlexRow, FlexRowSpaceBet } from "../components/Flex";
 const Detail = () => {
   const dispatch = useDispatch();
   const { gameId } = useParams();
-
+  console.log("파람", gameId);
   const [isEditMode, setIsEditMode] = useState(false);
   const [updatedOptionA, setUpdatedOptionA] = useState("");
   const [updatedOptionB, setUpdatedOptionB] = useState("");

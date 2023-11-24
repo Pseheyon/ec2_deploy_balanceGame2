@@ -7,6 +7,10 @@ const gameSchema = new mongoose.Schema({
     type: String,
     required: [true, "제목은 필수입니다."],
   },
+  userNic: {
+    type: String,
+    required: true,
+  },
   optionA: {
     type: String,
     required: [true, "optionA를 작성해 주세요."],

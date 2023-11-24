@@ -56,7 +56,7 @@ const CardList = () => {
                 <StOption>{card.optionA}</StOption>
                 <div>vs</div>
                 <StOption>{card.optionB}</StOption>
-                {/* <p>{card.userId}</p> */}
+                작성자 <p>{card.userNic}</p>
               </StFlexRowCenter>
             </StCard>
           </Link>

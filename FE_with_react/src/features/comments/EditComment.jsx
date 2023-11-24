@@ -18,6 +18,7 @@ import CommentsAList from "./CommentsAList";
 const EditComment = ({ comment }) => {
   const dispatch = useDispatch();
   const { gameId } = useParams();
+  console.log("수정파람", gameId);
   // console.log('comment', comment)
   const [edit, setEdit] = useState(false);
   const [editContent, setEditContent] = useState(comment.content);

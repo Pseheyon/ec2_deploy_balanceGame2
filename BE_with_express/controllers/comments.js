@@ -4,7 +4,7 @@ const Game = require("../models/games");
 
 exports.getCommentsByGameId = async (req, res) => {
   try {
-    const gameId = req.params.gameId;
+    const gameId = req.params;
     const comments = await Game.find({ gameId });
     res.json(comments);
   } catch (error) {
@@ -14,7 +14,7 @@ exports.getCommentsByGameId = async (req, res) => {
 
 exports.getCommentByCommentId = async (req, res) => {
   try {
-    const gameId = req.params.gameId;
+    const gameId = req.params;
     const option = req.params.option;
     const commentId = req.params.commentId;
     const comment = await Comment.findOne({ gameId, option, _id: commentId });
@@ -29,10 +29,11 @@ exports.getCommentByCommentId = async (req, res) => {
 
 exports.addComment = async (req, res) => {
   try {
-    const gameIdNum = req.params.gameId;
+    const gameIdNum = req.params;
     const gameId = `${gameIdNum}`;
-    const { commentId, option, content } = req.body;
-    const comment = new Comment({ gameId, commentId, option, content });
+    console.log(gameId);
+    const { option, content } = req.body;
+    const comment = new Comment({ gameId, option, content });
     await comment.save();
     res.status(201).json(comment);
   } catch (error) {

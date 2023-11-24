@@ -1,20 +1,22 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 export const __getComments = createAsyncThunk(
   "GET_COMMENTS",
   async (payload, thunkAPI) => {
     try {
-      // cardId와 option을 가져와서 경로를 생성
+      // const gameId = useParams();
+      // console.log("댓글 조회 파람", gameId);
       const { gameId, option, commentId } = payload;
       const endpoint = `/api/comments/${gameId}`;
-      //console.log("_A_Endpoint:", endpoint);
+      console.log("gameId:", gameId);
       const response = await axios.get(`${BACKEND_SERVER}${endpoint}`);
-      //console.log("data_A_댓글임", response.data);
+      console.log("data_A_댓글임", response.data);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
-      //console.log("_A_Error fetching comments:", error);
+      console.log("_A_Error fetching comments:", error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -39,6 +41,7 @@ export const __getCommentByCommendId = createAsyncThunk(
 export const __addComments = createAsyncThunk(
   "ADD_COMMENTS",
   async (payload, thunkAPI) => {
+    const gameId = useParams();
     try {
       console.log("코멘트 추가--->", payload);
       const response = await axios.post(

@@ -151,16 +151,7 @@ const StButtonWrap = styled.div`
   display: flex;
   align-items: center;
 `;
-const StTapMenue = styled.button`
-  font-family: "Montserrat";
-  /* text-shadow: -1px 0px white, 0px 1px white, 1px 0px white, 0px -1px white; */
-  -webkit-text-stroke-color: white;
-  font-weight: 700;
-  font-size: 22px;
-  padding: 10px 15px;
-  background-color: rgba(0, 0, 0, 0);
-  border: none;
-`;
+
 const StNic = styled.div`
   color: gray;
   text-decoration: underline;
