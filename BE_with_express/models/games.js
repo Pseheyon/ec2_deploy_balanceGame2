@@ -21,18 +21,32 @@ const gameSchema = new mongoose.Schema({
   },
   comments: [
     {
-      type: ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Comment",
     },
   ],
-  postedBy: {
-    type: ObjectId,
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
   like: {
-    type: ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
 });
+gameSchema.virtual("relatedUser", {
+  ref: "User",
+  localField: "_id",
+  foreignField: "gameId",
+});
+
+gameSchema.virtual("relatedComment", {
+  ref: "Comment",
+  localField: "gameId",
+  foreignField: "gameId",
+});
+gameSchema.set("toObject", { virtuals: true });
+gameSchema.set("toJson", { virtuals: true });
+gameSchema.set("toString", { virtuals: true });
 
 module.exports = mongoose.model("Game", gameSchema);

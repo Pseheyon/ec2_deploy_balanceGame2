@@ -3,11 +3,11 @@ const { ObjectId } = mongoose.Schema;
 
 const commentSchema = new mongoose.Schema({
   gameId: {
-    type: ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "Game",
   },
-  userId: {
-    type: ObjectId,
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
   content: {
@@ -20,5 +20,13 @@ const commentSchema = new mongoose.Schema({
     required: true,
   },
 });
+commentSchema.virtual("relatedGames", {
+  ref: "Game",
+  localField: "_id",
+  foreignField: "comments",
+});
+
+commentSchema.set("toObject", { virtuals: true });
+commentSchema.set("toJson", { virtuals: true });
 
 module.exports = mongoose.model("Comment", commentSchema);

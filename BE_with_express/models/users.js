@@ -22,6 +22,23 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
 });
+userSchema.virtual("relatedGame", {
+  ref: "Game",
+  localField: "_id",
+  foreignField: "userId",
+});
+userSchema.virtual("relatedToken", {
+  ref: "Token",
+  localField: "_id",
+  foreignField: "userId",
+});
+userSchema.virtual("relatedComment", {
+  ref: "Comment",
+  localField: "_id",
+  foreignField: "author",
+});
+userSchema.set("toObject", { virtuals: true });
+userSchema.set("toJson", { virtuals: true });
 
 module.exports = mongoose.model("User", userSchema);
 
