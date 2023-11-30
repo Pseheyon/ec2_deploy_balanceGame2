@@ -30,7 +30,7 @@ cookie_instance.interceptors.request.use(async (config) => {
       config.headers.cookie = `refreshToken=${refreshToken}`;
     }
 
-    alert(`요청 성공: ${config}  accessToken--->${accessToken}`);
+    //alert(`요청 성공: ${config}  accessToken--->${accessToken}`);
     return config;
   } catch (error) {
     console.error("요청 오류:", error);
@@ -53,9 +53,9 @@ cookie_instance.interceptors.response.use(
       if (accessToken && accessToken !== "undefined" && accessToken !== null) {
         localStorage.setItem("accessToken", accessToken);
       }
-      alert(
-        `응답 성공: ${response.data.message},refreshTokenTest2 ${response.data.accessToken}`
-      );
+      // alert(
+      //   `응답 성공: ${response.data.message},refreshTokenTest2 ${response.data.accessToken}`
+      // );
       return response;
     } catch (error) {
       console.error("응답 오류:", error);

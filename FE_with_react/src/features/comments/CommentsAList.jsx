@@ -10,13 +10,13 @@ import EditComment from "./EditComment";
 const CommentsAList = () => {
   const dispatch = useDispatch();
   const { gameId } = useParams();
-
+  console.log("댓글조회파람", gameId);
   const { isLoading, error, comments } = useSelector((state) => {
     return state.comments;
   });
 
   useEffect(() => {
-    dispatch(__getComments(gameId));
+    dispatch(__getComments({ gameId: gameId }));
   }, [dispatch, gameId]);
 
   const clickisEdit = (commentId, updatedCommentContent) => {

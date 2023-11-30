@@ -9,11 +9,11 @@ export const __getComments = createAsyncThunk(
     try {
       // const gameId = useParams();
       // console.log("댓글 조회 파람", gameId);
-      const { gameId, option, commentId } = payload;
-      const endpoint = `/api/comments/${gameId}`;
-      console.log("gameId:", gameId);
-      const response = await axios.get(`${BACKEND_SERVER}${endpoint}`);
+      const response = await axios.get(
+        `${BACKEND_SERVER}/api/comments/${payload.gameId}`
+      );
       console.log("data_A_댓글임", response.data);
+      console.log("조회 gameId", payload.gameId);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
       console.log("_A_Error fetching comments:", error);
@@ -41,7 +41,6 @@ export const __getCommentByCommendId = createAsyncThunk(
 export const __addComments = createAsyncThunk(
   "ADD_COMMENTS",
   async (payload, thunkAPI) => {
-    const gameId = useParams();
     try {
       console.log("코멘트 추가--->", payload);
       const response = await axios.post(
