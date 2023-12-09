@@ -126,18 +126,18 @@ const StBackGroundImg = styled.div`
   align-items: center;
   text-align: center;
   overflow: hidden;
-  font-size: 52px;
+  font-size: 40px;
   font-weight: 900;
 `;
 
 const SignupBox = styled.div`
-  width: 544px;
+  width: 460px;
   height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   box-sizing: border-box;
   /* background-color: #ffafd6; */
   padding: 64px 64px 46px 64px;
@@ -147,11 +147,11 @@ const SignupBox = styled.div`
   border-radius: 53px;
 `;
 const StInputWrap = styled.div`
-  margin-bottom: 20px;
-  width: 420px;
+  margin-bottom: 12px;
+  width: 320px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 `;
 
 const SignupBtn = styled.button`
@@ -160,6 +160,6 @@ const SignupBtn = styled.button`
   margin: 0 auto;
 `;
 const buttonStyle = {
-  height: "55px",
-  fontSize: "20px",
+  height: "48px",
+  fontSize: "16px",
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -23,7 +23,9 @@ function Edit() {
       return { ...old, [name]: value };
     });
   };
-
+  useEffect(() => {
+    dispatch(__getCardsThunk());
+  }, []);
   //추가 함수
   const onSubmitHandler = (e) => {
     e.preventDefault();
@@ -106,9 +108,8 @@ const StCardContainer = styled.div`
   border: 2px hidden lightgray;
   border-radius: 30px;
   background-color: #12d8b4;
-  width: 40vw;
-  height: 75vh;
-  padding: 60px 40px;
+  height: auto;
+  padding: 54px 54px 40px 54px;
   margin: 0 auto;
   background: rgba(18, 209, 216, 0.6);
   backdrop-filter: blur(25px);
@@ -118,19 +119,20 @@ const StCardContainer = styled.div`
   justify-content: space-between;
   box-sizing: border-box;
 `;
-const StTitleWrapper = styled.h1`
-  font-size: 52px;
+const StTitleWrapper = styled.div`
+  font-size: 40px;
   font-weight: 900;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0px;
   margin-top: 10px;
-
+  white-space: nowrap;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-bottom: 24px;
 `;
 const StBackGroundImg = styled.div`
   background-image: url(${BACKEND_SERVER}/react/background/submit.png);
@@ -141,7 +143,6 @@ const StBackGroundImg = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
-
   justify-content: center;
   align-items: center;
   overflow: hidden;
@@ -155,6 +156,7 @@ const StInputWrap = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 16px;
+  width: 500px;
 `;
 const StButtonWrapper = styled.div`
   display: flex;
@@ -164,17 +166,18 @@ const StButtonWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
+  margin-top: 20px;
 `;
 const buttonStyleLeft = {
-  height: "55px",
-  fontSize: "25px",
+  height: "48px",
+  fontSize: "16px",
   backgroundColor: "#4075FF",
   with: `-webkit-fill-available`,
   border: "none",
 };
 const buttonStyleRight = {
-  height: "55px",
-  fontSize: "25px",
+  height: "48px",
+  fontSize: "16px",
   backgroundColor: "black",
   with: `-webkit-fill-available`,
   color: "#98FCFF",

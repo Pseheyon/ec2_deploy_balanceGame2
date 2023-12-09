@@ -1,5 +1,5 @@
 import React from "react";
-import { FlexRowCenter } from "../components/Flex";
+import { FlexRowCenter, FlexRowSpaceBet } from "../components/Flex";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { __getCardsThunk } from "../redux/modules/cardsSlice";
@@ -51,12 +51,17 @@ const CardList = () => {
             <StCard
             // style={{ backgroundImage: `url(${card.img})` }}
             >
-              <StCardTitle>{card.title} </StCardTitle>
+              <FlexRowSpaceBet>
+                <StCardTitle>{card.title} </StCardTitle>
+                <StNic>
+                  작성자 : <span>{card.userNic}</span>
+                </StNic>
+              </FlexRowSpaceBet>
+
               <StFlexRowCenter>
                 <StOption>{card.optionA}</StOption>
                 <div>vs</div>
                 <StOption>{card.optionB}</StOption>
-                작성자 <p>{card.userNic}</p>
               </StFlexRowCenter>
             </StCard>
           </Link>
@@ -90,19 +95,19 @@ const StBackGroundImg = styled.div`
   -ms-overflow-style: none; */
 `;
 const StBardList = styled.ul`
-  width: 1183px;
+  width: 1100px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 32px;
+  gap: 16px;
   color: white;
-  margin-top: 46px;
+  margin-top: 32px;
   padding: 0;
 `;
 
 const StCard = styled.li`
   width: 100%;
-  height: 120px;
-  padding: 27px 38px;
+  height: 100px;
+  padding: 16px 24px;
   overflow: hidden;
   box-sizing: border-box;
   border-radius: 24px;
@@ -142,29 +147,26 @@ const FloatingButton = styled.button`
   font-weight: bold;
   border: none;
   cursor: pointer;
-  /* transform: rotate(45deg); */
-  /* box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); */
 `;
 const StCreatButton = styled.button`
-  width: 265px;
-  height: 58px;
-  margin: 134px auto 0 auto;
-  padding: 20px 25px;
+  width: 230px;
+  height: 48px;
+  margin: 100px auto 0 auto;
   background: #000000;
   border-radius: 100px;
-  /* CREATE A GAME */
   font-family: "Montserrat";
   font-style: normal;
   font-weight: 600;
-  font-size: 25px;
+  font-size: 18px;
   line-height: 18px;
   text-wrap: nowrap;
   color: white;
+  text-align: center;
 `;
 const StCardTitle = styled.h1`
   font-style: normal;
   font-weight: 700;
-  font-size: 24px;
+  font-size: 20px;
   margin: 0;
   text-shadow: 1px 1px black;
 `;
@@ -178,6 +180,10 @@ const StOption = styled.div`
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
+`;
+const StNic = styled.div`
+  font-weight: 400;
+  font-size: 12px;
 `;
 const StFlexRowCenter = styled.div`
   display: flex;

@@ -6,6 +6,7 @@ import {
   clearCard,
   __updatedCardThunk,
 } from "../redux/modules/editSlice";
+import { __getCardsThunk } from "../redux/modules/cardsSlice";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -34,11 +35,6 @@ const Detail = () => {
     dispatch(__getCardThunk({ gameId: gameId }));
     return () => dispatch(clearCard());
   }, [dispatch, gameId]);
-
-  // useEffect(() => {
-  //   dispatch(__updatedCardThunk({ gameId: gameId }));
-  //   return () => dispatch(clearCard());
-  // }, [dispatch, gameId]);
 
   useEffect(() => {
     setUpdatedOptionA(card.optionA);

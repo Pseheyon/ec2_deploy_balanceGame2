@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 import { cookie_instance } from "../../axios/api";
+
 const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 export const __getComments = createAsyncThunk(
   "GET_COMMENTS",
@@ -149,8 +149,10 @@ export const commentASlice = createSlice({
     },
     [__updatedComment.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log("card.action.payload-->", action.payload);
-      const target = state.data.findIndex(
+      console.log("수정 성공-->", action.payload);
+      console.log("수정 성공 id-->", action.payload._id);
+      //const target = action.payload._id;
+      const target = state.comments.findIndex(
         (comment) => comment._id === action.payload._id
       );
       state.isLoading = false;

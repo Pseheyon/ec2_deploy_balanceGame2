@@ -173,7 +173,7 @@ export const StbuttonRe = styled.button`
   cursor: pointer;
   font-weight: 600;
   display: flex;
-  padding: 10px 15px;
+  padding: 6px 12px;
   text-align: center;
   justify-content: center;
   align-items: center;
@@ -187,7 +187,7 @@ export const StButtoJoin = styled.button`
   background-color: #ff4ab3;
   font-weight: 600;
   margin-right: 10px;
-  padding: 10px 15px;
+  padding: 6px 12px;
   font-size: 15px;
   border: none;
   cursor: pointer;
@@ -200,7 +200,7 @@ export const StButtonLogin = styled.button`
   color: #ff83bf;
   font-weight: 600;
   background-color: black;
-  padding: 10px 15px;
+  padding: 6px 12px;
   font-size: 15px;
   border: none;
   cursor: pointer;

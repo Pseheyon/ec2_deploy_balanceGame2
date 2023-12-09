@@ -34,16 +34,22 @@ function Header() {
     textShadow: "-1px 0px white, 0px 1px white, 1px 0px white, 0px -1px white",
     color: "#ff4ab3",
     fontWeight: "900",
-    fontSize: "24px",
+    fontSize: "16px",
   };
-  //s-young01.tistory.com/39 [s._.young01:티스토리]
-  출처: https: return (
+  const activeStyleHome = {
+    textShadow: "-1px 0px white, 0px 1px white, 1px 0px white, 0px -1px white",
+    color: "rgba(109, 255, 246)",
+    fontWeight: "900",
+    fontSize: "16px",
+  };
+
+  return (
     <StcenterWrapper>
       <StWidthWraprer>
         <FlexRowSpaceBet>
           <NavLink
             to="/"
-            style={({ isActive }) => (isActive ? activeStyle : undefined)}
+            style={({ isActive }) => (isActive ? activeStyleHome : undefined)}
           >
             <StLogoMin
               src={`${BACKEND_SERVER}/react/images/Logo.png`}
@@ -56,7 +62,9 @@ function Header() {
               <NavLink
                 to="/"
                 className="NavLink"
-                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                style={({ isActive }) =>
+                  isActive ? activeStyleHome : undefined
+                }
               >
                 Home
               </NavLink>
@@ -127,19 +135,18 @@ const StWidthWraprer = styled.div`
   position: absolute;
   top: 0;
   width: 100%;
-  padding: 0 3%;
-  margin: 3vh auto;
+  padding: 0 2%;
+  margin: 2vh auto;
   z-index: 10;
   display: flex;
   align-items: center;
   box-sizing: border-box;
   justify-content: space-between;
+  font-size: 16px;
 `;
 const StLogoMin = styled.img`
-  width: 300px;
+  width: 200px;
   height: inherit;
-  position: absolute;
-  top: 0;
   cursor: pointer;
 `;
 const StcenterWrapper = styled.div`
@@ -156,7 +163,7 @@ const StNic = styled.div`
   color: gray;
   text-decoration: underline;
   font-weight: 700;
-  font-size: 22px;
+  font-size: 16px;
   /* margin-left: 8px; */
-  padding: 10px 15px;
+  padding: 8px 12px;
 `;

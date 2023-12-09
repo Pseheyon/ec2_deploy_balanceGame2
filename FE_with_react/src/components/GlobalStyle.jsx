@@ -48,8 +48,8 @@ html {
   font-family: "Montserrat";
   color: black;  
   font-weight: 700;
-  font-size: 22px;
-  padding: 10px 15px;
+  font-size: 16px;
+  padding: 8px 12px;
  } 
  
  .activeNav {
