@@ -18,42 +18,33 @@ module.exports = {
      */
     // try{}
     //console.log("헤더 토큰", req.headers["authorization"]);
-    if (
-      req.headers["authorization"] === undefined &&
-      req.headers["authorization"].split("Bearer ")[1] === null
-    ) {
-      throw Error("API 사용 권한이 없습니다. 로그인 후 이용바랍니다.");
+    try {
+      if (
+        req.headers["authorization"] === undefined &&
+        req.headers["authorization"].split("Bearer ")[1] === null
+      ) {
+        throw Error("API 사용 권한이 없습니다. 로그인 후 이용바랍니다.");
+      }
+    } catch (error) {
+      return {
+        ok: false,
+        message: error.message,
+      };
     }
 
     const reqAccess = req.headers.authorization.split("Bearer ")[1];
-    const reqAccesstest = req.headers.authorization;
-    const reqRefresh = req.cookies.refreshToken;
     const accessToken = verify(reqAccess);
-
-    const refreshToken = refreshVerify(reqRefresh); // *실제로는 DB 조회
     const decodedAccess = jwt.decode(reqAccess);
-    const decodedRefresh = jwt.decode(reqRefresh);
-    // console.log("리프레쉬토큰------->", reqRefresh);
-    // console.log("헤더토큰------->", reqAccess);
-    // console.log("헤더토큰test------->", reqAccesstest);
-    // console.log("토큰검증------->", accessToken);
-    // console.log("토큰리프레쉬검증------->", refreshToken);
-    // console.log("디코드토큰검증------->", decodedAccess);
-    // console.log("디코드토큰검증2------->", decodedAccess.userId);
-    // console.log("디코드리프레쉬토큰검증------->", decodedRefresh);
-
-    const { userId, nickname } = decodedRefresh;
-    const reUserId = decodedRefresh.userId;
-
-    const compareUserId = await User.findOne({ userId });
-    const { _id } = compareUserId;
-
-    const DbRefreshToken = await Token.findOne({ _id });
-    // console.log("DbRefreshToken------->", DbRefreshToken);
-    // console.log("compareUserId------->", compareUserId._id);
-    // console.log("reUserId------->", reUserId);
-    // console.log("compareUserId------->", compareUserId);
     if (accessToken === false && decodedAccess.ok == false) {
+      const reqRefresh = req.cookies.refreshToken;
+      const refreshToken = refreshVerify(reqRefresh); // *실제로는 DB 조회
+      const decodedRefresh = jwt.decode(reqRefresh);
+
+      const { userId, nickname } = decodedRefresh;
+      const reUserId = decodedRefresh.userId;
+      const compareUserId = await User.findOne({ userId });
+      const { _id } = compareUserId;
+      const DbRefreshToken = await Token.findOne({ _id });
       if (
         reqRefresh === undefined &&
         !DbRefreshToken.refreshToken === reqRefresh
@@ -82,6 +73,9 @@ module.exports = {
         next();
       }
     } else {
+      const reqRefresh = req.cookies.refreshToken;
+      const refreshToken = refreshVerify(reqRefresh); // *실제로는 DB 조회
+      const decodedRefresh = jwt.decode(reqRefresh);
       if (refreshToken === undefined) {
         // case3: access token은 유효하지만, refresh token은 만료된 경우
         const newRefreshToken = makeRefreshToken({

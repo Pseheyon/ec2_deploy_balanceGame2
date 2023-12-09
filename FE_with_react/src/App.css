@@ -22,11 +22,11 @@ body {
   font-weight: 600;
   color: #00adb2;
 }
-.ABoxDiv {
+.optionABoxDiv {
   background: #5753fd;
   box-shadow: 0px 4px 0px #5eedf2;
 }
-.BBoxDiv {
+.optionBBoxDiv {
   background: #00adb2;
   box-shadow: 0px 4px 0px #ff4ab3;
 }

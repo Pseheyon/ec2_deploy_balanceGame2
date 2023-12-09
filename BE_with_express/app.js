@@ -18,7 +18,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: "http://localhost:3000",
-    methods: ["GET", "POST", "DELETE", "PUT"],
+    methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
     credentials: true, //쿠키로 진행할거라서? 뭔지 모르겠음
   })
 );

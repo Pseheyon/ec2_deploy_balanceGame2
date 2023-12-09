@@ -2,13 +2,10 @@ const express = require("express");
 const router = express.Router();
 const commentController = require("../controllers/comments");
 
-router.get("/:gameId", commentController.getCommentsByGameId);
-router.get(
-  "/:gameId/:option/:commentId",
-  commentController.getCommentByCommentId
-);
+router.get("/:gameId", commentController.getComments);
+router.get("/:gameId", commentController.getCommentByCommentId);
 router.post("/:gameId", commentController.addComment);
-router.patch("/:gameId/:commentId", commentController.updateComment);
-router.delete("/:gameId/:option/:commentId", commentController.deleteComment);
+router.patch("/:gameId", commentController.updateComment);
+router.delete("/:gameId", commentController.deleteComment);
 
 module.exports = router;

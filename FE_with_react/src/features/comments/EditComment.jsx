@@ -32,12 +32,12 @@ const EditComment = ({ comment }) => {
     if (result) {
       console.log(
         "Deleting comment with commentId gameId",
-        comment.commentId,
+        comment._id,
         gameId
       );
       await dispatch(
         __deleteComment({
-          commentId: comment.commentId,
+          _id: comment._id,
           option: comment.option,
           gameId,
         })
@@ -59,7 +59,7 @@ const EditComment = ({ comment }) => {
       if (result) {
         await dispatch(
           __updatedComment({
-            commentId: comment.commentId,
+            _id: comment._id,
             gameId: gameId,
             content: editContent,
           })
@@ -73,17 +73,14 @@ const EditComment = ({ comment }) => {
   return (
     <>
       {edit ? (
-        <CommentBox
-          key={comment.commentId}
-          className={`${comment.option}BoxDiv`}
-        >
+        <CommentBox key={comment._id} className={`${comment.option}BoxDiv`}>
           <div
             style={{
               display: "flex",
               justifyContent: "space-between",
             }}
           >
-            <EditButton>{comment.userId}</EditButton>
+            <EditButton>{comment.content}</EditButton>
             <EditButton onClick={onUpdateButtonHandler}>완료</EditButton>
           </div>
           <InputContentColor
@@ -99,10 +96,7 @@ const EditComment = ({ comment }) => {
           />
         </CommentBox>
       ) : (
-        <CommentBox
-          key={comment.commentId}
-          className={`${comment.option}BoxDiv`}
-        >
+        <CommentBox key={comment._id} className={`${comment.option}BoxDiv`}>
           <div
             style={{
               display: "flex",
@@ -132,6 +126,7 @@ const EditComment = ({ comment }) => {
           </div>
           <ContentColor fontsize="16px" className="box_content">
             {updates.editContent}
+            {/* {comment.content} */}
           </ContentColor>
         </CommentBox>
       )}

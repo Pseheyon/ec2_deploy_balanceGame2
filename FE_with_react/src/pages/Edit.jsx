@@ -11,12 +11,10 @@ import { Input } from "../components/Input";
 function Edit() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userNic = localStorage.getItem("localNickName");
   const [card, setCard] = useState({
     title: "",
     optionA: "",
     optionB: "",
-    userNic: "",
   });
 
   const changeInputHandler = (event) => {
@@ -30,7 +28,7 @@ function Edit() {
   const onSubmitHandler = (e) => {
     e.preventDefault();
     dispatch(__addCardThunk(card));
-    setCard({ title: "", optionA: "", optionB: "", userNic: userNic });
+    setCard({ title: "", optionA: "", optionB: "" });
   };
   console.log("dispatch-> ", dispatch);
 

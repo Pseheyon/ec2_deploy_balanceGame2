@@ -19,9 +19,7 @@ export const __getComment = createAsyncThunk(
   }
 );
 const initialState = {
-  data: {
-    content: "",
-  },
+  comments: [],
   isLoading: false,
   error: null,
   isGlobalEditmode: false,

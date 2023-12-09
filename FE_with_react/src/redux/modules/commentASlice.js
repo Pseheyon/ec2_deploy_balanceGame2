@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-
+import { cookie_instance } from "../../axios/api";
 const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 export const __getComments = createAsyncThunk(
   "GET_COMMENTS",
@@ -26,9 +26,9 @@ export const __getCommentByCommendId = createAsyncThunk(
   "GET_COMMENT_BY_COMMENT_ID",
   async (payload, thunkAPI) => {
     try {
-      const { gameId, option, commentId } = payload;
-      const response = await axios.get(
-        `${BACKEND_SERVER}/api/comments/${gameId}/${option}`
+      const { gameId, option, commentId, _id } = payload;
+      const response = await cookie_instance.get(
+        `${BACKEND_SERVER}/api/comments/${gameId}`
       );
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
@@ -46,7 +46,7 @@ export const __addComments = createAsyncThunk(
       const response = await axios.post(
         `${BACKEND_SERVER}/api/comments/${payload.gameId}`,
         {
-          commentId: payload.commentId,
+          _id: payload._id,
           option: payload.option,
           content: payload.content,
         }
@@ -63,9 +63,9 @@ export const __updatedComment = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await axios.patch(
-        `${BACKEND_SERVER}/api/comments${payload.gameId}/${payload.commentId}`,
+        `${BACKEND_SERVER}/api/comments/${payload.gameId}`,
         {
-          commentId: payload.commentId,
+          _id: payload._id,
           option: payload.option,
           content: payload.content,
         }
@@ -82,20 +82,22 @@ export const __deleteComment = createAsyncThunk(
   "DELETE_COMMENT",
   async (payload, thunkAPI) => {
     try {
-      await axios.delete(
-        `${BACKEND_SERVER}/api/comments/${payload.gameId}/${payload.option}/${payload.commentId}`
-      );
+      await axios.delete(`${BACKEND_SERVER}/api/comments/${payload.gameId}`, {
+        data: {
+          _id: payload._id,
+          option: payload.option,
+        },
+      });
       return thunkAPI.fulfillWithValue(payload); // 삭제한 commentId 반환합니다.
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
   }
 );
-
 //바뀌는 데이터들은 요 안에 있는 값들만 바뀐다.
 //state 값들은 여기서 적고 밑에 엑스트라에서
 const initialState = {
-  data: [],
+  comments: [], // 이것을 comments로 변경
   isLoading: false,
   reducers: {},
   error: null,
@@ -112,7 +114,8 @@ export const commentASlice = createSlice({
     [__getComments.fulfilled]: (state, action) => {
       state.isLoading = false;
       console.log("action.comments.dataAA", action.payload);
-      state.comments = action.payload;
+      state.comments = action.payload.comments; // 여기를 state.comments로 수정
+      console.log("state.comments", state.comments);
     },
     [__getComments.rejected]: (state, action) => {
       state.isLoading = false;
@@ -128,7 +131,7 @@ export const commentASlice = createSlice({
     },
     [__getCommentByCommendId.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.data = action.payload;
+      state.comments = action.payload;
     },
     [__getCommentByCommendId.rejected]: (state, action) => {
       state.isLoading = false;
@@ -138,7 +141,7 @@ export const commentASlice = createSlice({
     [__addComments.fulfilled]: (state, action) => {
       state.isLoading = false;
       console.log("action.comments.data->", action.payload);
-      state.data.push(action.payload);
+      state.comments.push(action.payload);
     },
     [__addComments.rejected]: (state, action) => {
       state.isLoading = false;
@@ -148,10 +151,10 @@ export const commentASlice = createSlice({
       state.isLoading = false;
       console.log("card.action.payload-->", action.payload);
       const target = state.data.findIndex(
-        (comment) => comment.commentId === action.payload.commentId
+        (comment) => comment._id === action.payload._id
       );
       state.isLoading = false;
-      state.data.splice(target, 1, action.payload);
+      state.comments.splice(target, 1, action.payload);
     },
     [__updatedComment.pending]: (state) => {
       state.isLoading = true;
@@ -165,12 +168,12 @@ export const commentASlice = createSlice({
     },
     [__deleteComment.fulfilled]: (state, action) => {
       state.isLoading = false;
-      const target = state.data.findIndex(
-        (comment) => comment.commentId === action.payload.commentId
+      const target = state.comments.findIndex(
+        (comment) => comment._id === action.payload._id
       );
 
       if (target !== -1) {
-        state.data.splice(target, 1);
+        state.comments.splice(target, 1);
       }
     },
     [__deleteComment.rejected]: (state, action) => {
