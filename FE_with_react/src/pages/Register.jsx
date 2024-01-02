@@ -88,7 +88,7 @@ function Signup() {
               required
             />
             <FlexRowCenter>
-              <>
+              <SignupBtn>
                 <ButtonStyleJoin buttonStyle={buttonStyle}>
                   Join
                 </ButtonStyleJoin>
@@ -100,7 +100,7 @@ function Signup() {
                 >
                   Login
                 </ButtonStyleLogin>
-              </>
+              </SignupBtn>
             </FlexRowCenter>
           </StInputWrap>
         </form>
@@ -152,12 +152,14 @@ const StInputWrap = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
+  margin-top: 10px;
 `;
 
-const SignupBtn = styled.button`
-  width: 50%;
-  height: 30px;
-  margin: 0 auto;
+const SignupBtn = styled.div`
+  margin-top: 10px;
+  display: flex;
+  align-items: row;
+  width: 100%;
 `;
 const buttonStyle = {
   height: "48px",

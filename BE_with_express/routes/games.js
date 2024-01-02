@@ -13,7 +13,7 @@ router.get("/:gameId", gameController.getGameById);
 router.post("/", checkTokens, gameController.createGame);
 
 // 게임을 업데이트하는 라우트
-router.put("/:gameId", gameController.updateGame);
+router.patch("/:gameId", gameController.updateGame);
 
 // 게임을 삭제하는 라우트
 router.delete("/:gameId", gameController.deleteGame);

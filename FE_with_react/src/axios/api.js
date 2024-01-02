@@ -27,10 +27,13 @@ cookie_instance.interceptors.request.use(async (config) => {
     const refreshToken = await getCookie("refreshToken"); // 비동기로 쿠키 가져오기
     const accessToken = localStorage.getItem("accessToken");
     if (refreshToken && refreshToken !== "undefined" && refreshToken !== null) {
-      config.headers.cookie = `refreshToken=${refreshToken}`;
+      // Corrected typo from 'Data' to 'Date'
+      setCookie("refreshToken", refreshToken, {
+        path: "/",
+        secure: "/", // Note: This should be a boolean value, e.g., true or false
+        expires: new Date(new Date().getTime() + 1 * 60 * 1000), // Expires 1 minute from now
+      });
     }
-
-    //alert(`요청 성공: ${config}  accessToken--->${accessToken}`);
     return config;
   } catch (error) {
     console.error("요청 오류:", error);
@@ -44,18 +47,15 @@ cookie_instance.interceptors.response.use(
     try {
       const refreshToken = getCookie("refreshToken"); // 비동기로
       const accessToken = response.data.accessToken;
-      if (refreshToken && refreshToken !== "undefined") {
-        response.headers.cookie = `refreshToken=${refreshToken}`;
-      } else if (refreshToken === "undefined") {
-        alert("리프레쉬 쿠키 삭제");
-        removeCookie("refreshToken");
-      }
+      // if (refreshToken && refreshToken !== "undefined") {
+      //   response.headers.cookie = `refreshToken=${refreshToken}`;
+      // } else if (refreshToken === "undefined") {
+      //   alert("리프레쉬 쿠키 삭제");
+      //   removeCookie("refreshToken");
+      // }
       if (accessToken && accessToken !== "undefined" && accessToken !== null) {
         localStorage.setItem("accessToken", accessToken);
       }
-      // alert(
-      //   `응답 성공: ${response.data.message},refreshTokenTest2 ${response.data.accessToken}`
-      // );
       return response;
     } catch (error) {
       console.error("응답 오류:", error);

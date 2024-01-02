@@ -91,7 +91,7 @@ exports.updateComment = async (req, res) => {
     const comment = await Comment.findOneAndUpdate(
       { _id },
       { $set: { content: req.body.content } }, // content만 업데이트
-      { new: true }
+      { new: true } 
     );
     if (!comment) {
       return res.status(404).json({ error: "Comment not found" });

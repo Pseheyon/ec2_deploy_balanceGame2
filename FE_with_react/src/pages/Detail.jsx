@@ -82,8 +82,8 @@ const Detail = () => {
         ...card,
         optionA: updatedOptionA,
         optionB: updatedOptionB,
-        likesA: plusLikesA,
-        likesB: plusLikesB,
+        // likesA: plusLikesA,
+        // likesB: plusLikesB,
       })
     );
     setIsEditMode(false);
@@ -381,6 +381,7 @@ const StEditBTN = styled.div`
   background-color: #ffe3f1;
   padding: 5px 20px;
   font-weight: 700;
+  cursor: pointer;
 `;
 const StTitle = styled.div`
   width: fit-content;

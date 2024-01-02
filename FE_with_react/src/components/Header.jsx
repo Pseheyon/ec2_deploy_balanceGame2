@@ -25,9 +25,14 @@ function Header() {
   }, [dispatch, resposeNickname]);
 
   const handleLogoutBtn = () => {
+    console.log("삭제 전 refreshToken:", getCookie("refreshToken"));
+
     localStorage.removeItem("localNickName");
     localStorage.removeItem("localAccessToken");
     removeCookie("refreshToken");
+    removeCookie("refreshToken", { path: "/", domain: "localhost" });
+    console.log("삭제 후 refreshToken:", getCookie("refreshToken"));
+
     dispatch(logoutSuccess());
   };
   const activeStyle = {
@@ -38,7 +43,7 @@ function Header() {
   };
   const activeStyleHome = {
     textShadow: "-1px 0px white, 0px 1px white, 1px 0px white, 0px -1px white",
-    color: "rgba(109, 255, 246)",
+    color: "rgb(87, 83, 253)",
     fontWeight: "900",
     fontSize: "16px",
   };
@@ -49,7 +54,7 @@ function Header() {
         <FlexRowSpaceBet>
           <NavLink
             to="/"
-            style={({ isActive }) => (isActive ? activeStyleHome : undefined)}
+            style={({ isActive }) => (isActive ? activeStyle : undefined)}
           >
             <StLogoMin
               src={`${BACKEND_SERVER}/react/images/Logo.png`}
@@ -62,11 +67,16 @@ function Header() {
               <NavLink
                 to="/"
                 className="NavLink"
-                style={({ isActive }) =>
-                  isActive ? activeStyleHome : undefined
-                }
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
               >
                 Home
+              </NavLink>
+              <NavLink
+                to="/games"
+                className="NavLink"
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              >
+                Games
               </NavLink>
               <NavLink
                 to="/games"

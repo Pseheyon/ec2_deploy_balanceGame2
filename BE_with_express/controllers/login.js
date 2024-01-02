@@ -34,8 +34,14 @@ exports.postLogin = async (req, res, next) => {
 
       res.cookie("refreshToken", refreshToken, {
         secure: false,
-        httpOnly: true,
+        httpOnly: false,
       });
+
+      // res.cookie("refreshToken", refreshToken, {
+      //   secure: false,
+      //   httpOnly: true,
+      //   expires: new Date(0),
+      // });
 
       res.status(200).json({
         nickname: discoverUser.nickname,

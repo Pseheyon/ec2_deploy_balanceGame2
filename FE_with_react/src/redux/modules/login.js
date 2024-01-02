@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { apis_token, cookie_instance } from "../../axios/api";
-import { getCookie } from "../../cookie/cookie";
+import { getCookie, removeCookie } from "../../cookie/cookie";
 
 const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 
@@ -55,6 +55,7 @@ export const loginSlice = createSlice({
         },
       ];
       localStorage.removeItem("accessToken");
+      removeCookie("refreshToken");
     },
   },
   extraReducers: {

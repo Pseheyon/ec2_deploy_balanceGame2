@@ -24,16 +24,7 @@ export const __getCardThunk = createAsyncThunk(
 export const __updatedCardThunk = createAsyncThunk(
   "UPDATE_CARD",
   async (payload, thunkAPI) => {
-    const {
-      gameId,
-      optionA,
-      optionB,
-      likesA,
-      likesB,
-      title,
-      GameImg,
-      userNic,
-    } = payload; // payload에서 gameId 추출
+    const { gameId, optionA, optionB, title, userNic, _id } = payload; // payload에서 gameId 추출
 
     try {
       await cookie_instance.patch(
@@ -43,10 +34,8 @@ export const __updatedCardThunk = createAsyncThunk(
           optionA,
           title,
           optionB,
-          likesA,
-          likesB,
-          GameImg,
           userNic,
+          _id,
         },
         {
           headers: {

@@ -32,23 +32,6 @@ exports.getGameById = async (req, res) => {
 
 // 게임을 생성하는 컨트롤러
 
-// exports.createGame = async (req, res) => {
-//   const { title, optionA, optionB, postedBy } = req.body;
-
-//   try {
-//     // 게임 갯수 조회
-//     const gameCount = await Game.countDocuments();
-
-//     // 게임 아이디 생성
-//     const gameId = `${gameCount + 1}`;
-
-//     const game = new Game({ gameId, title, optionA, optionB, postedBy });
-//     await game.save();
-//     res.status(201).json(game);
-//   } catch (error) {
-//     res.status(500).json({ error: `서버에러${error}` });
-//   }
-// };
 exports.createGame = async (req, res) => {
   const { title, optionA, optionB, userNic } = req.body;
 
@@ -88,16 +71,21 @@ exports.createGame = async (req, res) => {
 exports.updateGame = async (req, res) => {
   const { gameId } = req.params;
   const { title, optionA, optionB, userNic } = req.body;
-
+  const _id = req.body._id;
   try {
-    const user = await Game.findOne({ nickname: userNic });
+    const user = await User.findOne({ nickname: userNic });
     const gameNicfind = await Game.findOne({ userNic: userNic });
+    console.log(userNic, "usernic-------------");
+    console.log(user.nickname, "usernickname-------------");
+    console.log(gameNicfind.userNic, "gameNicfind-------------");
+    console.log(_id, "_id-------------");
 
-    if (!(user.nickname === gameNicfind.userNic)) {
+    if (!(user.nickname == gameNicfind.userNic)) {
       return res.status(404).json({ error: "글쓴이와 일치하지 않습니다." });
     }
 
     const game = await Game.findByIdAndUpdate(
+      { _id },
       { title, optionA, optionB },
       { new: true }
     );
@@ -108,7 +96,7 @@ exports.updateGame = async (req, res) => {
 
     res.json(game);
   } catch (error) {
-    res.status(500).json({ error: "서버 오류" });
+    res.status(500).json({ error: `서버 오류${error}` });
   }
 };
 

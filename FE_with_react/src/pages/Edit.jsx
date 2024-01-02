@@ -166,7 +166,7 @@ const StButtonWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 const buttonStyleLeft = {
   height: "48px",

@@ -69,7 +69,7 @@ function Login({ setIsLoggedIn }) {
               <>
                 <ButtonStyleJoin
                   onClick={() => {
-                    navigate("/");
+                    navigate("/signup");
                   }}
                   buttonStyle={buttonStyle}
                 >
@@ -138,5 +138,5 @@ const StInputWrap = styled.div`
 const buttonStyle = {
   height: "48px",
   fontSize: "16px",
-  marginTop: "20px",
+  marginTop: "10px",
 };
