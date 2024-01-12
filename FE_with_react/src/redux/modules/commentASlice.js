@@ -49,6 +49,7 @@ export const __addComments = createAsyncThunk(
           _id: payload._id,
           option: payload.option,
           content: payload.content,
+          author: localStorage.getItem("localNickName"),
         }
       );
       return thunkAPI.fulfillWithValue(response.data);

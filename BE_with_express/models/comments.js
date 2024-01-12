@@ -25,8 +25,15 @@ commentSchema.virtual("relatedGames", {
   localField: "_id",
   foreignField: "comments",
 });
+// 'author' 관계를 위한 가상 필드 정의
+commentSchema.virtual("relatedUser", {
+  ref: "User",
+  localField: "author",
+  justOne: true,
+  foreignField: "nickname",
+});
 
 commentSchema.set("toObject", { virtuals: true });
-commentSchema.set("toJson", { virtuals: true });
-
+commentSchema.set("toJSON", { virtuals: true });
+commentSchema.set("toString", { virtuals: true });
 module.exports = mongoose.model("Comment", commentSchema);

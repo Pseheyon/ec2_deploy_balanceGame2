@@ -1,6 +1,7 @@
 // controllers/commentController.js
 const Comment = require("../models/comments");
 const Game = require("../models/games");
+const User = require("../models/users");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -28,56 +29,71 @@ exports.getComments = async (req, res) => {
       return res.status(404).json({ error: "게임을 찾을 수 없습니다." });
     }
 
-    // 여러 개의 댓글을 가져오기 위해 find 메서드 사용
-    const comments = await Comment.find({ _id: { $in: game.comments } });
+    // 게임에 속한 댓글들을 조회하고 해당 댓글들의 작성자 닉네임으로 populate
+    const populatedComments = await Comment.find({
+      _id: { $in: game.comments },
+    })
+      .populate({
+        path: "author",
+        select: "nickname -_id", // _id 필드 제외하고 nickname만 선택
+      })
+      .select("-_id content option author:author.nickname"); // _id 필드 제외하고 nickname만 선택
+    console.log(populatedComments);
+    // 변환된 데이터에서 필요한 부분만 추출하여 새로운 배열로 만듦
+    const modifiedComments = populatedComments.map((comment) => ({
+      content: comment.content,
+      option: comment.option,
+      author: comment.author[0].nickname, // author.nickname으로 변경
+      __v: comment.__v,
+      id: comment.id,
+    }));
 
-    res.json({ comments });
+    res.json({ comments: modifiedComments });
   } catch (error) {
-    res.status(500).json({ error: `서버에러 ${error}` });
+    res.status(500).json({ error: `${error}` });
   }
 };
 exports.addComment = async (req, res) => {
   const { gameId } = req.params;
-  const { option, content } = req.body;
+  const { option, content, author } = req.body;
 
   try {
     const game = await Game.findOne({ gameId });
-    // Convert gameId to a valid ObjectId
-    // const validGameId = ObjectId.isValid(gameId) ? new ObjectId(gameId) : null;
-    // console.log("validGameId", validGameId);
-    console.log("gameId", gameId);
-    // if (!validGameId) {
-    //   return res.status(400).json({ error: "Invalid gameId format" });
-    // }
-
-    // const game = await Game.findOne({
-    //   gameId: toString(gameId),
-    // }).populate({
-    //   path: "comments",
-    //   populate: {
-    //     path: "author",
-    //     model: "User",
-    //   },
-    // });
 
     if (!game) {
       return res.status(404).json({ error: "게임을 찾을 수 없습니다." });
     }
+    const user = await User.findOne({ nickname: author });
 
+    if (!user) {
+      return res
+        .status(400)
+        .json({ error: "유효한 작성자를 찾을 수 없습니다." });
+    }
+    console.log("user", user);
+
+    // 해당 사용자에 대한 Comment를 생성
+    console.log("user", user);
+    const ObjectAuthor = author;
     const comment = new Comment({
       option: `option${option}`,
       content,
+      author: user._id,
     });
 
+    console.log("comment", comment);
     await comment.save();
     await game.comments.push(comment);
     await game.save();
 
-    const savedComment = await Comment.findById(comment._id).populate("author");
+    const savedComment = await Comment.findById(comment._id).populate({
+      path: "author",
+      select: "nickname", // 필요한 정보만 선택
+    });
 
     res.status(201).json(savedComment);
   } catch (error) {
-    res.status(500).json({ error: `서버에러 ${error}` });
+    res.status(500).json({ error: ` ${error}` });
   }
 };
 exports.updateComment = async (req, res) => {
@@ -91,7 +107,7 @@ exports.updateComment = async (req, res) => {
     const comment = await Comment.findOneAndUpdate(
       { _id },
       { $set: { content: req.body.content } }, // content만 업데이트
-      { new: true } 
+      { new: true }
     );
     if (!comment) {
       return res.status(404).json({ error: "Comment not found" });

@@ -35,10 +35,11 @@ userSchema.virtual("relatedToken", {
 userSchema.virtual("relatedComment", {
   ref: "Comment",
   localField: "_id",
-  foreignField: "author",
+  foreignField: "userId",
 });
 userSchema.set("toObject", { virtuals: true });
 userSchema.set("toJson", { virtuals: true });
+userSchema.set("toString", { virtuals: true });
 
 module.exports = mongoose.model("User", userSchema);
 
