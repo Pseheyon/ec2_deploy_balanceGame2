@@ -5,21 +5,6 @@ const User = require("../models/users");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 
-// exports.getCommentsByGameId = async (req, res) => {
-//   try {
-//     //const gameId = toString(req.params.gameId);
-//     const { gameId } = req.params;
-//     const game = await Game.findOne({ gameId });
-
-//     if (!game) {
-//       return res.status(404).json({ error: "게임을 찾을 수 없습니다." });
-//     }
-//     const comment = await Comment.findOne({ _id: game.comments });
-//     res.json({ comment });
-//   } catch (error) {
-//     res.status(500).json({ error: `서버에러 ${error}` });
-//   }
-// };
 exports.getComments = async (req, res) => {
   try {
     const { gameId } = req.params;
@@ -38,14 +23,11 @@ exports.getComments = async (req, res) => {
         select: "nickname -_id", // _id 필드 제외하고 nickname만 선택
       })
       .select("-_id content option author:author.nickname"); // _id 필드 제외하고 nickname만 선택
-    console.log(populatedComments);
-    // 변환된 데이터에서 필요한 부분만 추출하여 새로운 배열로 만듦
     const modifiedComments = populatedComments.map((comment) => ({
       content: comment.content,
       option: comment.option,
-      author: comment.author[0].nickname, // author.nickname으로 변경
+      author: comment.author.nickname, // author.nickname으로 변경
       __v: comment.__v,
-      id: comment.id,
     }));
 
     res.json({ comments: modifiedComments });

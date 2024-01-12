@@ -15,12 +15,8 @@ export const __getCardsThunk = createAsyncThunk(
           },
         }
       );
-      console.log("data카드 이름 안뜸--->", { data });
-      console.log("datagames_cardsSlice--->", DataView);
       return thunkAPI.fulfillWithValue({ data });
     } catch (error) {
-      console.log("error--->", error);
-      alert(error);
       return thunkAPI.rejectWithValue(error);
     }
   }

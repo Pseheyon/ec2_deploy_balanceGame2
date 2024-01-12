@@ -15,6 +15,8 @@ function Header() {
   const cookierefreshToken = getCookie("refreshToken");
   const localAccessToken = localStorage.getItem("accessToken");
   const localNickName = localStorage.getItem("localNickName");
+
+  const accessToken = localStorage.getItem("accessToken");
   const resposeNickname = useSelector((state) => state.login.users[0].nickname);
 
   useEffect(() => {
@@ -48,6 +50,12 @@ function Header() {
     fontSize: "16px",
   };
 
+  const handleNavLinkClick = (event) => {
+    if (!accessToken) {
+      event.preventDefault();
+      alert("로그인 후 이용해 주십시오");
+    }
+  };
   return (
     <StcenterWrapper>
       <StWidthWraprer>
@@ -75,6 +83,7 @@ function Header() {
                 to="/games"
                 className="NavLink"
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                onClick={handleNavLinkClick}
               >
                 Games
               </NavLink>
@@ -82,6 +91,7 @@ function Header() {
                 to="/games"
                 className="NavLink"
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                onClick={handleNavLinkClick}
               >
                 Games
               </NavLink>
@@ -89,6 +99,7 @@ function Header() {
                 to="/game/submit"
                 className="NavLink"
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                onClick={handleNavLinkClick}
               >
                 Create
               </NavLink>
@@ -105,9 +116,10 @@ function Header() {
                 Home
               </NavLink>
               <NavLink
-                to="/games"
+                // to="/games"
                 className="NavLink"
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                onClick={handleNavLinkClick}
               >
                 Games
               </NavLink>

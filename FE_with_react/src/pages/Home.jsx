@@ -10,6 +10,7 @@ function Home() {
   const navigate = useNavigate();
   const cookierefreshToken = getCookie("refreshToken");
   const isLoggedIn = cookierefreshToken ? true : false;
+  const accessToken = localStorage.getItem("accessToken");
   console.log(cookierefreshToken);
   const handleLogoutBtn = () => {
     localStorage.removeItem("token");
@@ -20,6 +21,13 @@ function Home() {
       navigate("/");
     }
   }, []);
+  const handleGameStart = () => {
+    if (!accessToken) {
+      alert("로그인 후 이용해 주십시오");
+    } else {
+      navigate("/games");
+    }
+  };
 
   return (
     <StWarpper>
@@ -33,9 +41,7 @@ function Home() {
               <StButtonWrapper>
                 <ButtonRe
                   buttonStyle={buttonStyleHome}
-                  onClick={() => {
-                    navigate("/games");
-                  }}
+                  onClick={handleGameStart}
                 >
                   GAME START
                 </ButtonRe>
