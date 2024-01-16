@@ -23,7 +23,7 @@ app.use(
   })
 );
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Origin", "http://localhost:8080");
   // 모든 출처에 대한 액세스 허용
   res.header(
     "Access-Control-Allow-Headers",
