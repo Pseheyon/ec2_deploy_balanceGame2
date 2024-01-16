@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { apis_token } from "../../axios/api";
-
+const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 const initialState = {
   users: [
     {
@@ -21,7 +21,7 @@ export const __signup = createAsyncThunk(
     try {
       console.log("payload", payload);
       const response = await apis_token.post(
-        "api/user/signup",
+        `${BACKEND_SERVER}api/user/signup`,
         {
           userId: payload.userId,
           nickname: payload.nickname,
