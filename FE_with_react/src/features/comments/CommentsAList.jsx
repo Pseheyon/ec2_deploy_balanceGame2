@@ -11,12 +11,9 @@ const CommentsAList = () => {
   const dispatch = useDispatch();
   const { gameId } = useParams();
 
-  const { isLoading, error, comments } = useSelector((state) => {
-    return state.comments;
-  });
-
+  const { isLoading, error, comments } = useSelector((state) => state.comments);
   useEffect(() => {
-    dispatch(__getComments(gameId));
+    dispatch(__getComments({ gameId: gameId }));
   }, [dispatch, gameId]);
 
   const clickisEdit = (commentId, updatedCommentContent) => {
@@ -29,6 +26,7 @@ const CommentsAList = () => {
   if (error) {
     return <div>{error.message}</div>;
   }
+  console.log("comment확인!!", comments);
 
   return (
     <StwidthBox>
@@ -37,14 +35,18 @@ const CommentsAList = () => {
 
         {comments &&
           comments
-            .filter((comment) => comment.option == "A")
+            // Object.entries(comments)
+            .filter((comment) => comment.option === "optionA")
             .map((comment) => (
               <EditComment
-                className="BBoxDiv"
-                key={comment.commentId}
+                className="optionABoxDiv"
+                key={comment._id}
                 comment={comment}
                 // onClick={() => clickisEdit(comment.commentId, __updatedComment)}
-              />
+              >
+                <>{comment.content}</>
+                {console.log(`확인,${comment}`)}
+              </EditComment>
             ))}
       </BoxDiv>
       <BoxDiv>
@@ -52,13 +54,14 @@ const CommentsAList = () => {
 
         {comments &&
           comments
-            .filter((comment) => comment.option == "B")
+            //Object.entries(comments)
+            .filter((comment) => comment.option === "optionB")
             .map((comment) => (
               <EditComment
-                className="BBoxDiv"
-                key={comment.commentId}
+                className="optionBBoxDiv"
+                key={comment._id}
                 comment={comment}
-                onClick={() => clickisEdit(comment.commentId, __updatedComment)}
+                onClick={() => clickisEdit(comment._id, __updatedComment)}
               />
             ))}
       </BoxDiv>

@@ -169,14 +169,16 @@ export const ButtonStyleLogin = ({ onClick, children, buttonStyle }) => {
 export const StbuttonRe = styled.button`
   font-family: "Montserrat";
   border-radius: 50px;
+  background-color: #ff83bf;
   cursor: pointer;
   font-weight: 600;
   display: flex;
+  padding: 6px 12px;
   text-align: center;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  border: 1px solid black;
+  border: none;
 `;
 
 export const StButtoJoin = styled.button`
@@ -185,19 +187,20 @@ export const StButtoJoin = styled.button`
   background-color: #ff4ab3;
   font-weight: 600;
   margin-right: 10px;
-  padding: 10px 15px;
+  padding: 6px 12px;
   font-size: 15px;
   border: none;
   cursor: pointer;
   justify-content: center;
 `;
+
 export const StButtonLogin = styled.button`
   font-family: "Montserrat";
   width: 50%;
   color: #ff83bf;
   font-weight: 600;
   background-color: black;
-  padding: 10px 15px;
+  padding: 6px 12px;
   font-size: 15px;
   border: none;
   cursor: pointer;

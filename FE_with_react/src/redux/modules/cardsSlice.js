@@ -1,17 +1,22 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { cookie_instance } from "../../axios/api";
 // const BACKEND_SERVER = "http://localhost:5000";
 const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 export const __getCardsThunk = createAsyncThunk(
   "GET_CARDS",
   async (_, thunkAPI) => {
     try {
-      const { data } = await axios.get(`${BACKEND_SERVER}/api/gamepost/posts`);
-      console.log("data카드 이름 안뜸--->", { data });
-      console.log("datagames_cardsSlice--->", data.games);
-      return thunkAPI.fulfillWithValue({ data: data.games });
+      const { data } = await cookie_instance.get(
+        `${BACKEND_SERVER}/api/games`,
+        {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+      return thunkAPI.fulfillWithValue({ data });
     } catch (error) {
-      console.log("error--->", error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -37,6 +42,7 @@ export const cardsSlice = createSlice({
     },
     [__getCardsThunk.rejected]: (state, action) => {
       state.isLoading = false;
+
       state.isError = true;
       state.error = action.payload;
     },

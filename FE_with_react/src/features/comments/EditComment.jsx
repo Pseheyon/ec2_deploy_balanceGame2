@@ -18,12 +18,13 @@ import CommentsAList from "./CommentsAList";
 const EditComment = ({ comment }) => {
   const dispatch = useDispatch();
   const { gameId } = useParams();
+  console.log("수정파람", gameId);
   // console.log('comment', comment)
   const [edit, setEdit] = useState(false);
   const [editContent, setEditContent] = useState(comment.content);
 
   const { isGlobalEditmode } = useSelector((state) => state.comment);
-
+  const userNic = localStorage.getItem("localNickName");
   const updates = { editContent };
 
   const onDeleteButtonHandler = async () => {
@@ -31,19 +32,19 @@ const EditComment = ({ comment }) => {
     if (result) {
       console.log(
         "Deleting comment with commentId gameId",
-        comment.commentId,
+        comment._id,
         gameId
       );
       await dispatch(
         __deleteComment({
-          commentId: comment.commentId,
+          _id: comment._id,
           option: comment.option,
           gameId,
         })
       );
 
       // 삭제 후에 새로운 데이터를 가져옴
-      await dispatch(__getComments(gameId)); // gameId에 맞는 댓글들을
+      await dispatch(__getComments({ gameId })); // gameId에 맞는 댓글들을
       setEdit(false);
     } else {
       return;
@@ -58,13 +59,14 @@ const EditComment = ({ comment }) => {
       if (result) {
         await dispatch(
           __updatedComment({
-            commentId: comment.commentId,
+            _id: comment._id,
             gameId: gameId,
+            author: comment.author,
             content: editContent,
           })
         );
         // 삭제 후에 새로운 데이터를 가져옴
-        await dispatch(__getComments(gameId)); // gameId에 맞는
+        await dispatch(__getComments({ gameId })); // gameId에 맞는
         setEdit((pre) => !pre);
       }
     }
@@ -72,17 +74,14 @@ const EditComment = ({ comment }) => {
   return (
     <>
       {edit ? (
-        <CommentBox
-          key={comment.commentId}
-          className={`${comment.option}BoxDiv`}
-        >
+        <CommentBox key={comment._id} className={`${comment.option}BoxDiv`}>
           <div
             style={{
               display: "flex",
               justifyContent: "space-between",
             }}
           >
-            <EditButton>{comment.userId}</EditButton>
+            <EditButton>{comment.author}</EditButton>
             <EditButton onClick={onUpdateButtonHandler}>완료</EditButton>
           </div>
           <InputContentColor
@@ -98,39 +97,61 @@ const EditComment = ({ comment }) => {
           />
         </CommentBox>
       ) : (
-        <CommentBox
-          key={comment.commentId}
-          className={`${comment.option}BoxDiv`}
-        >
+        <CommentBox key={comment._id} className={`${comment.option}BoxDiv`}>
           <div
             style={{
               display: "flex",
               justifyContent: "space-between",
             }}
           >
-            <EditButton>{comment.userId}</EditButton>
-            <FlexRow>
-              <EditButton
-                fontsize="12px"
-                onClick={() => {
-                  // dispatch(__updatedComment(comment.commentId, editContent));
-                  setEdit(!edit);
-                }}
-              >
-                수정
-              </EditButton>
-              <StSpanFont>|</StSpanFont>
-              <EditButton
-                fontsize="12px"
-                onClick={onDeleteButtonHandler}
-                disabled={isGlobalEditmode}
-              >
-                삭제
-              </EditButton>
-            </FlexRow>
+            <EditButton>{comment.author}</EditButton>
+            {userNic === comment.author ? (
+              <FlexRow>
+                <EditButton
+                  fontsize="12px"
+                  onClick={() => {
+                    // dispatch(__updatedComment(comment.commentId, editContent));
+                    setEdit(!edit);
+                  }}
+                >
+                  수정
+                </EditButton>
+                <StSpanFont>|</StSpanFont>
+                <EditButton
+                  fontsize="12px"
+                  onClick={onDeleteButtonHandler}
+                  disabled={isGlobalEditmode}
+                >
+                  삭제
+                </EditButton>
+              </FlexRow>
+            ) : (
+              <>
+                <FlexRow>
+                  <EditButton
+                    fontsize="12px"
+                    onClick={() => {
+                      // dispatch(__updatedComment(comment.commentId, editContent));
+                      setEdit(!edit);
+                    }}
+                  >
+                    수정
+                  </EditButton>
+                  <StSpanFont>|</StSpanFont>
+                  <EditButton
+                    fontsize="12px"
+                    onClick={onDeleteButtonHandler}
+                    disabled={isGlobalEditmode}
+                  >
+                    삭제
+                  </EditButton>
+                </FlexRow>
+              </>
+            )}
           </div>
           <ContentColor fontsize="16px" className="box_content">
             {updates.editContent}
+            {/* {comment.content} */}
           </ContentColor>
         </CommentBox>
       )}

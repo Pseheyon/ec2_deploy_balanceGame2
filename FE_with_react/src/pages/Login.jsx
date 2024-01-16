@@ -4,18 +4,16 @@ import { __login } from "../redux/modules/login";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Input } from "../components/Input";
-import {
-  ButtonRe,
-  ButtonStyleJoin,
-  ButtonStyleLogin,
-} from "../components/Button";
+import { ButtonStyleJoin, ButtonStyleLogin } from "../components/Button";
 import { FlexRowCenter } from "../components/Flex";
+import { removeCookie, getCookie, setCookie } from "../cookie/cookie";
+import { logoutSuccess, loginSuccess } from "../redux/modules/login";
 
-function Login() {
+function Login({ setIsLoggedIn }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [user, setUser] = useState({
-    nickname: "",
+    userId: "",
     password: "",
   });
 
@@ -27,35 +25,21 @@ function Login() {
       return { ...old, [name]: value };
     });
   };
-  const token = localStorage.getItem("token");
-  const isLoggedIn = token ? true : false;
 
   const submitButtonHandler = async (event) => {
     event.preventDefault();
-    dispatch(__login(user));
-    navigate("/games");
-  };
-  // function handleLogout() {
-  //   dispatch(__logout(user));
-  // }
-  const handleLogoutBtn = () => {
-    // 로컬 스토리지에서 "토큰"이라는 이름의 값을 삭제
-    localStorage.removeItem("token");
-    // 로그아웃 로직 추가
-    // ...
-  };
-  //가드;
-  // useEffect(() => {
-  //   if (token) {
-  //     navi("/");
-  //   }
-  // }, []);
 
-  //useEffect는 마운트될때 한번만 실행되고 그 후에 실행되지 않음
-  //새로고침하면 실행됨
+    try {
+      // 로그인 요청을 서버로 보냄
+      const response = await dispatch(__login(user));
+      navigate("/");
+    } catch (error) {
+      // 로그인 요청이 실패하면 에러 처리
+      console.error("로그인 에러:", error);
+    }
+  };
 
   return (
-    // <div className='Homebackground'style={{ backgroundImage: `url(${"process.env.PUBLIC_URL/public/Login.png"})`}}>
     <>
       <StBackGroundImg>
         <SignupBox>
@@ -65,8 +49,8 @@ function Login() {
               <Input
                 text="ID"
                 type="text"
-                value={user.nickname}
-                name="nickname"
+                value={user.userId}
+                name="userId"
                 onChange={changeInputHandler}
                 placeholder="아이디를 입력해주세요"
                 required
@@ -82,28 +66,24 @@ function Login() {
               />
             </StInputWrap>
             <FlexRowCenter>
-              {isLoggedIn ? (
-                <ButtonRe onClick={handleLogoutBtn}>LOGOUT</ButtonRe>
-              ) : (
-                <>
-                  <ButtonStyleJoin
-                    onClick={() => {
-                      navigate("/");
-                    }}
-                    buttonStyle={buttonStyle}
-                  >
-                    Join
-                  </ButtonStyleJoin>
-                  <ButtonStyleLogin
-                    onClick={() => {
-                      navigate("/login");
-                    }}
-                    buttonStyle={buttonStyle}
-                  >
-                    Login
-                  </ButtonStyleLogin>
-                </>
-              )}
+              <>
+                <ButtonStyleJoin
+                  onClick={() => {
+                    navigate("/signup");
+                  }}
+                  buttonStyle={buttonStyle}
+                >
+                  Join
+                </ButtonStyleJoin>
+                <ButtonStyleLogin
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                  buttonStyle={buttonStyle}
+                >
+                  Login
+                </ButtonStyleLogin>
+              </>
             </FlexRowCenter>
           </form>
         </SignupBox>
@@ -127,36 +107,36 @@ const StBackGroundImg = styled.div`
   align-items: center;
   text-align: center;
   overflow: hidden;
-  font-size: 52px;
+  font-size: 40px;
   font-weight: 900;
 `;
 
 const SignupBox = styled.div`
-  width: 544px;
+  width: 460px;
   height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   border-radius: 80px;
-  padding: 64px 64px 46px 64px;
+  padding: 54px 54px 40px 54px;
   box-sizing: border-box;
   background: rgba(255, 72, 179, 0.3);
   backdrop-filter: blur(25px);
   border-radius: 53px;
 `;
 const StInputWrap = styled.div`
-  margin-bottom: 20px;
-  margin-top: 20px;
-  width: 420px;
+  margin-bottom: 12px;
+  margin-top: 12px;
+  width: 320px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 `;
 
 const buttonStyle = {
-  height: "55px",
-  fontSize: "20px",
-  marginTop: "20px",
+  height: "48px",
+  fontSize: "16px",
+  marginTop: "10px",
 };

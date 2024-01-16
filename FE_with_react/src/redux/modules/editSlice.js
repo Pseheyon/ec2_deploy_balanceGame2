@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { cookie_instance } from "../../axios/api";
 // const BACKEND_SERVER = "http://localhost:5000";
 const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 // __getCardThunk
@@ -7,13 +8,12 @@ export const __getCardThunk = createAsyncThunk(
   "GET_CARD",
   async (payload, thunkAPI) => {
     try {
-      const response = await axios.get(
-        `${BACKEND_SERVER}/api/gamepost/posts/${payload.gameId}`
+      const response = await cookie_instance.get(
+        `${BACKEND_SERVER}/api/games/${payload.gameId}`
       );
-      console.log("조회시데이터--->", response.data);
       return thunkAPI.fulfillWithValue(response.data); // 데이터 전체를 반환
     } catch (error) {
-      console.log("조회시데이터error--->", error);
+      alert(error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -23,20 +23,23 @@ export const __getCardThunk = createAsyncThunk(
 export const __updatedCardThunk = createAsyncThunk(
   "UPDATE_CARD",
   async (payload, thunkAPI) => {
-    const { gameId, optionA, optionB, likesA, likesB, title, GameImg } =
-      payload; // payload에서 gameId 추출
+    const { gameId, optionA, optionB, title, userNic, _id } = payload; // payload에서 gameId 추출
 
     try {
-      await axios.patch(
-        `${BACKEND_SERVER}/api/gamepost/posts/${payload.gameId}`, // gameId를 URL에 추가
+      await cookie_instance.patch(
+        `${BACKEND_SERVER}/api/games/${payload.gameId}`,
         {
           gameId,
           optionA,
           title,
           optionB,
-          likesA,
-          likesB,
-          GameImg,
+          userNic,
+          _id,
+        },
+        {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
         }
       );
       console.log("업데이트데이터--->", payload);
@@ -51,14 +54,21 @@ export const __addCardThunk = createAsyncThunk(
   "ADD_CARD",
   async (payload, thunkAPI) => {
     try {
-      const response = await axios.post(
-        `${BACKEND_SERVER}/api/gamepost/posts`,
+      const userNic = localStorage.getItem("localNickName");
+
+      const response = await cookie_instance.post(
+        `${BACKEND_SERVER}/api/games`,
         {
           title: payload.title,
           optionA: payload.optionA,
           optionB: payload.optionB,
+          userNic: userNic,
+        },
+        {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
         }
-        // payload에 추가할 게시물 정보를 담아 전달
       );
       console.log("추가된 데이터--->", response.data);
       return thunkAPI.fulfillWithValue(response.data);
@@ -76,7 +86,7 @@ const initialState = {
   card: {
     id: 0,
     gameId: 0,
-    userId: 0,
+    userNic: "",
     title: "",
     optionA: "",
     optionB: "",
@@ -93,7 +103,7 @@ export const editSlice = createSlice({
       state.card = {
         id: 0,
         gameId: 0,
-        userId: 0,
+        userNic: "",
         title: "",
         optionA: "",
         optionB: "",
@@ -116,7 +126,7 @@ export const editSlice = createSlice({
     [__addCardThunk.fulfilled]: (state, action) => {
       state.isLoading = false;
       console.log("action.__addCardThunk.data->", action.payload);
-      state.data.push(action.payload);
+      // state.data(action.payload);
     },
     [__addCardThunk.rejected]: (state, action) => {
       state.isLoading = false;

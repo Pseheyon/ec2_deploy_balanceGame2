@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apis_token } from "../../axios/api";
+import axios from "axios";
+import { apis_token, cookie_instance } from "../../axios/api";
+import { getCookie, removeCookie } from "../../cookie/cookie";
+
+const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 
 const initialState = {
   users: [
@@ -13,46 +17,61 @@ const initialState = {
   isError: false,
   error: null,
 };
+
 export const __login = createAsyncThunk(
   "login/login",
   async (payload, thunkAPI) => {
     try {
-      const response = await apis_token.post(
-        "/login",
+      const response = await cookie_instance.post(
+        `${BACKEND_SERVER}/api/user/login`,
         {
-          nickname: payload.nickname,
+          userId: payload.userId,
           password: payload.password,
-        },
-        {
-          headers: {
-            authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
         }
       );
-      const token = response.headers.authorization.split(" ")[1];
-      //localStorage.setItem("token", token);
-      localStorage.setItem("token", token);
-
-      return thunkAPI.fulfillWithValue(payload);
+      console.log("로그인 페이로드", payload);
+      return response.data;
     } catch (error) {
-      alert(error.response.data.errorMessage);
+      alert(error);
       return thunkAPI.rejectWithValue(error);
     }
   }
 );
 
-const loginSlice = createSlice({
+export const loginSlice = createSlice({
   name: "login",
   initialState,
-  reducers: {},
+  reducers: {
+    loginSuccess: (state, action) => {
+      console.log("로그인 성공", action.payload);
+      const { accessToken, nickname } = action.payload;
+    },
+    logoutSuccess: (state, action) => {
+      state.users = [
+        {
+          nickname: null,
+          password: null,
+          confirmPassword: null,
+        },
+      ];
+      localStorage.removeItem("accessToken");
+      removeCookie("refreshToken");
+    },
+  },
   extraReducers: {
     [__login.pending]: (state, action) => {
       state.isLoading = true;
-      state.isError = false;
+      console.log("로그인팬딩", action.payload);
     },
     [__login.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.isError = false;
+      console.log("로그인풀필드", action.payload);
+      const { accessToken, nickname } = action.payload;
+      console.log("nickname", nickname);
+      state.users[0].nickname = nickname;
+      state.users[0].accessToken = accessToken;
+      localStorage.setItem("accessToken", accessToken);
     },
     [__login.rejected]: (state, action) => {
       state.isLoading = false;
@@ -60,5 +79,5 @@ const loginSlice = createSlice({
     },
   },
 });
-
+export const { loginSuccess, logoutSuccess } = loginSlice.actions;
 export default loginSlice.reducer;

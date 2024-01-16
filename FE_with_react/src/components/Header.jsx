@@ -1,70 +1,126 @@
-// import React from "react";
-// import styled from "styled-components";
-// function Header() {
-//   const handleLogoutBtn = () => {
-//     // 로컬 스토리지에서 "토큰"이라는 이름의 값을 삭제
-//     localStorage.removeItem("token");
-//     // 로그아웃 로직 추가
-//     // ...
-//   };
-//   return (
-//     <StWidthWraprer className="headerWidth">
-//       <img className="logoG" src={"Balance Game.png"} alt="logo"/>
-//       <StLoginBtn className="btnLogin" onClick={handleLogoutBtn}>로그아웃</StLoginBtn>
-//     </StWidthWraprer>
-//   );
-// }
-
-// export default Header;
-// const StWidthWraprer = styled.div`
-//   width: 100%;
-//   padding: 3%;
-//   margin: 0 auto;
-//   box-sizing: border-box;
-//   overflow: hidden;
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   position :fixed;
-//   border :1px solid blak;
-
-// `
-// const StLoginBtn = styled.button`
-
-// `
-
 import React from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useNavigate, NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { ButtonRe, ButtonStyleJoin, ButtonStyleLogin } from "./Button";
-import { FlexCenter, FlexRow } from "./Flex";
+import { FlexCenter, FlexRow, FlexRowSpaceBet } from "./Flex";
+import { useEffect, useState } from "react";
+import { removeCookie, getCookie, setCookie } from "../cookie/cookie";
+import { logoutSuccess, loginSuccess } from "../redux/modules/login";
+
 function Header() {
+  const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleLogoutBtn = () => {
-    localStorage.removeItem("token");
-  };
-  const token = localStorage.getItem("token");
-  const isLoggedIn = token ? true : false;
-  const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
+  const cookierefreshToken = getCookie("refreshToken");
+  const localAccessToken = localStorage.getItem("accessToken");
+  const localNickName = localStorage.getItem("localNickName");
 
+  const accessToken = localStorage.getItem("accessToken");
+  const resposeNickname = useSelector((state) => state.login.users[0].nickname);
+
+  useEffect(() => {
+    if (resposeNickname) {
+      localStorage.setItem("localNickName", resposeNickname);
+      dispatch(loginSuccess({ nickname: resposeNickname }));
+    }
+  }, [dispatch, resposeNickname]);
+
+  const handleLogoutBtn = () => {
+    console.log("삭제 전 refreshToken:", getCookie("refreshToken"));
+
+    localStorage.removeItem("localNickName");
+    localStorage.removeItem("localAccessToken");
+    removeCookie("refreshToken");
+    removeCookie("refreshToken", { path: "/", domain: "localhost" });
+    console.log("삭제 후 refreshToken:", getCookie("refreshToken"));
+
+    dispatch(logoutSuccess());
+  };
+  const activeStyle = {
+    textShadow: "-1px 0px white, 0px 1px white, 1px 0px white, 0px -1px white",
+    color: "#ff4ab3",
+    fontWeight: "900",
+    fontSize: "16px",
+  };
+  const activeStyleHome = {
+    textShadow: "-1px 0px white, 0px 1px white, 1px 0px white, 0px -1px white",
+    color: "rgb(87, 83, 253)",
+    fontWeight: "900",
+    fontSize: "16px",
+  };
+
+  const handleNavLinkClick = (event) => {
+    if (!accessToken) {
+      event.preventDefault();
+      alert("로그인 후 이용해 주십시오");
+    }
+  };
   return (
     <StcenterWrapper>
       <StWidthWraprer>
-        <FlexRow>
-          <StLogoMin
-            src={`${BACKEND_SERVER}/react/images/Logo.png`}
-            onClick={() => {
-              navigate("/");
-            }}
-          ></StLogoMin>
-        </FlexRow>
+        <FlexRowSpaceBet>
+          <NavLink
+            to="/"
+            style={({ isActive }) => (isActive ? activeStyle : undefined)}
+          >
+            <StLogoMin
+              src={`${BACKEND_SERVER}/react/images/Logo.png`}
+            ></StLogoMin>
+          </NavLink>
+        </FlexRowSpaceBet>
         <StButtonWrap>
-          {isLoggedIn ? (
-            <ButtonRe onClick={handleLogoutBtn}>LOGOUT</ButtonRe>
+          {localAccessToken ? (
+            <>
+              <NavLink
+                to="/"
+                className="NavLink"
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              >
+                Home
+              </NavLink>
+              <NavLink
+                to="/games"
+                className="NavLink"
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              >
+                Games
+              </NavLink>
+              <NavLink
+                to="/game/submit"
+                className="NavLink"
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                onClick={handleNavLinkClick}
+              >
+                Create
+              </NavLink>
+              <StNic>{localNickName}</StNic>
+              <ButtonRe onClick={handleLogoutBtn}>LOGOUT</ButtonRe>
+            </>
           ) : (
             <>
+              <NavLink
+                to="/"
+                className="NavLink"
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              >
+                Home
+              </NavLink>
+              <NavLink
+                to="/games"
+                className="NavLink"
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              >
+                Games
+              </NavLink>
+              <NavLink
+                to="/game/submit"
+                className="NavLink"
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                onClick={handleNavLinkClick}
+              >
+                Create
+              </NavLink>
               <ButtonStyleJoin
                 onClick={() => {
                   navigate("/signup");
@@ -92,19 +148,18 @@ const StWidthWraprer = styled.div`
   position: absolute;
   top: 0;
   width: 100%;
-  padding: 0 3%;
-  margin: 3vh auto;
+  padding: 0 2%;
+  margin: 2vh auto;
   z-index: 10;
   display: flex;
   align-items: center;
   box-sizing: border-box;
   justify-content: space-between;
+  font-size: 16px;
 `;
 const StLogoMin = styled.img`
-  width: 300px;
+  width: 200px;
   height: inherit;
-  position: absolute;
-  top: 0;
   cursor: pointer;
 `;
 const StcenterWrapper = styled.div`
@@ -114,4 +169,14 @@ const StcenterWrapper = styled.div`
 `;
 const StButtonWrap = styled.div`
   display: flex;
+  align-items: center;
+`;
+
+const StNic = styled.div`
+  color: gray;
+  text-decoration: underline;
+  font-weight: 700;
+  font-size: 16px;
+  /* margin-left: 8px; */
+  padding: 8px 12px;
 `;

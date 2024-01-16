@@ -7,6 +7,7 @@ const initialState = {
       nickname: null,
       password: null,
       confirmPassword: null,
+      email: null,
     },
   ],
   isLoading: false,
@@ -20,21 +21,23 @@ export const __signup = createAsyncThunk(
     try {
       console.log("payload", payload);
       const response = await apis_token.post(
-        "/signup",
+        "api/user/signup",
         {
+          userId: payload.userId,
           nickname: payload.nickname,
           password: payload.password,
           confirmPassword: payload.confirmPassword,
+          email: payload.email,
         },
         {
-          // headers: {
-          //   // Authorization: `Bearer ${localStorage.getItem("token")}`,
-          // },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       );
       return thunkAPI.fulfillWithValue(response);
     } catch (error) {
-      alert(error.response.data.errorMessage);
+      alert(error.response.data.message);
       return thunkAPI.rejectWithValue(error);
     }
   }

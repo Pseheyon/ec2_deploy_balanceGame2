@@ -7,6 +7,7 @@ import { __getComments } from "../../redux/modules/commentASlice";
 const AddCommentForm = () => {
   const dispatch = useDispatch();
   const { gameId } = useParams();
+  console.log("댓글추가파람", gameId);
 
   const [comments, setComments] = useState({
     option: "",
@@ -29,7 +30,7 @@ const AddCommentForm = () => {
         })
       );
 
-      await dispatch(__getComments(gameId));
+      await dispatch(__getComments({ gameId: gameId }));
 
       setComments({
         option: "",

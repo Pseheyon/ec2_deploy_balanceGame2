@@ -6,6 +6,7 @@ import {
   clearCard,
   __updatedCardThunk,
 } from "../redux/modules/editSlice";
+import { __getCardsThunk } from "../redux/modules/cardsSlice";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -18,7 +19,7 @@ import { FlexRow, FlexRowSpaceBet } from "../components/Flex";
 const Detail = () => {
   const dispatch = useDispatch();
   const { gameId } = useParams();
-
+  console.log("파람", gameId);
   const [isEditMode, setIsEditMode] = useState(false);
   const [updatedOptionA, setUpdatedOptionA] = useState("");
   const [updatedOptionB, setUpdatedOptionB] = useState("");
@@ -34,11 +35,6 @@ const Detail = () => {
     dispatch(__getCardThunk({ gameId: gameId }));
     return () => dispatch(clearCard());
   }, [dispatch, gameId]);
-
-  // useEffect(() => {
-  //   dispatch(__updatedCardThunk({ gameId: gameId }));
-  //   return () => dispatch(clearCard());
-  // }, [dispatch, gameId]);
 
   useEffect(() => {
     setUpdatedOptionA(card.optionA);
@@ -86,8 +82,8 @@ const Detail = () => {
         ...card,
         optionA: updatedOptionA,
         optionB: updatedOptionB,
-        likesA: plusLikesA,
-        likesB: plusLikesB,
+        // likesA: plusLikesA,
+        // likesB: plusLikesB,
       })
     );
     setIsEditMode(false);
@@ -132,24 +128,6 @@ const Detail = () => {
 
             {isEditMode ? (
               <>
-                {/* <StTextarea
-                  name="body"
-                  rows="10"
-                  maxLength={200}
-                  value={updatedOptionA}
-                  onChange={(event) => {
-                    setUpdatedOptionA(event.target.value);
-                  }}
-                />
-                <StTextarea
-                  name="body"
-                  rows="10"
-                  maxLength={200}
-                  value={updatedOptionB}
-                  onChange={(event) => {
-                    setUpdatedOptionB(event.target.value);
-                  }}
-                /> */}
                 <StOptionWarpper>
                   <StVs>VS</StVs>
                   <StContentBox>
@@ -403,6 +381,7 @@ const StEditBTN = styled.div`
   background-color: #ffe3f1;
   padding: 5px 20px;
   font-weight: 700;
+  cursor: pointer;
 `;
 const StTitle = styled.div`
   width: fit-content;

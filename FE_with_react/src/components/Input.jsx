@@ -33,22 +33,26 @@ const InputArea = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  padding-left: 4%;
   width: 100%;
   font-weight: 600;
   align-items: baseline;
-  font-size: 20px;
+  font-size: 16px;
   word-break: keep-all;
+  display: grid;
+  justify-content: start;
+  grid-template-columns: auto 3fr;
+  align-items: center;
 `;
 const StSpanName = styled.span`
-  padding-left: 4%;
+  text-align: left;
+  white-space: nowrap;
 `;
 const StSignupInput = styled.input`
-  width: 70%;
-  height: 40px;
+  height: 28px;
   background-color: transparent;
   border: none;
   outline: none;
   margin: 1%;
-  font-weight: 800;
   font-weight: 100;
 `;
