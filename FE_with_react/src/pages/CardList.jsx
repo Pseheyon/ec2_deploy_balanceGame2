@@ -11,17 +11,24 @@ const CardList = () => {
   // const [cards, setCards] = useState([]);
   const cardtest = useSelector((state) => state.card);
   const navigate = useNavigate();
-
+  const accessToken = localStorage.getItem("accessToken");
   const { isLoading, error, cards } = useSelector((state) => {
     return state.cards;
   });
-
+  const handleGameStart = () => {
+    if (!accessToken) {
+      alert("로그인 후 게임을 생성할 수 있습니다!");
+      navigate("/games");
+    } else {
+      navigate("/game/submit");
+    }
+  };
   useEffect(() => {
     dispatch(__getCardsThunk());
   }, []);
 
   if (isLoading) {
-    return <div>로딩중.....ㅎㅎ</div>;
+    return <div></div>;
   }
   if (error) {
     return <div>{error.message}</div>;
@@ -31,20 +38,8 @@ const CardList = () => {
   return (
     <StBackGroundImg>
       {/* 게임 등록하기 버튼 */}
-      <StCreatButton
-        onClick={() => {
-          navigate("/game/submit");
-        }}
-      >
-        CREATE A GAME
-      </StCreatButton>
-      <FloatingButton
-        onClick={() => {
-          navigate("/game/submit");
-        }}
-      >
-        게임 등록하기
-      </FloatingButton>
+      <StCreatButton onClick={handleGameStart}>CREATE A GAME</StCreatButton>
+      <FloatingButton onClick={handleGameStart}>게임 등록하기</FloatingButton>
       <StBardList>
         {cards.map((card) => (
           <Link to={`/games/${card.gameId}`} key={card.gameId}>

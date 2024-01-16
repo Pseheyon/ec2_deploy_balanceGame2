@@ -10,7 +10,7 @@ exports.getAllGames = async (req, res) => {
     const games = await Game.find().populate("comments");
     res.json(games);
   } catch (error) {
-    res.status(500).json({ error: "서버 오류" });
+    res.status(500).json({ errorMessage: `${error}` });
   }
 };
 
@@ -25,8 +25,7 @@ exports.getGameById = async (req, res) => {
     }
     res.json(game);
   } catch (error) {
-    console.error("Error in getGameById:", error);
-    res.status(500).json({ error: "서버 오류" });
+    res.status(500).json({ errorMessage: `${error}` });
   }
 };
 
@@ -41,7 +40,9 @@ exports.createGame = async (req, res) => {
     console.log(userNic);
     console.log(user);
     if (!user) {
-      return res.status(404).json({ error: "로그인 후 이용이 가능합니다." });
+      return res
+        .status(404)
+        .json({ errorMessage: "로그인 후 이용이 가능합니다." });
     }
 
     // 게임 갯수 조회
@@ -63,7 +64,7 @@ exports.createGame = async (req, res) => {
     res.status(201).json({ game });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: `서버에러${error}` });
+    res.status(500).json({ errorMessage: `서버에러${error}` });
   }
 };
 
@@ -75,13 +76,11 @@ exports.updateGame = async (req, res) => {
   try {
     const user = await User.findOne({ nickname: userNic });
     const gameNicfind = await Game.findOne({ userNic: userNic });
-    console.log(userNic, "usernic-------------");
-    console.log(user.nickname, "usernickname-------------");
-    console.log(gameNicfind.userNic, "gameNicfind-------------");
-    console.log(_id, "_id-------------");
 
     if (!(user.nickname == gameNicfind.userNic)) {
-      return res.status(404).json({ error: "글쓴이와 일치하지 않습니다." });
+      return res
+        .status(404)
+        .json({ errorMessage: "글쓴이와 일치하지 않습니다." });
     }
 
     const game = await Game.findByIdAndUpdate(
@@ -91,12 +90,12 @@ exports.updateGame = async (req, res) => {
     );
 
     if (!game) {
-      return res.status(404).json({ error: "게임을 찾을 수 없습니다." });
+      return res.status(404).json({ errorMessage: "게임을 찾을 수 없습니다." });
     }
 
     res.json(game);
   } catch (error) {
-    res.status(500).json({ error: `서버 오류${error}` });
+    res.status(500).json({ errorMessage: `서버 오류${error}` });
   }
 };
 
@@ -108,7 +107,7 @@ exports.deleteGame = async (req, res) => {
     const game = await Game.findByIdAndRemove(gameId);
 
     if (!game) {
-      return res.status(404).json({ error: "Game not found" });
+      return res.status(404).json({ errorMessage: "Game not found" });
     }
 
     // 해당 게임과 연결된 댓글도 모두 삭제
@@ -116,6 +115,6 @@ exports.deleteGame = async (req, res) => {
 
     res.json({ success: true, message: "Game deleted successfully" });
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ errorMessage: "Internal server error" });
   }
 };

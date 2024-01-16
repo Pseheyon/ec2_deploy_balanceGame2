@@ -23,9 +23,10 @@ function Home() {
   }, []);
   const handleGameStart = () => {
     if (!accessToken) {
-      alert("로그인 후 이용해 주십시오");
-    } else {
+      alert("로그인 후 게임을 생성할 수 있습니다!");
       navigate("/games");
+    } else {
+      navigate("/game/submit");
     }
   };
 

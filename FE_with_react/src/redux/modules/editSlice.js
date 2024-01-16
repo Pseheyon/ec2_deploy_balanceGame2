@@ -11,10 +11,9 @@ export const __getCardThunk = createAsyncThunk(
       const response = await cookie_instance.get(
         `${BACKEND_SERVER}/api/games/${payload.gameId}`
       );
-      console.log("조회시데이터--->", response.data);
       return thunkAPI.fulfillWithValue(response.data); // 데이터 전체를 반환
     } catch (error) {
-      console.log("조회시데이터error--->", error);
+      alert(error);
       return thunkAPI.rejectWithValue(error);
     }
   }

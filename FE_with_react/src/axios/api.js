@@ -56,11 +56,10 @@ cookie_instance.interceptors.response.use(
       }
       return response;
     } catch (error) {
-      return Promise.reject(error.response.data.error.message);
+      return Promise.reject(error.response.data.errorMessage);
     }
   },
   (error) => {
-    console.error(error);
-    return Promise.reject(error.response.data.error.message);
+    return Promise.reject(error.response.data.errorMessage);
   }
 );

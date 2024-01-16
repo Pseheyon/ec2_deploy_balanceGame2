@@ -83,15 +83,6 @@ function Header() {
                 to="/games"
                 className="NavLink"
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
-                onClick={handleNavLinkClick}
-              >
-                Games
-              </NavLink>
-              <NavLink
-                to="/games"
-                className="NavLink"
-                style={({ isActive }) => (isActive ? activeStyle : undefined)}
-                onClick={handleNavLinkClick}
               >
                 Games
               </NavLink>
@@ -116,10 +107,9 @@ function Header() {
                 Home
               </NavLink>
               <NavLink
-                // to="/games"
+                to="/games"
                 className="NavLink"
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
-                onClick={handleNavLinkClick}
               >
                 Games
               </NavLink>
@@ -127,6 +117,7 @@ function Header() {
                 to="/game/submit"
                 className="NavLink"
                 style={({ isActive }) => (isActive ? activeStyle : undefined)}
+                onClick={handleNavLinkClick}
               >
                 Create
               </NavLink>
