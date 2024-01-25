@@ -6,7 +6,6 @@ import { ButtonRe } from "../components/Button";
 import { __getCardsThunk } from "../redux/modules/cardsSlice";
 import { __updatedCardThunk, __addCardThunk } from "../redux/modules/editSlice";
 import { Input } from "../components/Input";
-//  등록하면 cardlist에 card 추가 되도록.
 
 function Edit() {
   const navigate = useNavigate();
@@ -26,13 +25,12 @@ function Edit() {
   useEffect(() => {
     dispatch(__getCardsThunk());
   }, []);
-  //추가 함수
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
     dispatch(__addCardThunk(card));
     setCard({ title: "", optionA: "", optionB: "" });
   };
-  console.log("dispatch-> ", dispatch);
 
   return (
     <StBackGroundImg>
@@ -136,7 +134,6 @@ const StTitleWrapper = styled.div`
 `;
 const StBackGroundImg = styled.div`
   background-image: url(${BACKEND_SERVER}/react/background/submit.png);
-  /* background-size: cover; */
   background-position-y: 0;
   background-repeat: no-repeat;
   background-size: 100%;

@@ -25,14 +25,10 @@ function Header() {
   }, [dispatch, resposeNickname]);
 
   const handleLogoutBtn = () => {
-    console.log("삭제 전 refreshToken:", getCookie("refreshToken"));
-
     localStorage.removeItem("localNickName");
-    localStorage.removeItem("localAccessToken");
+    localStorage.removeItem("accessToken");
     removeCookie("refreshToken");
     removeCookie("refreshToken", { path: "/", domain: "localhost" });
-    console.log("삭제 후 refreshToken:", getCookie("refreshToken"));
-
     dispatch(logoutSuccess());
   };
   const activeStyle = {
@@ -174,6 +170,5 @@ const StNic = styled.div`
   text-decoration: underline;
   font-weight: 700;
   font-size: 16px;
-  /* margin-left: 8px; */
   padding: 8px 12px;
 `;

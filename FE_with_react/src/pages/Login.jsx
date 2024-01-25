@@ -30,11 +30,9 @@ function Login({ setIsLoggedIn }) {
     event.preventDefault();
 
     try {
-      // 로그인 요청을 서버로 보냄
       const response = await dispatch(__login(user));
       navigate("/");
     } catch (error) {
-      // 로그인 요청이 실패하면 에러 처리
       console.error("로그인 에러:", error);
     }
   };

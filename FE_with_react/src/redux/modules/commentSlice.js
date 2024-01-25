@@ -10,8 +10,6 @@ export const __getComment = createAsyncThunk(
       const { data } = await axios.get(
         `${BACKEND_SERVER}/api/comments/${payload.gameId}`
       );
-      console.log("coment.data**", data);
-      console.log("댓글조회 파람", payload.gameId);
       return thunkAPI.fulfillWithValue(data.game[0]);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

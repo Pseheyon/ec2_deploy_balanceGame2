@@ -7,7 +7,6 @@ import { __getComments } from "../../redux/modules/commentASlice";
 const AddCommentForm = () => {
   const dispatch = useDispatch();
   const { gameId } = useParams();
-  console.log("댓글추가파람", gameId);
 
   const [comments, setComments] = useState({
     option: "",
@@ -46,7 +45,6 @@ const AddCommentForm = () => {
   const handleInputChange = (event) => {
     setComments({ ...comments, content: event.target.value });
   };
-  // console.log('response-->')
   return (
     <>
       <InputWarpper onSubmit={onAddCommentButtonHandler}>

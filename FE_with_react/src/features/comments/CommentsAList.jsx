@@ -26,8 +26,6 @@ const CommentsAList = () => {
   if (error) {
     return <div>{error.message}</div>;
   }
-  console.log("comment확인!!", comments);
-
   return (
     <StwidthBox>
       <BoxDiv>
@@ -45,7 +43,6 @@ const CommentsAList = () => {
                 // onClick={() => clickisEdit(comment.commentId, __updatedComment)}
               >
                 <>{comment.content}</>
-                {console.log(`확인,${comment}`)}
               </EditComment>
             ))}
       </BoxDiv>

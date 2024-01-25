@@ -9,9 +9,9 @@ exports.updateLike = async (req, res) => {
     }
 
     if (option === "likeA") {
-      like.likeA += 1; // 좋아요 A 증가
+      like.likeA += 1;
     } else if (option === "likeB") {
-      like.likeB += 1; // 좋아요 B 증가
+      like.likeB += 1;
     } else {
       return res.status(400).json({ error: "Invalid option" });
     }

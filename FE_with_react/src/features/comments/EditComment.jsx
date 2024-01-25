@@ -18,8 +18,6 @@ import CommentsAList from "./CommentsAList";
 const EditComment = ({ comment }) => {
   const dispatch = useDispatch();
   const { gameId } = useParams();
-  console.log("수정파람", gameId);
-  // console.log('comment', comment)
   const [edit, setEdit] = useState(false);
   const [editContent, setEditContent] = useState(comment.content);
 
@@ -30,11 +28,6 @@ const EditComment = ({ comment }) => {
   const onDeleteButtonHandler = async () => {
     const result = window.confirm("삭제하시겠습니까?");
     if (result) {
-      console.log(
-        "Deleting comment with commentId gameId",
-        comment._id,
-        gameId
-      );
       await dispatch(
         __deleteComment({
           _id: comment._id,
@@ -42,9 +35,7 @@ const EditComment = ({ comment }) => {
           gameId,
         })
       );
-
-      // 삭제 후에 새로운 데이터를 가져옴
-      await dispatch(__getComments({ gameId })); // gameId에 맞는 댓글들을
+      await dispatch(__getComments({ gameId }));
       setEdit(false);
     } else {
       return;
@@ -64,8 +55,7 @@ const EditComment = ({ comment }) => {
             content: editContent,
           })
         );
-        // 삭제 후에 새로운 데이터를 가져옴
-        await dispatch(__getComments({ gameId })); // gameId에 맞는
+        await dispatch(__getComments({ gameId }));
         setEdit((pre) => !pre);
       }
     }

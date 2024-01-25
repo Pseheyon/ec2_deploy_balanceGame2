@@ -29,7 +29,6 @@ export const __login = createAsyncThunk(
           password: payload.password,
         }
       );
-      console.log("로그인 페이로드", payload);
       return response.data;
     } catch (error) {
       alert(error);
@@ -43,7 +42,6 @@ export const loginSlice = createSlice({
   initialState,
   reducers: {
     loginSuccess: (state, action) => {
-      console.log("로그인 성공", action.payload);
       const { accessToken, nickname } = action.payload;
     },
     logoutSuccess: (state, action) => {
@@ -61,14 +59,11 @@ export const loginSlice = createSlice({
   extraReducers: {
     [__login.pending]: (state, action) => {
       state.isLoading = true;
-      console.log("로그인팬딩", action.payload);
     },
     [__login.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.isError = false;
-      console.log("로그인풀필드", action.payload);
       const { accessToken, nickname } = action.payload;
-      console.log("nickname", nickname);
       state.users[0].nickname = nickname;
       state.users[0].accessToken = accessToken;
       localStorage.setItem("accessToken", accessToken);

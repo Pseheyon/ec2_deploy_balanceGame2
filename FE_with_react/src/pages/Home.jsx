@@ -14,7 +14,6 @@ function Home() {
   const handleLogoutBtn = () => {
     localStorage.removeItem("token");
   };
-  //가드;
   useEffect(() => {
     if (cookierefreshToken) {
       navigate("/");

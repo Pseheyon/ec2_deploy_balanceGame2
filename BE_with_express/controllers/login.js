@@ -37,21 +37,15 @@ exports.postLogin = async (req, res, next) => {
         httpOnly: false,
       });
 
-      // res.cookie("refreshToken", refreshToken, {
-      //   secure: false,
-      //   httpOnly: true,
-      //   expires: new Date(0),
-      // });
-
       res.status(200).json({
         nickname: discoverUser.nickname,
-        message: `로그인 성공zz${JSON.stringify(discoverUser.nickname)}`,
+        message: `로그인 성공${JSON.stringify(discoverUser.nickname)}`,
         accessToken,
       });
       return { discoverUser, accessToken, refreshToken };
     }
   } catch (error) {
-    res.status(500).json({ error: `서버에러${error}` });
+    res.status(500).json({ error: `${error}` });
   }
 };
 
@@ -71,7 +65,6 @@ const accessToken = (req, res) => {
 };
 
 const refreshToken = (req, res) => {
-  // 용도 : access token을 갱신.
   try {
     const token = req.cookies.refreshToken;
     const data = jwt.verify(token, process.env.REFRESH_SECRET);
@@ -79,7 +72,6 @@ const refreshToken = (req, res) => {
       return item.email === data.email;
     })[0];
 
-    // access Token 새로 발급
     const accessToken = jwt.sign(
       {
         userId: userData.userId,

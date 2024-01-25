@@ -28,7 +28,6 @@ const StBackGroundImg = styled.div`
   align-items: center;
   overflow: hidden;
   white-space: pre;
-  /* animation: ${ani} 15s linear infinite; */
 `;
 const StBackGroundDeco = styled.div`
   font-family: "Montserrat";

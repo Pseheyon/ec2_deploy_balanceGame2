@@ -19,7 +19,6 @@ import { FlexRow, FlexRowSpaceBet } from "../components/Flex";
 const Detail = () => {
   const dispatch = useDispatch();
   const { gameId } = useParams();
-  console.log("파람", gameId);
   const [isEditMode, setIsEditMode] = useState(false);
   const [updatedOptionA, setUpdatedOptionA] = useState("");
   const [updatedOptionB, setUpdatedOptionB] = useState("");
@@ -30,7 +29,6 @@ const Detail = () => {
     return state.card.card;
   });
 
-  //console.log("디테일 페이지 카드", card);
   useEffect(() => {
     dispatch(__getCardThunk({ gameId: gameId }));
     return () => dispatch(clearCard());
@@ -98,12 +96,6 @@ const Detail = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // if (isLoading) {
-  //   return <div>로딩중.....ㅎㅎ</div>;
-  // }
-  // if (error) {
-  //   return <div>{error.message}</div>;
-  // }
   return (
     <StBackGroundImg>
       <StBackGameImgColor />

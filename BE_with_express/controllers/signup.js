@@ -1,7 +1,6 @@
 const express = require("express");
 const User = require("../models/users");
 
-// 회원가입 API
 exports.postSignup = async (req, res) => {
   const { email, nickname, password, confirmPassword, userId } = req.body;
 
@@ -11,7 +10,6 @@ exports.postSignup = async (req, res) => {
     });
     return;
   }
-  //동일데이터 확인 중복 user 거르기
   const existsUsers = await User.findOne({
     $or: [{ email }, { nickname }, { userId }],
   });

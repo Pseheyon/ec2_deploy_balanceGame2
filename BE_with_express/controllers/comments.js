@@ -100,13 +100,9 @@ exports.updateComment = async (req, res) => {
   try {
     const gameId = req.params.gameId;
     const _id = req.body._id;
-
-    // _id를 ObjectId로 변환
-    // const convertedId = new mongoose.Types.ObjectId(_id);
-
     const comment = await Comment.findOneAndUpdate(
       { _id },
-      { $set: { content: req.body.content } }, // content만 업데이트
+      { $set: { content: req.body.content } },
       { new: true }
     );
     if (!comment) {
@@ -122,7 +118,6 @@ exports.deleteComment = async (req, res) => {
   try {
     const gameId = req.params.gameId;
     const _id = req.body._id;
-    //const commentId = req.params.commentId;
     const comment = await Comment.findOneAndRemove({
       _id,
     });
@@ -136,9 +131,7 @@ exports.deleteComment = async (req, res) => {
 };
 exports.getCommentByCommentId = async (req, res) => {
   try {
-    const gameId = req.params.gameId; // req.params.gameId로 수정
-    //const option = req.params.option;
-    // const commentId = req.params.commentId;
+    const gameId = req.params.gameId;
     const comment = await Comment.findOne({ gameId, option, _id });
     if (!comment) {
       return res.status(404).json({ error: "Comment not found" });
