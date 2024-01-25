@@ -20,7 +20,7 @@ export const __signup = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await apis_token.post(
-        `${BACKEND_SERVER}/api/user/signup`,
+        `${BACKEND_SERVER}api/user/signup`,
         {
           userId: payload.userId,
           nickname: payload.nickname,

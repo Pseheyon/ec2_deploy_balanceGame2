@@ -37,7 +37,7 @@ export const __addComments = createAsyncThunk(
   "ADD_COMMENTS",
   async (payload, thunkAPI) => {
     try {
-      const response = await axios.post(
+      const response = await cookie_instance.post(
         `${BACKEND_SERVER}/api/comments/${payload.gameId}`,
         {
           _id: payload._id,
@@ -57,16 +57,18 @@ export const __updatedComment = createAsyncThunk(
   "UPDATE_COMMENTS",
   async (payload, thunkAPI) => {
     try {
-      const response = await axios.patch(
+      const response = await cookie_instance.patch(
         `${BACKEND_SERVER}/api/comments/${payload.gameId}`,
         {
           _id: payload._id,
           option: payload.option,
           content: payload.content,
+          author: payload.author,
         }
       );
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
+      alert(error);
       return thunkAPI.rejectWithValue(error);
     }
   }

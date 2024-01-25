@@ -22,7 +22,7 @@ const EditComment = ({ comment }) => {
   const [editContent, setEditContent] = useState(comment.content);
 
   const { isGlobalEditmode } = useSelector((state) => state.comment);
-
+  const userNic = localStorage.getItem("localNickName");
   const updates = { editContent };
 
   const onDeleteButtonHandler = async () => {
@@ -52,6 +52,7 @@ const EditComment = ({ comment }) => {
           __updatedComment({
             _id: comment._id,
             gameId: gameId,
+            author: comment.author,
             content: editContent,
           })
         );
@@ -70,7 +71,7 @@ const EditComment = ({ comment }) => {
               justifyContent: "space-between",
             }}
           >
-            <EditButton>{comment.content}</EditButton>
+            <EditButton>{comment.author}</EditButton>
             <EditButton onClick={onUpdateButtonHandler}>완료</EditButton>
           </div>
           <InputContentColor
@@ -93,26 +94,50 @@ const EditComment = ({ comment }) => {
               justifyContent: "space-between",
             }}
           >
-            <EditButton>{comment.userId}</EditButton>
-            <FlexRow>
-              <EditButton
-                fontsize="12px"
-                onClick={() => {
-                  // dispatch(__updatedComment(comment.commentId, editContent));
-                  setEdit(!edit);
-                }}
-              >
-                수정
-              </EditButton>
-              <StSpanFont>|</StSpanFont>
-              <EditButton
-                fontsize="12px"
-                onClick={onDeleteButtonHandler}
-                disabled={isGlobalEditmode}
-              >
-                삭제
-              </EditButton>
-            </FlexRow>
+            <EditButton>{comment.author}</EditButton>
+            {userNic === comment.author ? (
+              <FlexRow>
+                <EditButton
+                  fontsize="12px"
+                  onClick={() => {
+                    // dispatch(__updatedComment(comment.commentId, editContent));
+                    setEdit(!edit);
+                  }}
+                >
+                  수정
+                </EditButton>
+                <StSpanFont>|</StSpanFont>
+                <EditButton
+                  fontsize="12px"
+                  onClick={onDeleteButtonHandler}
+                  disabled={isGlobalEditmode}
+                >
+                  삭제
+                </EditButton>
+              </FlexRow>
+            ) : (
+              <>
+                <FlexRow>
+                  <EditButton
+                    fontsize="12px"
+                    onClick={() => {
+                      // dispatch(__updatedComment(comment.commentId, editContent));
+                      setEdit(!edit);
+                    }}
+                  >
+                    수정
+                  </EditButton>
+                  <StSpanFont>|</StSpanFont>
+                  <EditButton
+                    fontsize="12px"
+                    onClick={onDeleteButtonHandler}
+                    disabled={isGlobalEditmode}
+                  >
+                    삭제
+                  </EditButton>
+                </FlexRow>
+              </>
+            )}
           </div>
           <ContentColor fontsize="16px" className="box_content">
             {updates.editContent}

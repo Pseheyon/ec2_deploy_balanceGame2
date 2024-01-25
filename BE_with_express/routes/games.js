@@ -4,7 +4,7 @@ const gameController = require("../controllers/games");
 const { checkTokens } = require("../middlewares/auth");
 
 // 모든 게임을 가져오는 라우트
-router.get("/", checkTokens, gameController.getAllGames);
+router.get("/", gameController.getAllGames);
 
 // 특정 게임을 가져오는 라우트
 router.get("/:gameId", gameController.getGameById);
@@ -13,9 +13,9 @@ router.get("/:gameId", gameController.getGameById);
 router.post("/", checkTokens, gameController.createGame);
 
 // 게임을 업데이트하는 라우트
-router.patch("/:gameId", gameController.updateGame);
+router.patch("/:gameId", checkTokens, gameController.updateGame);
 
 // 게임을 삭제하는 라우트
-router.delete("/:gameId", gameController.deleteGame);
+router.delete("/:gameId", checkTokens, gameController.deleteGame);
 
 module.exports = router;

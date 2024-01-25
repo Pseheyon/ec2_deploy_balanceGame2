@@ -6,173 +6,56 @@
 밸런스 게임을 할 수 있는 사이트입니다. 재미있는 선택지를 작성해 보세요~!
 <br>
 
-## 🕰️ 개발 기간
-* 
 
-### 🧑‍🤝‍🧑 맴버구성
- - 
+## 🧑‍🤝‍🧑 맴버구성
+|최서윤|박세현|윤재혁|
+|---|---|---|
+|FE / React|FE / React|FE / React|
 
-### ⚙️ 개발 환경
+|박세현|
+|---|
+|BE / Express|
 
+<br/>
+
+## 📌 링크
+<div>
+  - 밸런스게임 : https://sh-portfolio.store/react
+  - 노션 :  https://www.notion.so/5507b7fded0f432bbd1208dbb6196f33?pvs=4
+</div>
+<br/>
+
+## 💻 Stack
+<div>
+  <img src="https://img.shields.io/badge/nextdotjs-000000?style=for-the-badge&logo=nextdotjs&logoColor=white"/>
+  <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white">  
+  <img src="https://img.shields.io/badge/reactquery-FF4154?style=for-the-badge&logo=reactquery&logoColor=white"/>
+  <img src="https://img.shields.io/badge/styledcomponents-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=white">
+  <img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white">
+<img src="https://img.shields.io/badge/amazonec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white">
+   <img src="https://img.shields.io/badge/sutoudio3t-7AF66?style=for-the-badge&logo=sutoudio3t&logoColor=white">
+  <img src="https://img.shields.io/badge/mongoose-880000?style=for-the-badge&logo=mongoose&logoColor=white">
+  <img src="https://img.shields.io/badge/mongodb-47A248?style=for-the-badge&logo=mongodb&logoColor=white">
+  <img src="https://img.shields.io/badge/visualstudiocode-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white">
+  <img src="https://img.shields.io/badge/yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white">
+  <img src="https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white">
+  <img src="https://img.shields.io/badge/HTTPS-FF5E00?style=for-the-badge&logo=HTTPS&logoColor=white"/>
+  <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
+  <img src="https://img.shields.io/badge/postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white">
+  <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white">
+</div>
+<br/>
 
 ## 📌 주요 기능
-#### 로그인 - 
-- ID찾기, PW찾기
+둘다 비슷하게 싫거나 둘다 비슷하게 좋은 대상을 놓고 각자의 생각을 펼칠 수 있다
+#### 로그인
 - 로그인 시 쿠키(Cookie) 및 세션(Session) 생성
-#### 회원가입 - 
-#### 밸런스게임 생성 수정 삭제
-#### 밸런스게임 좋아요 기능
-
-```
-ec2_deploy_balanceGame
-├─ .git
-│  ├─ config
-│  ├─ description
-│  ├─ HEAD
-│  ├─ hooks
-│  │  ├─ applypatch-msg.sample
-│  │  ├─ commit-msg.sample
-│  │  ├─ fsmonitor-watchman.sample
-│  │  ├─ post-update.sample
-│  │  ├─ pre-applypatch.sample
-│  │  ├─ pre-commit.sample
-│  │  ├─ pre-merge-commit.sample
-│  │  ├─ pre-push.sample
-│  │  ├─ pre-rebase.sample
-│  │  ├─ pre-receive.sample
-│  │  ├─ prepare-commit-msg.sample
-│  │  └─ update.sample
-│  ├─ index
-│  ├─ info
-│  │  └─ exclude
-│  ├─ objects
-│  │  ├─ info
-│  │  └─ pack
-│  │     ├─ pack-4aad0f688ac5f15783c2f25fb11352d9c1a8824f.idx
-│  │     └─ pack-4aad0f688ac5f15783c2f25fb11352d9c1a8824f.pack
-│  ├─ packed-refs
-│  └─ refs
-│     ├─ heads
-│     │  ├─ main
-│     │  └─ test
-│     ├─ remotes
-│     │  └─ origin
-│     │     └─ HEAD
-│     └─ tags
-├─ .gitignore
-├─ BE_with_express
-│  ├─ app.js
-│  ├─ index.html
-│  ├─ package-lock.json
-│  ├─ package.json
-│  └─ yarn.lock
-├─ FE_with_react
-│  ├─ build
-│  │  ├─ asset-manifest.json
-│  │  ├─ background
-│  │  │  ├─ bgDeco.png
-│  │  │  ├─ cardlist.png
-│  │  │  ├─ error.png
-│  │  │  ├─ errorDeco.png
-│  │  │  ├─ Login.png
-│  │  │  ├─ signup.png
-│  │  │  └─ submit.png
-│  │  ├─ images
-│  │  │  ├─ Balance Game.png
-│  │  │  ├─ cardlist.png
-│  │  │  ├─ favicon.ico
-│  │  │  ├─ Frame 36.png
-│  │  │  ├─ gameImg-1.png
-│  │  │  ├─ homeInfo.png
-│  │  │  ├─ Logo.png
-│  │  │  └─ LogoNav.png
-│  │  ├─ index.html
-│  │  ├─ manifest.json
-│  │  ├─ robots.txt
-│  │  └─ static
-│  │     ├─ css
-│  │     │  ├─ main.c2413297.css
-│  │     │  └─ main.c2413297.css.map
-│  │     └─ js
-│  │        ├─ main.378cc964.js
-│  │        ├─ main.378cc964.js.LICENSE.txt
-│  │        └─ main.378cc964.js.map
-│  ├─ db.json
-│  ├─ favicon.ico
-│  ├─ package-lock.json
-│  ├─ package.json
-│  ├─ public
-│  │  ├─ background
-│  │  │  ├─ bgDeco.png
-│  │  │  ├─ cardlist.png
-│  │  │  ├─ error.png
-│  │  │  ├─ errorDeco.png
-│  │  │  ├─ Login.png
-│  │  │  ├─ signup.png
-│  │  │  └─ submit.png
-│  │  ├─ images
-│  │  │  ├─ Balance Game.png
-│  │  │  ├─ cardlist.png
-│  │  │  ├─ favicon.ico
-│  │  │  ├─ Frame 36.png
-│  │  │  ├─ gameImg-1.png
-│  │  │  ├─ homeInfo.png
-│  │  │  ├─ Logo.png
-│  │  │  └─ LogoNav.png
-│  │  ├─ index.html
-│  │  ├─ manifest.json
-│  │  └─ robots.txt
-│  ├─ src
-│  │  ├─ App.css
-│  │  ├─ App.jsx
-│  │  ├─ App.test.js
-│  │  ├─ axios
-│  │  │  └─ api.js
-│  │  ├─ components
-│  │  │  ├─ Button.jsx
-│  │  │  ├─ Flex.jsx
-│  │  │  ├─ GlobalStyle.jsx
-│  │  │  ├─ Header.jsx
-│  │  │  └─ Input.jsx
-│  │  ├─ features
-│  │  │  ├─ card
-│  │  │  │  └─ Comments.jsx
-│  │  │  └─ comments
-│  │  │     ├─ AddCommentForm.jsx
-│  │  │     ├─ CommentsAList.jsx
-│  │  │     └─ EditComment.jsx
-│  │  ├─ Hooks
-│  │  │  ├─ LoginBtn.jsx
-│  │  │  ├─ NInput.jsx
-│  │  │  └─ useInput.js
-│  │  ├─ image
-│  │  │  └─ Pasted.png
-│  │  ├─ index.css
-│  │  ├─ index.js
-│  │  ├─ jsconfig.json
-│  │  ├─ pages
-│  │  │  ├─ CardList.jsx
-│  │  │  ├─ Detail.jsx
-│  │  │  ├─ Edit.jsx
-│  │  │  ├─ Error.jsx
-│  │  │  ├─ Home.jsx
-│  │  │  ├─ Login.jsx
-│  │  │  └─ Register.jsx
-│  │  ├─ redux
-│  │  │  ├─ config
-│  │  │  │  └─ configStore.js
-│  │  │  └─ modules
-│  │  │     ├─ cardsSlice.jsx
-│  │  │     ├─ commentASlice.jsx
-│  │  │     ├─ commentSlice.jsx
-│  │  │     ├─ editSlice.jsx
-│  │  │     ├─ likeSlice.jsx
-│  │  │     ├─ login.js
-│  │  │     └─ signup.js
-│  │  ├─ reportWebVitals.js
-│  │  ├─ setupTests.js
-│  │  └─ shared
-│  └─ yarn.lock
-└─ README.md
-
-```
+- accessToken, refreshToken 사용
+#### 회원가입 
+- user 생성
+#### 밸런스게임 생성 수정 삭제 편집
+- 밸런스 게임 생성 가능
+- 해당 user만 수정 삭제 편집 접근가능
+#### 밸런스게임 댓글 생성 수정 삭제 편집
+- 대립한 의견중에 선택한 댓글 생성 가능
+- 해당 user만 수정 삭제 편집 접근가능

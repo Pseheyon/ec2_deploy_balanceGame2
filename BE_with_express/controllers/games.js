@@ -9,7 +9,7 @@ exports.getAllGames = async (req, res) => {
     const games = await Game.find().populate("comments");
     res.json(games);
   } catch (error) {
-    res.status(500).json({ error: `${error}` });
+    res.status(500).json({ errorMessage: "서버 오류" });
   }
 };
 
@@ -23,7 +23,8 @@ exports.getGameById = async (req, res) => {
     }
     res.json(game);
   } catch (error) {
-    res.status(500).json({ error: `${error}` });
+    console.error("Error in getGameById:", error);
+    res.status(500).json({ errorMessage: "서버 오류" });
   }
 };
 
@@ -33,7 +34,9 @@ exports.createGame = async (req, res) => {
   try {
     const user = await User.findOne({ nickname: userNic });
     if (!user) {
-      return res.status(404).json({ error: "로그인 후 이용이 가능합니다." });
+      return res
+        .status(404)
+        .json({ errorMessage: "로그인 후 이용이 가능합니다." });
     }
 
     const gameCount = await Game.countDocuments();
@@ -52,7 +55,8 @@ exports.createGame = async (req, res) => {
     await game.save();
     res.status(201).json({ game });
   } catch (error) {
-    res.status(500).json({ error: `${error}` });
+    console.error(error);
+    res.status(500).json({ errorMessage: `서버에러${error}` });
   }
 };
 
@@ -65,7 +69,9 @@ exports.updateGame = async (req, res) => {
     const gameNicfind = await Game.findOne({ userNic: userNic });
 
     if (!(user.nickname == gameNicfind.userNic)) {
-      return res.status(404).json({ error: "글쓴이와 일치하지 않습니다." });
+      return res
+        .status(404)
+        .json({ errorMessage: "글쓴이와 일치하지 않습니다." });
     }
 
     const game = await Game.findByIdAndUpdate(
@@ -75,12 +81,12 @@ exports.updateGame = async (req, res) => {
     );
 
     if (!game) {
-      return res.status(404).json({ error: "게임을 찾을 수 없습니다." });
+      return res.status(404).json({ errorMessage: "게임을 찾을 수 없습니다." });
     }
 
     res.json(game);
   } catch (error) {
-    res.status(500).json({ error: `${error}` });
+    res.status(500).json({ errorMessage: `서버 오류${error}` });
   }
 };
 
@@ -91,12 +97,12 @@ exports.deleteGame = async (req, res) => {
     const game = await Game.findByIdAndRemove(gameId);
 
     if (!game) {
-      return res.status(404).json({ error: "Game not found" });
+      return res.status(404).json({ errorMessage: "Game not found" });
     }
     await Comment.deleteMany({ gameId: game._id });
 
     res.json({ success: true, message: "Game deleted successfully" });
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ errorMessage: "Internal server error" });
   }
 };

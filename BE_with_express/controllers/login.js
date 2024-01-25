@@ -2,7 +2,6 @@ const dontenv = require("dotenv");
 const express = require("express");
 dontenv.config();
 const jwt = require("jsonwebtoken");
-
 const User = require("../models/users");
 const Token = require("../models/token");
 const { makeAccessToken, makeRefreshToken } = require("../utils/token");
@@ -14,7 +13,7 @@ exports.postLogin = async (req, res, next) => {
     const discoverUser = await User.findOne({ userId });
     if (!discoverUser || password !== discoverUser.password) {
       return res.status(400).json({
-        message: "닉네임 또는 패스워드가 틀렸습니다.",
+        errorMessage: "닉네임 또는 패스워드가 틀렸습니다.",
       });
     } else {
       const accessToken = makeAccessToken({
@@ -45,7 +44,7 @@ exports.postLogin = async (req, res, next) => {
       return { discoverUser, accessToken, refreshToken };
     }
   } catch (error) {
-    res.status(500).json({ error: `${error}` });
+    res.status(500).json({ errorMessage: `서버에러${error}` });
   }
 };
 

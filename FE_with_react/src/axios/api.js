@@ -25,6 +25,10 @@ cookie_instance.interceptors.request.use(async (config) => {
   try {
     const refreshToken = await getCookie("refreshToken");
     const accessToken = localStorage.getItem("accessToken");
+
+    if (accessToken) {
+      config.headers.authorization = `Bearer ${accessToken}`;
+    }
     if (refreshToken && refreshToken !== "undefined" && refreshToken !== null) {
       setCookie("refreshToken", refreshToken, {
         path: "/",
@@ -32,6 +36,7 @@ cookie_instance.interceptors.request.use(async (config) => {
         expires: new Date(new Date().getTime() + 1 * 60 * 1000),
       });
     }
+
     return config;
   } catch (error) {
     return Promise.reject(error);
@@ -41,7 +46,7 @@ cookie_instance.interceptors.request.use(async (config) => {
 cookie_instance.interceptors.response.use(
   (response) => {
     try {
-      const refreshToken = getCookie("refreshToken"); // 비동기로
+      const refreshToken = getCookie("refreshToken");
       const accessToken = response.data.accessToken;
 
       if (accessToken && accessToken !== "undefined" && accessToken !== null) {
@@ -49,11 +54,10 @@ cookie_instance.interceptors.response.use(
       }
       return response;
     } catch (error) {
-      return Promise.reject(error);
+      return Promise.reject(error.response.data.errorMessage);
     }
   },
   (error) => {
-    alert(error.response.data.message);
-    return Promise.reject(error);
+    return Promise.reject(error.response.data.errorMessage);
   }
 );

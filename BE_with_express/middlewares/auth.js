@@ -13,7 +13,10 @@ module.exports = {
       req.headers["authorization"].split(" ")[1] === "null" ||
       req.headers["authorization"].split(" ")[1] === "undefined"
     ) {
-      throw new Error("API 사용 권한이 없습니다. 로그인 후 이용바랍니다.");
+      return res.status(401).json({
+        ok: false,
+        errorMessage: "API 사용 권한이 없습니다. 로그인 후 이용바랍니다.",
+      });
     } else if (
       !(req.headers["authorization"] == "undefined") &&
       !(req.headers["authorization"].split(" ")[1] === "null")
@@ -34,7 +37,10 @@ module.exports = {
           reqRefresh === undefined &&
           !DbRefreshToken.refreshToken === reqRefresh
         ) {
-          throw Error("API 사용 권한이 없습니다.");
+          return res.status(401).json({
+            ok: false,
+            errorMessage: "API 사용 권한이 없습니다. 로그인 후 이용바랍니다.",
+          });
         } else if (
           decodedAccess.message == "jwt expired" &&
           DbRefreshToken === compareUserId._id
@@ -76,7 +82,10 @@ module.exports = {
       }
     } else {
       console.log("예상치못한 에러가 발생했습니다. ");
-      throw new Error("API 사용 권한이 없습니다. 로그인 후 이용바랍니다.");
+      return res.status(401).json({
+        ok: false,
+        errorMessage: "API 사용 권한이 없습니다. 로그인 후 이용바랍니다.",
+      });
     }
   },
 };

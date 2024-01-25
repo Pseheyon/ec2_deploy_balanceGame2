@@ -2,6 +2,7 @@ require("dotenv").config(); // .env 파일에서 환경변수 불러오기
 const { PORT, MONGODB_URI } = process.env;
 
 const mongoose = require("mongoose");
+mongoose.set("strictQuery", false);
 mongoose
   .connect("mongodb://0.0.0.0/ec2_balanceGame", {
     useNewUrlParser: true,

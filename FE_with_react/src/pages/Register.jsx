@@ -32,6 +32,7 @@ function Signup() {
 
   const submitButtonHandler = async (event) => {
     event.preventDefault();
+    alert("회원가입을 축하합니다!!");
     dispatch(__signup(user));
     navigate("/login");
   };
