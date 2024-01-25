@@ -11,7 +11,7 @@
 |최서윤|박세현|윤재혁|
 |---|---|---|
 |FE / React|FE / React|FE / React|
-<br/>
+
 |박세현|
 |---|
 |BE / Express|
