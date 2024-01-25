@@ -20,8 +20,8 @@
 
 ## 📌 링크
 <div>
-  밸런스게임 : https://sh-portfolio.store/react
-  노션 :  https://www.notion.so/5507b7fded0f432bbd1208dbb6196f33?pvs=4
+  - 밸런스게임 : https://sh-portfolio.store/react
+  - 노션 :  https://www.notion.so/5507b7fded0f432bbd1208dbb6196f33?pvs=4
 </div>
 <br/>
 
@@ -48,7 +48,7 @@
 
 ## 📌 주요 기능
 둘다 비슷하게 싫거나 둘다 비슷하게 좋은 대상을 놓고 각자의 생각을 펼칠 수 있다
-#### 로그인 - 
+#### 로그인
 - 로그인 시 쿠키(Cookie) 및 세션(Session) 생성
 - accessToken, refreshToken 사용
 #### 회원가입 
