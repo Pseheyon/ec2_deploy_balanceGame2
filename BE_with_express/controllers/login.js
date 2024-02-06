@@ -11,40 +11,48 @@ exports.postLogin = async (req, res, next) => {
   try {
     const { userId, password } = req.body;
     const discoverUser = await User.findOne({ userId });
-    if (!discoverUser || password !== discoverUser.password) {
+
+    if (!discoverUser) {
+      return res.status(404).json({
+        errorMessage: "사용자를 찾을 수 없습니다.",
+      });
+    }
+
+    if (password !== discoverUser.password) {
       return res.status(400).json({
         errorMessage: "닉네임 또는 패스워드가 틀렸습니다.",
       });
-    } else {
-      const accessToken = makeAccessToken({
-        userId: discoverUser.userId,
-        nickname: discoverUser.nickname,
-      });
-
-      const refreshToken = makeRefreshToken({
-        userId: discoverUser.userId,
-        nickname: discoverUser.nickname,
-      });
-
-      const setRefreshToken = await TokenController.updateRefresh({
-        _id: discoverUser._id,
-        refreshToken,
-      });
-
-      res.cookie("refreshToken", refreshToken, {
-        secure: false,
-        httpOnly: false,
-      });
-
-      res.status(200).json({
-        nickname: discoverUser.nickname,
-        message: `로그인 성공${JSON.stringify(discoverUser.nickname)}`,
-        accessToken,
-      });
-      return { discoverUser, accessToken, refreshToken };
     }
+
+    const accessToken = makeAccessToken({
+      userId: discoverUser.userId,
+      nickname: discoverUser.nickname,
+    });
+
+    const refreshToken = makeRefreshToken({
+      userId: discoverUser.userId,
+      nickname: discoverUser.nickname,
+    });
+
+    const setRefreshToken = await TokenController.updateRefresh({
+      _id: discoverUser._id,
+      refreshToken,
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      secure: false,
+      httpOnly: false,
+    });
+
+    res.status(200).json({
+      nickname: discoverUser.nickname,
+      message: `로그인 성공${JSON.stringify(discoverUser.nickname)}`,
+      accessToken,
+    });
+
+    return { discoverUser, accessToken, refreshToken };
   } catch (error) {
-    res.status(500).json({ errorMessage: `서버에러${error}` });
+    res.status(500).json({ errorMessage: `${error}` });
   }
 };
 

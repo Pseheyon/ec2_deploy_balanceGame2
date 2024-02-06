@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCookie, removeCookie, setCookie } from "../cookie/cookie";
+import { getCookie, setCookie } from "../cookie/cookie";
 
 const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 export const apis_token = axios.create({
@@ -39,6 +39,7 @@ cookie_instance.interceptors.request.use(async (config) => {
 
     return config;
   } catch (error) {
+    console.log("에러응답!!!!!!!!!!", error);
     return Promise.reject(error);
   }
 });
@@ -48,7 +49,7 @@ cookie_instance.interceptors.response.use(
     try {
       const refreshToken = getCookie("refreshToken");
       const accessToken = response.data.accessToken;
-
+      console.log("accessToken", accessToken);
       if (accessToken && accessToken !== "undefined" && accessToken !== null) {
         localStorage.setItem("accessToken", accessToken);
       }
@@ -58,6 +59,7 @@ cookie_instance.interceptors.response.use(
     }
   },
   (error) => {
+    console.log("에러!!!!!!!!!!", error);
     return Promise.reject(error.response.data.errorMessage);
   }
 );

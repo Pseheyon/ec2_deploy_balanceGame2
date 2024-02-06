@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { cookie_instance } from "../../axios/api";
 
 const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;

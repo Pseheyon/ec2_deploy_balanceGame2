@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { apis_token, cookie_instance } from "../../axios/api";
-import { getCookie, removeCookie } from "../../cookie/cookie";
+import { removeCookie } from "../../cookie/cookie";
 
 const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 
@@ -32,6 +31,7 @@ export const __login = createAsyncThunk(
       return response.data;
     } catch (error) {
       alert(error);
+      console.log("리덕스 로그인 에러", error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -71,6 +71,7 @@ export const loginSlice = createSlice({
     [__login.rejected]: (state, action) => {
       state.isLoading = false;
       state.isError = true;
+      state.error = action.payload;
     },
   },
 });

@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { apis_token } from "../../axios/api";
-import axios from "axios";
 const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 
 export const __updatedLikesA = createAsyncThunk(

@@ -1,20 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { __signup } from "../redux/modules/signup";
 import { useNavigate } from "react-router-dom";
 import { Input } from "../components/Input";
-import {
-  ButtonRe,
-  ButtonStyleJoin,
-  ButtonStyleLogin,
-} from "../components/Button";
+import { ButtonStyleJoin, ButtonStyleLogin } from "../components/Button";
 import { FlexRowCenter } from "../components/Flex";
 
 function Signup() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+
   const [user, setUser] = useState({
     userId: "",
     nickname: "",
@@ -116,7 +112,7 @@ const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 
 const StBackGroundImg = styled.div`
   font-family: "Montserrat" !important;
-  background-image: url(${BACKEND_SERVER}/react/background/signup.png);
+  background-image: url(${BACKEND_SERVER}/balancegame/background/signup.png);
   background-size: cover;
   background-position: center;
   width: 100vw;

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ButtonRe } from "../components/Button";
 import { __getCardsThunk } from "../redux/modules/cardsSlice";
-import { __updatedCardThunk, __addCardThunk } from "../redux/modules/editSlice";
+import { __addCardThunk } from "../redux/modules/editSlice";
 import { Input } from "../components/Input";
 
 function Edit() {
@@ -133,7 +133,7 @@ const StTitleWrapper = styled.div`
   margin-bottom: 24px;
 `;
 const StBackGroundImg = styled.div`
-  background-image: url(${BACKEND_SERVER}/react/background/submit.png);
+  background-image: url(${BACKEND_SERVER}/balancegame/background/submit.png);
   background-position-y: 0;
   background-repeat: no-repeat;
   background-size: 100%;

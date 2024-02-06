@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FlexRow } from "../../components/Flex";
 import { useParams } from "react-router-dom";
@@ -8,19 +8,13 @@ import {
   __updatedComment,
   __getComments,
 } from "../../redux/modules/commentASlice";
-import {
-  clearComment,
-  globalEditModeToggle,
-  __getComment,
-} from "../../redux/modules/commentSlice";
-import CommentsAList from "./CommentsAList";
+import { __getComment } from "../../redux/modules/commentSlice";
 
 const EditComment = ({ comment }) => {
   const dispatch = useDispatch();
   const { gameId } = useParams();
   const [edit, setEdit] = useState(false);
   const [editContent, setEditContent] = useState(comment.content);
-
   const { isGlobalEditmode } = useSelector((state) => state.comment);
   const userNic = localStorage.getItem("localNickName");
   const updates = { editContent };
@@ -100,7 +94,6 @@ const EditComment = ({ comment }) => {
                 <EditButton
                   fontsize="12px"
                   onClick={() => {
-                    // dispatch(__updatedComment(comment.commentId, editContent));
                     setEdit(!edit);
                   }}
                 >
@@ -121,7 +114,6 @@ const EditComment = ({ comment }) => {
                   <EditButton
                     fontsize="12px"
                     onClick={() => {
-                      // dispatch(__updatedComment(comment.commentId, editContent));
                       setEdit(!edit);
                     }}
                   >

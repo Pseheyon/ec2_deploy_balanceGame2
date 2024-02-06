@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { cookie_instance } from "../../axios/api";
 const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
+
 export const __getCardsThunk = createAsyncThunk(
   "GET_CARDS",
   async (_, thunkAPI) => {
@@ -49,17 +49,6 @@ export const cardsSlice = createSlice({
       state.isLoading = true;
       state.isError = false;
     },
-    // [__updatedCardThunk.fulfilled]: (state, action) => {
-    //   state.isLoading = false
-    //   state.todo = action.payload
-    // },
-    // [__updatedCardThunk.pending]: (state) => {
-    //   state.isLoading = true
-    // },
-    // [__updatedCardThunk.rejected]: (state, action) => {
-    //   state.isLoading = false
-    //   state.error = action.payload
-    // },
   },
 });
 export const {} = cardsSlice.actions;

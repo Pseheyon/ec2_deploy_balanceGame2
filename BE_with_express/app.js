@@ -23,7 +23,7 @@ app.use(
   })
 );
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:8080");
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
@@ -33,7 +33,7 @@ app.use((req, res, next) => {
 
 app.use("/", express.static(path.join(__dirname, "public")));
 app.use(
-  "/react",
+  "/balancegame",
   express.static(path.join(__dirname, "../FE_with_react/build"))
 );
 
@@ -43,7 +43,7 @@ router.get("/", (req, res) => {
   res.send("Hi!");
 });
 
-app.get("/react", function (req, res) {
+app.get("/balancegame", function (req, res) {
   res.sendFile(path.join(__dirname, "../FE_with_react/build/index.html"));
 });
 app.use("/api", express.json(), indexRouter);
