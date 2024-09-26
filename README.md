@@ -20,8 +20,7 @@
 
 ## 📌 링크
 <div>
-  - 밸런스게임 : https://sh-portfolio.store/react
-  - 노션 :  https://www.notion.so/5507b7fded0f432bbd1208dbb6196f33?pvs=4
+  - 노션 : https://secret-schooner-888.notion.site/5507b7fded0f432bbd1208dbb6196f33
 </div>
 <br/>
 
