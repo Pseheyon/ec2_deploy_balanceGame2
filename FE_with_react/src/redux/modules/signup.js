@@ -19,7 +19,6 @@ export const __signup = createAsyncThunk(
   "signup/signup",
   async (payload, thunkAPI) => {
     try {
-      console.log("payload", payload);
       const response = await apis_token.post(
         `${BACKEND_SERVER}api/user/signup`,
         {
@@ -63,5 +62,5 @@ export const signupSlice = createSlice({
     },
   },
 });
-//export const {} = signupSlice.actions;
+
 export default signupSlice.reducer;

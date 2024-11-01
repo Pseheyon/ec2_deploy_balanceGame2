@@ -17,6 +17,3 @@ exports.makeRefreshToken = (data) => {
     issuer: "About Tech",
   });
 };
-//makeAccessToken
-// 1. 로그인로직
-// 2. auth 미들웨어에 새로운 new accesstoken 발급할때

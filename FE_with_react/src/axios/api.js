@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCookie, removeCookie, setCookie } from "../cookie/cookie";
+import { getCookie, setCookie } from "../cookie/cookie";
 
 const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 export const apis_token = axios.create({
@@ -21,7 +21,6 @@ export const cookie_instance = axios.create({
   withCredentials: true,
 });
 
-// Request interceptor
 cookie_instance.interceptors.request.use(async (config) => {
   try {
     const refreshToken = await getCookie("refreshToken");
@@ -33,24 +32,24 @@ cookie_instance.interceptors.request.use(async (config) => {
     if (refreshToken && refreshToken !== "undefined" && refreshToken !== null) {
       setCookie("refreshToken", refreshToken, {
         path: "/",
-        secure: false,
-        expires: new Date(new Date().getTime() + 1 * 60 * 1000), //
+        secure: "/",
+        expires: new Date(new Date().getTime() + 1 * 60 * 1000),
       });
     }
 
     return config;
   } catch (error) {
-    console.error("Error during request:", error);
+    console.log("에러응답!!!!!!!!!!", error);
     return Promise.reject(error);
   }
 });
 
-// 응답 인터셉터
 cookie_instance.interceptors.response.use(
   (response) => {
     try {
       const refreshToken = getCookie("refreshToken");
       const accessToken = response.data.accessToken;
+      console.log("accessToken", accessToken);
       if (accessToken && accessToken !== "undefined" && accessToken !== null) {
         localStorage.setItem("accessToken", accessToken);
       }
@@ -60,6 +59,7 @@ cookie_instance.interceptors.response.use(
     }
   },
   (error) => {
+    console.log("에러!!!!!!!!!!", error);
     return Promise.reject(error.response.data.errorMessage);
   }
 );

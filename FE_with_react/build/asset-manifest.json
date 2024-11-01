@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/react/static/css/main.ac7c08dc.css",
-    "main.js": "/react/static/js/main.a487d03a.js",
-    "index.html": "/react/index.html",
-    "main.ac7c08dc.css.map": "/react/static/css/main.ac7c08dc.css.map",
-    "main.a487d03a.js.map": "/react/static/js/main.a487d03a.js.map"
+    "main.css": "/balanceGame/static/css/main.ac7c08dc.css",
+    "main.js": "/balanceGame/static/js/main.5eba29ed.js",
+    "index.html": "/balanceGame/index.html",
+    "main.ac7c08dc.css.map": "/balanceGame/static/css/main.ac7c08dc.css.map",
+    "main.5eba29ed.js.map": "/balanceGame/static/js/main.5eba29ed.js.map"
   },
   "entrypoints": [
     "static/css/main.ac7c08dc.css",
-    "static/js/main.a487d03a.js"
+    "static/js/main.5eba29ed.js"
   ]
 }

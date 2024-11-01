@@ -1,4 +1,3 @@
-// controllers/commentController.js
 const Comment = require("../models/comments");
 const Game = require("../models/games");
 const User = require("../models/users");
@@ -14,19 +13,18 @@ exports.getComments = async (req, res) => {
       return res.status(404).json({ errorMessage: "게임을 찾을 수 없습니다." });
     }
 
-    // 게임에 속한 댓글들을 조회하고 해당 댓글들의 작성자 닉네임으로 populate
     const populatedComments = await Comment.find({
       _id: { $in: game.comments },
     })
       .populate({
         path: "author",
-        select: "nickname -_id", // _id 필드 제외하고 nickname만 선택
+        select: "nickname -_id",
       })
-      .select("_id content option author:author.nickname"); // _id 필드 제외하고 nickname만 선택
+      .select("_id content option author:author.nickname");
     const modifiedComments = populatedComments.map((comment) => ({
       content: comment.content,
       option: comment.option,
-      author: comment.author.nickname, // author.nickname으로 변경
+      author: comment.author.nickname,
       __v: comment.__v,
       _id: comment._id,
     }));
@@ -55,7 +53,6 @@ exports.addComment = async (req, res) => {
     }
     console.log("user", user);
 
-    // 해당 사용자에 대한 Comment를 생성
     console.log("user", user);
     const ObjectAuthor = author;
     const comment = new Comment({
@@ -88,7 +85,7 @@ exports.updateComment = async (req, res) => {
 
     const comment = await Comment.findOneAndUpdate(
       { _id },
-      { $set: { content: req.body.content } }, // content만 업데이트
+      { $set: { content: req.body.content } },
       { new: true }
     );
     if (!comment) {
@@ -110,7 +107,6 @@ exports.deleteComment = async (req, res) => {
   try {
     const gameId = req.params.gameId;
     const _id = req.body._id;
-    //const commentId = req.params.commentId;
     const comment = await Comment.findOneAndRemove({
       _id,
     });
@@ -124,9 +120,7 @@ exports.deleteComment = async (req, res) => {
 };
 exports.getCommentByCommentId = async (req, res) => {
   try {
-    const gameId = req.params.gameId; // req.params.gameId로 수정
-    //const option = req.params.option;
-    // const commentId = req.params.commentId;
+    const gameId = req.params.gameId;
     const comment = await Comment.findOne({ gameId, option, _id });
     if (!comment) {
       return res.status(404).json({ errorMessage: "Comment not found" });

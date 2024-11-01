@@ -7,16 +7,11 @@ export const __getComments = createAsyncThunk(
   "GET_COMMENTS",
   async (payload, thunkAPI) => {
     try {
-      // const gameId = useParams();
-      // console.log("댓글 조회 파람", gameId);
       const response = await axios.get(
         `${BACKEND_SERVER}/api/comments/${payload.gameId}`
       );
-      console.log("data_A_댓글임", response.data);
-      console.log("조회 gameId", payload.gameId);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
-      console.log("_A_Error fetching comments:", error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -42,7 +37,6 @@ export const __addComments = createAsyncThunk(
   "ADD_COMMENTS",
   async (payload, thunkAPI) => {
     try {
-      console.log("코멘트 추가--->", payload);
       const response = await cookie_instance.post(
         `${BACKEND_SERVER}/api/comments/${payload.gameId}`,
         {
@@ -72,7 +66,6 @@ export const __updatedComment = createAsyncThunk(
           author: payload.author,
         }
       );
-      console.log("commentS.payloadA_ __updatedComment", payload);
       return thunkAPI.fulfillWithValue(response.data);
     } catch (error) {
       alert(error);
@@ -91,16 +84,14 @@ export const __deleteComment = createAsyncThunk(
           option: payload.option,
         },
       });
-      return thunkAPI.fulfillWithValue(payload); // 삭제한 commentId 반환합니다.
+      return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
   }
 );
-//바뀌는 데이터들은 요 안에 있는 값들만 바뀐다.
-//state 값들은 여기서 적고 밑에 엑스트라에서
 const initialState = {
-  comments: [], // 이것을 comments로 변경
+  comments: [],
   isLoading: false,
   reducers: {},
   error: null,
@@ -116,9 +107,7 @@ export const commentASlice = createSlice({
     },
     [__getComments.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log("action.comments.dataAA", action.payload);
-      state.comments = action.payload.comments; // 여기를 state.comments로 수정
-      console.log("state.comments", state.comments);
+      state.comments = action.payload.comments;
     },
     [__getComments.rejected]: (state, action) => {
       state.isLoading = false;
@@ -128,7 +117,6 @@ export const commentASlice = createSlice({
       state.isLoading = true;
     },
 
-    // 댓글 조회 (todoId)
     [__getCommentByCommendId.pending]: (state) => {
       state.isLoading = true;
     },
@@ -143,7 +131,6 @@ export const commentASlice = createSlice({
 
     [__addComments.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log("action.comments.data->", action.payload);
       state.comments.push(action.payload);
     },
     [__addComments.rejected]: (state, action) => {
@@ -152,9 +139,6 @@ export const commentASlice = createSlice({
     },
     [__updatedComment.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log("수정 성공-->", action.payload);
-      console.log("수정 성공 id-->", action.payload._id);
-      //const target = action.payload._id;
       const target = state.comments.findIndex(
         (comment) => comment._id === action.payload._id
       );

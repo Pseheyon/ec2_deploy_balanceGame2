@@ -8,6 +8,7 @@ export const Input = ({
   onChange,
   text,
   children,
+  required,
 }) => {
   return (
     <InputArea text={text}>
@@ -18,6 +19,7 @@ export const Input = ({
         name={name}
         onChange={onChange}
         placeholder={placeholder}
+        required={required}
       >
         {children}
       </StSignupInput>

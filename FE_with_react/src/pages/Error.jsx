@@ -17,7 +17,7 @@ const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 const ani = keyframes`from {background-position: -100vw center } to{background-position: 100vw center}`;
 const StBackGroundImg = styled.div`
   font-family: "Montserrat";
-  background-image: url(${BACKEND_SERVER}/react/background/error.png);
+  background-image: url(${BACKEND_SERVER}/balancegame/background/error.png);
   background-size: cover;
   background-position: center;
   width: 100vw;
@@ -28,7 +28,6 @@ const StBackGroundImg = styled.div`
   align-items: center;
   overflow: hidden;
   white-space: pre;
-  /* animation: ${ani} 15s linear infinite; */
 `;
 const StBackGroundDeco = styled.div`
   font-family: "Montserrat";

@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { __getComment } from "../redux/modules/commentASlice";
 import {
   __getCardThunk,
   clearCard,
   __updatedCardThunk,
 } from "../redux/modules/editSlice";
-import { __getCardsThunk } from "../redux/modules/cardsSlice";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -19,7 +17,6 @@ import { FlexRow, FlexRowSpaceBet } from "../components/Flex";
 const Detail = () => {
   const dispatch = useDispatch();
   const { gameId } = useParams();
-  console.log("파람", gameId);
   const [isEditMode, setIsEditMode] = useState(false);
   const [updatedOptionA, setUpdatedOptionA] = useState("");
   const [updatedOptionB, setUpdatedOptionB] = useState("");
@@ -30,7 +27,6 @@ const Detail = () => {
     return state.card.card;
   });
 
-  //console.log("디테일 페이지 카드", card);
   useEffect(() => {
     dispatch(__getCardThunk({ gameId: gameId }));
     return () => dispatch(clearCard());
@@ -98,12 +94,6 @@ const Detail = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // if (isLoading) {
-  //   return <div>로딩중.....ㅎㅎ</div>;
-  // }
-  // if (error) {
-  //   return <div>{error.message}</div>;
-  // }
   return (
     <StBackGroundImg>
       <StBackGameImgColor />
@@ -273,7 +263,7 @@ const Detail = () => {
 export default Detail;
 const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 const StBackGroundImg = styled.div`
-  background-image: url(${BACKEND_SERVER}/react/background/cardlist.png);
+  background-image: url(${BACKEND_SERVER}/balancegame/background/cardlist.png);
   /* background-size: cover; */
   background-position-y: 0;
   background-repeat: no-repeat;
@@ -301,7 +291,7 @@ const diagonalMove = keyframes`
 const StBackGroundDeco = styled.div`
   position: absolute;
   top: 0;
-  background-image: url("http://localhost:3000/react/background/bgDeco.png");
+  background-image: url(${BACKEND_SERVER}/balancegame/background/bgDeco.png);
   background-position-y: 0;
   background-size: 100vw auto;
   width: 100vw;
@@ -498,13 +488,6 @@ const StTextarea = styled.textarea`
     outline: none;
   }
 `;
-const StButton = styled.button`
-  border-radius: 40px;
-  border: 0px;
-  color: #ff449e;
-  background-color: #ffe3f1;
-  padding: 5px 20px;
-`;
 const StOtion = styled.div`
   font-size: "12px";
   color: "#FF449E";
@@ -517,7 +500,5 @@ const Stfooter = styled.div`
   position: absolute;
   bottom: -94px;
   z-index: 100;
-  /* background-color: aqua;
-  border: solid 1px aqua; */
   box-sizing: border-box;
 `;

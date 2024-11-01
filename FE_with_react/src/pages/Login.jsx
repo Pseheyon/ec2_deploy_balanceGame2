@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { __login } from "../redux/modules/login";
+import { useDispatch, useSelector } from "react-redux";
+import { __login, loginSuccess } from "../redux/modules/login";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Input } from "../components/Input";
 import { ButtonStyleJoin, ButtonStyleLogin } from "../components/Button";
 import { FlexRowCenter } from "../components/Flex";
-import { removeCookie, getCookie, setCookie } from "../cookie/cookie";
-import { logoutSuccess, loginSuccess } from "../redux/modules/login";
 
-function Login({ setIsLoggedIn }) {
+function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const resposeNickname = useSelector((state) => state.login.users[0].nickname);
   const [user, setUser] = useState({
     userId: "",
     password: "",
@@ -28,16 +27,18 @@ function Login({ setIsLoggedIn }) {
 
   const submitButtonHandler = async (event) => {
     event.preventDefault();
-
     try {
-      // 로그인 요청을 서버로 보냄
-      const response = await dispatch(__login(user));
+      await dispatch(__login(user));
+      dispatch(loginSuccess({ nickname: resposeNickname }));
       navigate("/");
-    } catch (error) {
-      // 로그인 요청이 실패하면 에러 처리
-      console.error("로그인 에러:", error);
-    }
+    } catch (error) {}
   };
+  useEffect(() => {
+    if (resposeNickname) {
+      localStorage.setItem("localNickName", resposeNickname);
+      dispatch(loginSuccess({ nickname: resposeNickname }));
+    }
+  }, [dispatch, resposeNickname]);
 
   return (
     <>
@@ -96,7 +97,7 @@ const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 
 const StBackGroundImg = styled.div`
   font-family: "Montserrat";
-  background-image: url(${BACKEND_SERVER}/react/background/Login.png);
+  background-image: url(${BACKEND_SERVER}/balancegame/background/Login.png);
   background-size: cover;
   background-position: center;
   width: 100vw;

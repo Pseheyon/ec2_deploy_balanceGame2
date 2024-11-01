@@ -25,7 +25,6 @@ commentSchema.virtual("relatedGames", {
   localField: "_id",
   foreignField: "comments",
 });
-// 'author' 관계를 위한 가상 필드 정의
 commentSchema.virtual("relatedUser", {
   ref: "User",
   localField: "author",

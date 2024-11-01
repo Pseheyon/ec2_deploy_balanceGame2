@@ -3,24 +3,20 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ButtonRe } from "../components/Button";
 import { useEffect } from "react";
-import { removeCookie, getCookie, setCookie } from "../cookie/cookie";
+import { getCookie } from "../cookie/cookie";
 
 const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 function Home() {
   const navigate = useNavigate();
   const cookierefreshToken = getCookie("refreshToken");
-  const isLoggedIn = cookierefreshToken ? true : false;
   const accessToken = localStorage.getItem("accessToken");
-  console.log(cookierefreshToken);
-  const handleLogoutBtn = () => {
-    localStorage.removeItem("token");
-  };
-  //가드;
+
   useEffect(() => {
     if (cookierefreshToken) {
       navigate("/");
     }
   }, []);
+
   const handleGameStart = () => {
     if (!accessToken) {
       alert("로그인 후 게임을 생성할 수 있습니다!");
@@ -35,7 +31,7 @@ function Home() {
       <StBackGroundImg>
         <StHomeContainer>
           <div>
-            <StTitle src={`${BACKEND_SERVER}/react/images/Logo.png`} />
+            <StTitle src={`${BACKEND_SERVER}/balancegame/images/Logo.png`} />
           </div>
           <StHomeCardWrapper>
             <StPosition>
@@ -48,7 +44,7 @@ function Home() {
                 </ButtonRe>
               </StButtonWrapper>
               <StExplanation
-                src={`${BACKEND_SERVER}/react/images/homeInfo.png`}
+                src={`${BACKEND_SERVER}/balancegame/images/homeInfo.png`}
               />
             </StPosition>
           </StHomeCardWrapper>
@@ -69,7 +65,7 @@ const StWarpper = styled.div`
   box-sizing: border-box;
 `;
 const StBackGroundImg = styled.div`
-  background-image: url(${BACKEND_SERVER}/react/background/logout.png);
+  background-image: url(${BACKEND_SERVER}/balancegame/background/logout.png);
   background-size: cover;
   background-position: center;
 

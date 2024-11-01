@@ -1,6 +1,6 @@
 const express = require("express");
 const token = require("../models/token");
-// 내 정보 조회 API
+
 exports.findToken = async (req, res) => {
   const userToken = await token.findOne({ _id: userId });
   return userToken;

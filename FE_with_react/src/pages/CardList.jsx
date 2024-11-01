@@ -1,5 +1,5 @@
 import React from "react";
-import { FlexRowCenter, FlexRowSpaceBet } from "../components/Flex";
+import { FlexRowSpaceBet } from "../components/Flex";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { __getCardsThunk } from "../redux/modules/cardsSlice";
@@ -8,8 +8,6 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 const CardList = () => {
   const dispatch = useDispatch();
-  // const [cards, setCards] = useState([]);
-  const cardtest = useSelector((state) => state.card);
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
   const { isLoading, error, cards } = useSelector((state) => {
@@ -33,7 +31,6 @@ const CardList = () => {
   if (error) {
     return <div>{error.message}</div>;
   }
-  const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 
   return (
     <StBackGroundImg>
@@ -68,7 +65,7 @@ const CardList = () => {
 export default CardList;
 const BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 const StBackGroundImg = styled.div`
-  background-image: url(${BACKEND_SERVER}/react/background/cardlist.png);
+  background-image: url(${BACKEND_SERVER}/balancegame/background/cardlist.png);
   /* background-image: url("./background/cardlist.png"); */
   display: flex;
   flex-wrap: wrap;
